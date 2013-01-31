@@ -11,3 +11,5 @@ libnbt++ depends on Boost. The following Boost libraries are needed:
 The test program is a simple program which takes a compressed
 or uncompressed NBT file as input and prints out the contents,
 then optionally writes it back into an output NBT file.
+
+To build, open the makefile with a text editor and adjust the defines.
