@@ -22,6 +22,7 @@
 #define NBT_IO_H_INCLUDED
 
 #include "tag_base.h"
+#include "nbt_conf.h"
 
 #include <memory>
 
@@ -51,6 +52,8 @@ std::unique_ptr<tag> read(std::istream& is, std::string& key);
  */
 void write(std::ostream& os, const std::string& key, const tag& t);
 
+#ifdef NBT_HAS_IOSTREAMS_ZLIB
+
 /**
  * \brief Reads a named tag in GZip-compressed NBT format from stream.
  * \param is The stream to read from.
@@ -71,6 +74,8 @@ std::unique_ptr<tag> read_gzip(std::istream& is, std::string& key);
  * \sa write()
  */
 void write_gzip(std::ostream& os, const std::string& key, const tag& t, int compression_level = -1);
+
+#endif
 
 }
 }

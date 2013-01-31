@@ -23,8 +23,11 @@
 #include "nbt_io.h"
 
 #include <boost/format.hpp>
-#include <boost/iostreams/filtering_stream.hpp>
-#include <boost/iostreams/filter/gzip.hpp>
+
+#ifdef NBT_HAS_IOSTREAMS_ZLIB
+    #include <boost/iostreams/filtering_stream.hpp>
+    #include <boost/iostreams/filter/gzip.hpp>
+#endif
 
 namespace nbt
 {
@@ -77,6 +80,8 @@ void io::write(std::ostream& os, const std::string& key, const tag& t)
     t.write_payload(os);
 }
 
+#ifdef NBT_HAS_IOSTREAMS_ZLIB
+
 namespace bio = boost::iostreams;
 
 std::unique_ptr<tag> io::read_gzip(std::istream& is, std::string& key)
@@ -96,5 +101,7 @@ void io::write_gzip(std::ostream& os, const std::string& key, const tag& t, int 
 
     write(ogzs, key, t);
 }
+
+#endif
 
 }

@@ -1,0 +1,6 @@
+#ifndef NBT_CONF_H_INCLUDED
+#define NBT_CONF_H_INCLUDED
+
+#cmakedefine NBT_HAS_IOSTREAMS_ZLIB
+
+#endif
