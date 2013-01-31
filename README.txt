@@ -5,3 +5,10 @@ It uses streams for input and output.
 The nbttest program is a simple program which takes a compressed
 or uncompressed NBT file as input and prints out the contents in
 text form, then optionally writes it back into an output NBT file.
+
+Building:
+You need CMake for building.
+libnbt++ depends on Boost.
+Set NBT_IOSTREAMS_HAS_ZLIB if your Boost.Iostreams library was built with Zlib support.
+Otherwise, the functions nbt::io::read_gzip and nbt::io::write_gzip will not be available
+and nbttest will not be built.
