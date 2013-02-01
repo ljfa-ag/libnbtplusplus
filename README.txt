@@ -11,5 +11,6 @@ libnbt++ requires the following Boost headers:
 - Config
 - Format
 - Iterator
+
 Additionally, if you want to have GZip support (nbt::io::read_gzip and nbt::io::write_gzip):
 - Iostreams (must be compiled with Zlib support)
