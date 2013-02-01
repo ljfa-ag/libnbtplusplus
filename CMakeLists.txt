@@ -4,11 +4,15 @@ project(libnbt++)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-find_package(Boost COMPONENTS iostreams QUIET)
-if(Boost_FOUND)
-    option(NBT_HAS_IOSTREAMS_ZLIB "Boost.Iostreams was built with Zlib support" ON)
-else()
-    message(STATUS "Could not find Boost.Iostreams.")
+option(NBT_WITH_GZIP "Build with GZip support. Requires Boost.Iostreams with Zlib support." ON)
+option(NBT_BUILD_NBTTEST "Build the nbttest example program. Requires GZip support." ${NBT_WITH_GZIP})
+
+if(NBT_WITH_GZIP)
+    find_package(Boost COMPONENTS iostreams REQUIRED)
+endif()
+
+if(NBT_BUILD_NBTTEST AND NOT NBT_WITH_GZIP)
+    message(FATAL_ERROR "nbttest requires libnbt++ to have GZip support!")
 endif()
 
 configure_file("include/nbt_conf.h.in" "${PROJECT_BINARY_DIR}/config/nbt_conf.h")
@@ -33,9 +37,7 @@ install(FILES
     include/tag_string.h
 DESTINATION include/NBT)
 
-if(NBT_HAS_IOSTREAMS_ZLIB)
+if(NBT_BUILD_NBTTEST)
     add_executable(nbttest test.cpp)
     target_link_libraries(nbttest nbt++ ${Boost_LIBRARIES})
-else()
-    message(STATUS "libnbt++ will be built without GZip support and nbttest will not be built.")
 endif()

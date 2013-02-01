@@ -52,7 +52,7 @@ std::unique_ptr<tag> read(std::istream& is, std::string& key);
  */
 void write(std::ostream& os, const std::string& key, const tag& t);
 
-#ifdef NBT_HAS_IOSTREAMS_ZLIB
+#ifdef NBT_WITH_GZIP
 
 /**
  * \brief Reads a named tag in GZip-compressed NBT format from stream.

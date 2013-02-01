@@ -24,7 +24,7 @@
 
 #include <boost/format.hpp>
 
-#ifdef NBT_HAS_IOSTREAMS_ZLIB
+#ifdef NBT_WITH_GZIP
     #include <boost/iostreams/filtering_stream.hpp>
     #include <boost/iostreams/filter/gzip.hpp>
 #endif
@@ -80,7 +80,7 @@ void io::write(std::ostream& os, const std::string& key, const tag& t)
     t.write_payload(os);
 }
 
-#ifdef NBT_HAS_IOSTREAMS_ZLIB
+#ifdef NBT_WITH_GZIP
 
 namespace bio = boost::iostreams;
 
