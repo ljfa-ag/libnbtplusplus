@@ -3,6 +3,7 @@
 *.layout
 lib
 obj
+bl
 bigtest
 bigtest.nbt
 errortest
