@@ -1,3 +1,14 @@
+*.cbp
+*.depend
+*.layout
+lib
+obj
+bigtest
+bigtest.nbt
+errortest
+out.nbt
+include/nbt_conf.h
+
 #################
 ## Eclipse
 #################
