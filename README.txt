@@ -3,7 +3,7 @@ It can read and write compressed and uncompressed NBT files.
 It uses streams for input and output.
 
 Dependencies:
-libnbt++ requires the following Boost headers:
+libnbt++ requires the following Boost libraries:
 - Config
 - Format
 - Iterator
