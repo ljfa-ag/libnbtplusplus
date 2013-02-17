@@ -39,11 +39,11 @@ private:
 public:
     ///Exception thrown when the access by index fails.
     struct index_out_of_range : public std::out_of_range
-    { explicit index_out_of_range(uint32_t index, uint32_t size); };
+    { index_out_of_range(uint32_t index, uint32_t size); };
 
     ///Exception thrown when a tag of the wrong type is attempted to insert.
     struct bad_insert : public std::invalid_argument
-    { explicit bad_insert(tag_type given, tag_type list); };
+    { bad_insert(tag_type given, tag_type list); };
 
     //Iterator typedefs
     typedef boost::indirect_iterator<_vec_t::iterator, tag> iterator;
