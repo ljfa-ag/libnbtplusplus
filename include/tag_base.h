@@ -105,14 +105,14 @@ template<class T> inline T& tag::as()
 {
     if(get_type() != T::type)
         throw bad_as(get_type(), T::type);
-    return static_cast<T&>(*this);
+    return static_as<T>();
 }
 
 template<class T> inline const T& tag::as() const
 {
     if(get_type() != T::type)
         throw bad_as(get_type(), T::type);
-    return static_cast<const T&>(*this);
+    return static_as<T>();
 }
 
 template<class T> inline T& tag::static_as()
