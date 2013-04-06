@@ -1,6 +1,7 @@
 *.cbp
 *.depend
 *.layout
+*.cbtemp
 lib
 obj
 bl
