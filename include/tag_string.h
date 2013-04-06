@@ -33,9 +33,12 @@ public:
     ///The type of the tag.
     static constexpr tag_type type = tag_type::_string;
 
-    tag_string() {} ///< Default constructor
-    explicit tag_string(const std::string& s): str(s) {} ///< String-copy constructor
-    explicit tag_string(std::string&& s): str(std::move(s)) {} ///< String-move constructor
+    ///Default constructor
+    tag_string() {}
+    ///String-copy constructor
+    explicit tag_string(const std::string& s): str(s) {}
+    ///String-move constructor
+    explicit tag_string(std::string&& s): str(std::move(s)) {}
 
     tag_type get_type() const noexcept { return type; }
 

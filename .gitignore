@@ -9,6 +9,7 @@ bigtest.nbt
 errortest
 out.nbt
 include/nbt_conf.h
+doxygen/html
 
 #################
 ## Eclipse

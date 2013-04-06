@@ -65,7 +65,8 @@ public:
     ///The type of the tag.
     static constexpr tag_type type = tag_type::_compound;
 
-    tag_compound() {} ///< Constructs an empty compound.
+    ///Constructs an empty compound.
+    tag_compound() {}
 
     //tag_compound is not copyable.
     tag_compound(const tag_compound&) = delete;

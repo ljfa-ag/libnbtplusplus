@@ -35,12 +35,18 @@ public:
     ///The type of the tag.
     static constexpr tag_type type = tag_type::_int_array;
 
-    tag_int_array() {} ///< Default constructor
-    explicit tag_int_array(const std::vector<int32_t>& v): data(v) {} ///< Vector-copy constructor
-    explicit tag_int_array(std::vector<int32_t>&& v): data(std::move(v)) {} ///< Vector-move constructor
-    explicit tag_int_array(uint32_t len, int32_t val = 0): data(len, val) {} ///< Fill constructor
-    template<class InputIt> tag_int_array(InputIt first, InputIt last): data(first, last) {} ///< Range constructor
-    tag_int_array(std::initializer_list<int32_t> il): data(il) {} ///< Initializer-list constructor
+    ///Default constructor
+    tag_int_array() {}
+    ///Vector-copy constructor
+    explicit tag_int_array(const std::vector<int32_t>& v): data(v) {}
+    ///Vector-move constructor
+    explicit tag_int_array(std::vector<int32_t>&& v): data(std::move(v)) {}
+    ///Fill constructor
+    explicit tag_int_array(uint32_t len, int32_t val = 0): data(len, val) {}
+    ///Range constructor
+    template<class InputIt> tag_int_array(InputIt first, InputIt last): data(first, last) {}
+    ///Initializer-list constructor
+    tag_int_array(std::initializer_list<int32_t> il): data(il) {}
 
     tag_type get_type() const noexcept { return type; }
 
