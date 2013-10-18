@@ -21,6 +21,10 @@ configure_file("include/nbt_conf.h.in" "${PROJECT_BINARY_DIR}/config/nbt_conf.h"
 include_directories(include)
 include_directories("${PROJECT_BINARY_DIR}/config")
 
+if(APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
+
 add_definitions(-std=c++11)
 add_library(nbt++ STATIC src/endian_str.cpp src/read.cpp src/tag.cpp src/tag_array.cpp src/tag_compound.cpp src/tag_list.cpp)
 install(TARGETS nbt++ DESTINATION lib)
