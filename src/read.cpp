@@ -31,19 +31,22 @@ namespace nbt
 //Anonymous namespace for the internal reading functions.
 namespace
 {
-    bool is_valid_type(tag::tag_type tt)
+    //Checks for a valid tag type. Optionally accepts the END tag as valid.
+    bool is_valid_type(tag::tag_type tt, bool end_ok = false)
     {
+        short range_begin = end_ok ? 0 : 1;
         int itt = static_cast<int>(tt);
-        return 1 <= itt && itt <= 11;
-    }  //tag_end is not a valid tag type, but just an end marker for tag_compound.
+        return range_begin <= itt && itt <= 11;
+    }
 
-    //Reads and checks type
-    tag::tag_type read_type(std::istream& is)
+    //Reads and checks type. Since Minecraft may create an Array of END tags,
+    //optionally accept it.
+    tag::tag_type read_type(std::istream& is, bool end_ok = false)
     {
         tag::tag_type tt = static_cast<tag::tag_type>(is.get());
         if(!is)
             throw tag::input_error("Error reading tag type");
-        if(!is_valid_type(tt))
+        if(!is_valid_type(tt, end_ok))
         {
             is.setstate(std::ios::failbit);
             throw tag::input_error((boost::format("Invalid tag type: %1%") % static_cast<int>(tt)).str());
