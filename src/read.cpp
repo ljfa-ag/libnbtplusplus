@@ -122,7 +122,7 @@ namespace
 
     std::unique_ptr<tag_list> read_list(std::istream& is)
     {
-        tag::tag_type tt = read_type(is);
+        tag::tag_type tt = read_type(is, true);
 
         auto tp = make_uq<tag_list>(tt);
 
