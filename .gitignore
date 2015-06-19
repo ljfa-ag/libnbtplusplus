@@ -1,0 +1,9 @@
+*.cbp
+*.depend
+*.layout
+*.cbtemp
+/bin
+/lib
+/obj
+/build
+/doxygen/html
