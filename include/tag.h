@@ -6,7 +6,7 @@
 namespace nbt
 {
 
-/** Tag type values used in the binary format */
+///Tag type values used in the binary format
 enum class tag_type : int8_t
 {
     End = 0,
@@ -23,12 +23,14 @@ enum class tag_type : int8_t
     Int_Array = 11
 };
 
-/** Base class for all tag classes */
+///Base class for all NBT tag classes
 class tag
 {
 public:
+    //Virtual destructor
     virtual ~tag() noexcept {}
 
+    ///Returns the type of the tag
     virtual tag_type get_type() const noexcept = 0;
 };
 
