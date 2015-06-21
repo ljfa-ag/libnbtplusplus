@@ -1,7 +1,7 @@
 #ifndef MICROTEST_H
 #define MICROTEST_H
 
-#include <type_traits>
+#include <iostream>
 
 #define FAIL_TEST { std::cerr << "Assertion failed at " __FILE__ ":" << __LINE__ << std::endl; \
     exit(EXIT_FAILURE); }
