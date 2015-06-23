@@ -44,12 +44,12 @@ public:
 
     tag_primitive(T value = 0);
 
-    tag_primitive& operator=(T value);
-    void set(T value);
-
     operator T&();
     operator T() const;
     T get() const;
+
+    tag_primitive& operator=(T value);
+    void set(T value);
 
     tag_type get_type() const noexcept override;
 
