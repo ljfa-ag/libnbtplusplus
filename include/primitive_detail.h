@@ -20,6 +20,8 @@
 #ifndef PRIMITIVE_DETAIL_H_INCLUDED
 #define PRIMITIVE_DETAIL_H_INCLUDED
 
+#include <type_traits>
+
 namespace nbt
 {
 
