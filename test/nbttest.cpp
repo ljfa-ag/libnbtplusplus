@@ -33,7 +33,24 @@ void test_get_type()
     ASSERT(tag_double().get_type() == tag_type::Double);
 }
 
+void test_tag_primitive()
+{
+    tag_int tag(6);
+    ASSERT(tag.get() == 6);
+    int& ref = tag;
+    ref = 12;
+    ASSERT(tag == 12);
+    ASSERT(tag != 6);
+    tag.set(24);
+    ASSERT(ref == 24);
+    tag = 7;
+    ASSERT(7 == static_cast<int>(tag));
+
+    ASSERT(tag_double() == 0.0);
+}
+
 int main()
 {
     test_get_type();
+    test_tag_primitive();
 }

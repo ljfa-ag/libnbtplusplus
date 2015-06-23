@@ -45,8 +45,11 @@ public:
     tag_primitive(T value = 0);
 
     tag_primitive& operator=(T value);
+    void set(T value);
 
+    operator T&();
     operator T() const;
+    T get() const;
 
     tag_type get_type() const noexcept override;
 
@@ -75,7 +78,25 @@ tag_primitive<T>& tag_primitive<T>::operator=(T val)
 }
 
 template<class T>
+void tag_primitive<T>::set(T val)
+{
+    value = val;
+}
+
+template<class T>
+tag_primitive<T>::operator T&()
+{
+    return value;
+}
+
+template<class T>
 tag_primitive<T>::operator T() const
+{
+    return value;
+}
+
+template<class T>
+T tag_primitive<T>::get() const
 {
     return value;
 }
