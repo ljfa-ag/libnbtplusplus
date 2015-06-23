@@ -25,12 +25,17 @@ using namespace nbt;
 
 void test_get_type()
 {
-    ASSERT(tag_byte().get_type()   == tag_type::Byte);
-    ASSERT(tag_short().get_type()  == tag_type::Short);
-    ASSERT(tag_int().get_type()    == tag_type::Int);
-    ASSERT(tag_long().get_type()   == tag_type::Long);
-    ASSERT(tag_float().get_type()  == tag_type::Float);
-    ASSERT(tag_double().get_type() == tag_type::Double);
+    ASSERT(tag_byte().get_type()       == tag_type::Byte);
+    ASSERT(tag_short().get_type()      == tag_type::Short);
+    ASSERT(tag_int().get_type()        == tag_type::Int);
+    ASSERT(tag_long().get_type()       == tag_type::Long);
+    ASSERT(tag_float().get_type()      == tag_type::Float);
+    ASSERT(tag_double().get_type()     == tag_type::Double);
+    //ASSERT(tag_byte_array().get_type() == tag_type::Byte_Array);
+    ASSERT(tag_string().get_type()     == tag_type::String);
+    //ASSERT(tag_list().get_type()       == tag_type::List);
+    //ASSERT(tag_compound().get_type()   == tag_type::Compound);
+    //ASSERT(tag_int_array().get_type()  == tag_type::Int_Array);
 }
 
 void test_tag_primitive()
