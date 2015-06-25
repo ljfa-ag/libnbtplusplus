@@ -28,7 +28,7 @@ namespace nbt
 {
 
 /**
- * @brief Contains an integral or floating-point value.
+ * @brief Tag that contains an integral or floating-point value
  *
  * Common class for tag_byte, tag_short, tag_int, tag_long, tag_float and tag_double.
  */

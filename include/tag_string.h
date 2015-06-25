@@ -26,7 +26,7 @@
 namespace nbt
 {
 
-///Contains a UTF-8 string
+///Tag that contains a UTF-8 string
 class tag_string : public tag
 {
 public:
