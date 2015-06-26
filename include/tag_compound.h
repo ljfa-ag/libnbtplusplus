@@ -59,7 +59,7 @@ public:
     /**
      * @brief Accesses a tag by key
      *
-     * Returns a proxy value that can be converted to \c nbt::tag&.
+     * Returns a proxy value that can be converted to @ref tag&.
      */
     tag_ref_proxy operator[](const std::string& key);
     const_tag_ref_proxy operator[](const std::string& key) const;
@@ -85,7 +85,7 @@ public:
     /**
      * @brief Constructs and inserts a tag into the compound
      *
-     * If the given key does not exist, constructs a new tag of type \c T
+     * If the given key does not exist, constructs a new tag of type @c T
      * with the given args and inserts it into the compound.
      * @return true if the tag was inserted
      */
@@ -95,7 +95,7 @@ public:
     /**
      * @brief Constructs and assigns or inserts a tag into the compound
      *
-     * Constructs a new tag of type \c T with the given args and inserts
+     * Constructs a new tag of type @c T with the given args and inserts
      * or assigns it to the given key.
      * @return true if the key did not already exist.
      */
