@@ -34,7 +34,7 @@ void test_get_type()
     //ASSERT(tag_byte_array().get_type() == tag_type::Byte_Array);
     ASSERT(tag_string().get_type()     == tag_type::String);
     //ASSERT(tag_list().get_type()       == tag_type::List);
-    //ASSERT(tag_compound().get_type()   == tag_type::Compound);
+    ASSERT(tag_compound().get_type()   == tag_type::Compound);
     //ASSERT(tag_int_array().get_type()  == tag_type::Int_Array);
 }
 
@@ -74,9 +74,39 @@ void test_tag_string()
     ASSERT(tag_string() == "");
 }
 
+void test_tag_compound()
+{
+    //Preliminary
+    //Doesn't work yet, but this is the syntax I would like to have:
+    tag_compound comp{{"foo", int16_t(12)}, {"bar", "baz"}, {"baz", -2.0}};
+
+    ASSERT(comp["foo"].get_type() == tag_type::Short);
+    ASSERT((int)comp["foo"] == 12);
+    ASSERT((int16_t)comp["foo"] == int16_t(12));
+    ASSERT(comp["foo"] == int8_t(12));
+    ASSERT(comp["foo"] == 12);
+    ASSERT(comp["foo"] != "12");
+
+    ASSERT(comp["bar"].get_type() == tag_type::String);
+    ASSERT((std::string)comp["bar"] == "baz");
+    ASSERT(comp["bar"] == "baz");
+    ASSERT(comp["bar"] != 0);
+
+    ASSERT(comp["baz"].get_type() == tag_type::Double);
+    ASSERT((double)comp["baz"] == -2.0);
+    ASSERT(comp["baz"] == -2.0f);
+    ASSERT(comp["baz"] == -2);
+    ASSERT(comp["baz"] != "-2");
+
+    comp["quux"] = tag_compound{{"Hello", "World"}};
+    ASSERT(comp["quux"].get_type() == tag_type::Compound);
+    ASSERT(comp["quux"]["Hello"] == "World");
+}
+
 int main()
 {
     test_get_type();
     test_tag_primitive();
     test_tag_string();
+    test_tag_compound();
 }
