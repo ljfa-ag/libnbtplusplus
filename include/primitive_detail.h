@@ -22,6 +22,7 @@
 
 #include <type_traits>
 
+///@cond
 namespace nbt
 {
 
@@ -39,5 +40,6 @@ namespace detail
 }
 
 }
+///@endcond
 
 #endif // PRIMITIVE_DETAIL_H_INCLUDED
