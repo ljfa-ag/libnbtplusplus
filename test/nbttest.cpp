@@ -78,29 +78,43 @@ void test_tag_compound()
 {
     //Preliminary
     //Doesn't work yet, but this is the syntax I would like to have:
-    tag_compound comp{{"foo", int16_t(12)}, {"bar", "baz"}, {"baz", -2.0}};
+    tag_compound comp/*{
+        {"foo", int16_t(12)},
+        {"bar", "baz"},
+        {"baz", -2.0}
+    }*/;
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
     ASSERT((int)comp["foo"] == 12);
     ASSERT((int16_t)comp["foo"] == int16_t(12));
-    ASSERT(comp["foo"] == int8_t(12));
+    /*ASSERT(comp["foo"] == int8_t(12));
     ASSERT(comp["foo"] == 12);
-    ASSERT(comp["foo"] != "12");
+    ASSERT(comp["foo"] != "12");*/
 
     ASSERT(comp["bar"].get_type() == tag_type::String);
     ASSERT((std::string)comp["bar"] == "baz");
-    ASSERT(comp["bar"] == "baz");
-    ASSERT(comp["bar"] != 0);
+    /*ASSERT(comp["bar"] == "baz");
+    ASSERT(comp["bar"] != 0);*/
 
     ASSERT(comp["baz"].get_type() == tag_type::Double);
     ASSERT((double)comp["baz"] == -2.0);
-    ASSERT(comp["baz"] == -2.0f);
+    /*ASSERT(comp["baz"] == -2.0f);
     ASSERT(comp["baz"] == -2);
-    ASSERT(comp["baz"] != "-2");
+    ASSERT(comp["baz"] != "-2");*/
 
-    comp["quux"] = tag_compound{{"Hello", "World"}};
+    comp["quux"] = tag_compound{/*{"Hello", "World"}, {"zero", 0}*/};
     ASSERT(comp["quux"].get_type() == tag_type::Compound);
-    ASSERT(comp["quux"]["Hello"] == "World");
+    ASSERT((std::string)comp["quux"]["Hello"] == "World");
+
+    tag_compound comp2/*{
+        {"foo", int16_t(12)},
+        {"bar", "baz"},
+        {"baz", -2.0},
+        {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}}
+    }*/;
+    //ASSERT(comp == comp2);
+    ASSERT(comp != (const tag_compound&)comp2["quux"]);
+    ASSERT(comp != comp2["quux"]);
 }
 
 int main()

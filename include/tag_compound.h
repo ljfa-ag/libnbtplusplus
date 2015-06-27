@@ -21,16 +21,13 @@
 #define TAG_COMPOUND_H_INCLUDED
 
 #include "tag.h"
+#include "nbt_value.h"
 #include <map>
 #include <memory>
 #include <string>
 
 namespace nbt
 {
-
-//TODO: Create actual proxy class
-typedef tag& tag_ref_proxy;
-typedef const tag& const_tag_ref_proxy;
 
 ///Tag that contains multiple unordered named tags of arbitrary types
 class tag_compound : public tag
@@ -46,61 +43,27 @@ public:
     ///Constructs an empty compound
     tag_compound() {}
 
+    //TODO: Make a separate class similar to and convertible to nbt_value for initializing tag values
+    //tag_compound(std::initializer_list<std::pair<std::string, nbt_value&&>> init);
+
     /**
      * @brief Accesses a tag by key with bounds checking
      *
-     * Returns a reference to the tag with the specified key, or throws an
+     * Returns a nbt_value to the tag with the specified key, or throws an
      * exception if it does not exist.
      * @throw std::out_of_range if given key does not exist
      */
-    tag& at(const std::string& key);
-    const tag& at(const std::string& key) const;
+    nbt_value& at(const std::string& key);
+    const nbt_value& at(const std::string& key) const;
 
     /**
      * @brief Accesses a tag by key
      *
-     * Returns a proxy value that can be converted to @ref tag&.
+     * If the key exists, returns a nbt_value to the corresponding tag.
+     * Else, a new uninitalized entry is created under this key.
      */
-    tag_ref_proxy operator[](const std::string& key);
-    const_tag_ref_proxy operator[](const std::string& key) const;
-
-    /**
-     * @brief Inserts a tag into the compound
-     *
-     * If the given key does not already exist, moves the pointed tag
-     * into the compound.
-     * @return true if the tag was inserted
-     */
-    bool insert(const std::string& key, std::unique_ptr<tag>&& ptr);
-
-    /**
-     * @brief Inserts or assigns a tag
-     *
-     * If the given key already exists, assigns the pointed tag to it.
-     * Otherwise, it is inserted under the given key.
-     * @return true if the key did not exist
-     */
-    bool put(const std::string& key, std::unique_ptr<tag>&& ptr);
-
-    /**
-     * @brief Constructs and inserts a tag into the compound
-     *
-     * If the given key does not exist, constructs a new tag of type @c T
-     * with the given args and inserts it into the compound.
-     * @return true if the tag was inserted
-     */
-    template<class T, class... Args>
-    bool emplace(const std::string& key, Args&&... args);
-
-    /**
-     * @brief Constructs and assigns or inserts a tag into the compound
-     *
-     * Constructs a new tag of type @c T with the given args and inserts
-     * or assigns it to the given key.
-     * @return true if the key did not already exist.
-     */
-    template<class T, class... Args>
-    bool emplace_put(const std::string& key, Args&&... args);
+    nbt_value& operator[](const std::string& key);
+    const nbt_value& operator[](const std::string& key) const;
 
     /**
      * @brief Erases a tag from the compound
