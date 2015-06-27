@@ -32,7 +32,7 @@ class tag_compound;
 class tag_list;
 
 /**
- * @brief Represents a reference to a tag of fixed type
+ * @brief Contains an NBT value of fixed type
  *
  * This can contain a tag of arbitrary type, but once the tag's type
  * is set it is immutable.
