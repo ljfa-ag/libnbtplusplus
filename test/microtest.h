@@ -26,8 +26,8 @@
     exit(EXIT_FAILURE); }
 #define ASSERT(expr) { if(!(expr)) FAIL_TEST }
 #define EXPECT_EXCEPTION(expr, type) { \
-    try { (expr); std::cerr << "Expected " #type " to be thrown" << std::endl; FAIL_TEST } \
+    try { (expr); std::cerr << "Expected " #type " to be thrown, got no exception instead" << std::endl; FAIL_TEST } \
     catch(type&) {} \
-    catch(...) { std::cerr << "Expected " #type " to be thrown" << std::endl; FAIL_TEST } }
+    catch(...) { std::cerr << "Expected " #type " to be thrown, got something else instead" << std::endl; FAIL_TEST } }
 
 #endif
