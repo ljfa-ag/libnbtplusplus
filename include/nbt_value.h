@@ -45,8 +45,10 @@ class nbt_value
 {
 public:
     //Movable but not (implicitly) copyable
-    nbt_value& operator=(nbt_value&&) = default;
+    nbt_value(const nbt_value&) = delete;
+    nbt_value(nbt_value&&) = default;
     nbt_value& operator=(const nbt_value&) = delete;
+    nbt_value& operator=(nbt_value&&) = default;
 
     //nbt_value& operator=(std::unique_ptr<tag>&& ptr);
 
