@@ -23,7 +23,6 @@
 #include "tag.h"
 #include "value.h"
 #include <map>
-#include <memory>
 #include <string>
 
 namespace nbt
@@ -34,8 +33,8 @@ class tag_compound : public tag
 {
 public:
     //Iterator types
-    typedef void* iterator; //FIXME
-    typedef const void* const_iterator;
+    typedef std::map<std::string, value>::iterator iterator;
+    typedef std::map<std::string, value>::const_iterator const_iterator;
 
     ///The type of the tag
     static constexpr tag_type type = tag_type::Compound;
@@ -91,7 +90,7 @@ public:
     tag_type get_type() const noexcept override;
 
 private:
-
+    std::map<std::string, value> tags;
 
     bool equals(const tag& rhs) const override;
 };
