@@ -56,6 +56,10 @@ public:
     friend bool operator!=(const tag& lhs, const tag& rhs);
 
 private:
+    /**
+     * @brief Checks for equality to a tag of the same type
+     * @param rhs an instance of the same class as @c *this
+     */
     virtual bool equals(const tag& rhs) const = 0;
 };
 
