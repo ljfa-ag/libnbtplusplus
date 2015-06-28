@@ -30,10 +30,17 @@ such as:
   provide.
 - /RF30/ A shorter syntax than in libnbt++1 and preferrably also Mojang's
   implementation.
+- /RF35/ Typesafe operations (no possibly unwanted implicit casts), in case
+  of incompatible types exceptions should be thrown.
 - /RF40/ The need for insecure operations and manual memory management should
   be minimized; references and `std::unique_ptr` should be preferred before
   raw pointers.
+- /RF55/ A wrapper for tags that provides syntactic sugar is preferred
+  before raw `std::unique_ptr` values.
 - /RF50/ Move semantics are preferred before copy semantics.
+- /RF55/ Copying tags should be possible, but only in an explicit manner.
+- /RF60/ Checked conversions are preferred, unchecked conversions may be
+  possible but discouraged.
 
 ### Product Performance
 - /RP10/ All operations on (not too large) NBT data should not be slower
