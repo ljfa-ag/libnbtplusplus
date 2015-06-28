@@ -34,10 +34,8 @@ class tag_list;
 /**
  * @brief Contains an NBT value of fixed type
  *
- * This can contain a tag of arbitrary type, but once the tag's type
- * is set it is immutable.
- * It can be casted to or assigned values, but if the types do not match it
- * will throw an exception.
+ * A wrapper class that can contain a value of an arbitrary but fixed type.
+ * Casting or assigning incompatible types will throw an exception.
  * It can also refer to an uninitialized value (e.g. when using tag_compound::operator[]
  * with a non-existant key).
  */
