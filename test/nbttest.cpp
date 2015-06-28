@@ -86,7 +86,7 @@ void test_tag_compound()
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
     ASSERT(int(comp["foo"]) == 12);
-    ASSERT(int16_t(comp["foo"]) == int16_t(12));
+    ASSERT(int16_t(comp.at("foo")) == int16_t(12));
 
     ASSERT(comp["bar"].get_type() == tag_type::String);
     ASSERT(std::string(comp["bar"]) == "baz");
@@ -96,8 +96,8 @@ void test_tag_compound()
     ASSERT(float(comp["baz"]) == -2.0f);
 
     comp["quux"] = tag_compound{/*{"Hello", "World"}, {"zero", 0}*/};
-    ASSERT(comp["quux"].get_type() == tag_type::Compound);
-    ASSERT(std::string(comp["quux"]["Hello"]) == "World");
+    ASSERT(comp.at("quux").get_type() == tag_type::Compound);
+    ASSERT(std::string(comp["quux"].at("Hello")) == "World");
 
     tag_compound comp2/*{
         {"foo", int16_t(12)},

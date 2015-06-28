@@ -85,6 +85,15 @@ public:
     explicit operator const std::string&() const;
 
     /**
+     * @brief In case of a tag_compound, accesses a tag by key with bounds checking
+     * @throw std::bad_cast if the tag type is not tag_compound
+     * @throw std::out_of_range if given key does not exist
+     * @sa tag_compound::at
+     */
+    value& at(const std::string& key);
+    const value& at(const std::string& key) const;
+
+    /**
      * @brief In case of a tag_compound, accesses a tag by key
      * @throw std::bad_cast if the tag type is not tag_compound
      * @sa tag_compound::operator[]
