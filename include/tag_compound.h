@@ -21,7 +21,7 @@
 #define TAG_COMPOUND_H_INCLUDED
 
 #include "tag.h"
-#include "nbt_value.h"
+#include "value.h"
 #include <map>
 #include <memory>
 #include <string>
@@ -43,27 +43,27 @@ public:
     ///Constructs an empty compound
     tag_compound() {}
 
-    //TODO: Make a separate class similar to and convertible to nbt_value for initializing tag values
-    //tag_compound(std::initializer_list<std::pair<std::string, nbt_value&&>> init);
+    //TODO: Make a separate class similar to and convertible to value for initializing tag values
+    //tag_compound(std::initializer_list<std::pair<std::string, value&&>> init);
 
     /**
      * @brief Accesses a tag by key with bounds checking
      *
-     * Returns a nbt_value to the tag with the specified key, or throws an
+     * Returns a value to the tag with the specified key, or throws an
      * exception if it does not exist.
      * @throw std::out_of_range if given key does not exist
      */
-    nbt_value& at(const std::string& key);
-    const nbt_value& at(const std::string& key) const;
+    value& at(const std::string& key);
+    const value& at(const std::string& key) const;
 
     /**
      * @brief Accesses a tag by key
      *
-     * If the key exists, returns a nbt_value to the corresponding tag.
+     * If the key exists, returns a value to the corresponding tag.
      * Else, a new uninitalized entry is created under this key.
      */
-    nbt_value& operator[](const std::string& key);
-    const nbt_value& operator[](const std::string& key) const;
+    value& operator[](const std::string& key);
+    const value& operator[](const std::string& key) const;
 
     /**
      * @brief Erases a tag from the compound

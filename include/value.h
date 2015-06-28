@@ -34,21 +34,21 @@ class tag_list;
 /**
  * @brief Contains an NBT value of fixed type
  *
- * A wrapper class that can contain a value of an arbitrary but fixed type.
+ * A wrapper class that can contain a tag of an arbitrary but fixed type.
  * Casting or assigning incompatible types will throw an exception.
  * It can also refer to an uninitialized value (e.g. when using tag_compound::operator[]
  * with a non-existant key).
  */
-class nbt_value
+class value
 {
 public:
     //Movable but not (implicitly) copyable
-    nbt_value(const nbt_value&) = delete;
-    nbt_value(nbt_value&&) = default;
-    nbt_value& operator=(const nbt_value&) = delete;
-    nbt_value& operator=(nbt_value&&) = default;
+    value(const value&) = delete;
+    value(value&&) = default;
+    value& operator=(const value&) = delete;
+    value& operator=(value&&) = default;
 
-    //nbt_value& operator=(std::unique_ptr<tag>&& ptr);
+    //value& operator=(std::unique_ptr<tag>&& ptr);
 
     //Assignment
     /**
@@ -56,15 +56,15 @@ public:
      * @throw std::bad_cast if the value is not convertible to the tag type
      * via a widening conversion
      */
-    nbt_value& operator=(int8_t val);
-    nbt_value& operator=(int16_t val);
-    nbt_value& operator=(int32_t val);
-    nbt_value& operator=(int64_t val);
-    nbt_value& operator=(float val);
-    nbt_value& operator=(double val);
-    nbt_value& operator=(const std::string& str);
-    nbt_value& operator=(tag_compound&& comp);
-    nbt_value& operator=(tag_list&& list);
+    value& operator=(int8_t val);
+    value& operator=(int16_t val);
+    value& operator=(int32_t val);
+    value& operator=(int64_t val);
+    value& operator=(float val);
+    value& operator=(double val);
+    value& operator=(const std::string& str);
+    value& operator=(tag_compound&& comp);
+    value& operator=(tag_list&& list);
 
     //Conversion to tag
     operator tag&();
@@ -89,17 +89,17 @@ public:
      * @throw std::bad_cast if the tag type is not tag_compound
      * @sa tag_compound::operator[]
      */
-    nbt_value& operator[](const std::string& key);
-    const nbt_value& operator[](const std::string& key) const;
+    value& operator[](const std::string& key);
+    const value& operator[](const std::string& key) const;
 
     ///@sa tag::get_type
     tag_type get_type() const;
 
-    friend bool operator==(const nbt_value& lhs, const nbt_value& rhs);
-    friend bool operator!=(const nbt_value& lhs, const nbt_value& rhs);
+    friend bool operator==(const value& lhs, const value& rhs);
+    friend bool operator!=(const value& lhs, const value& rhs);
 
 private:
-    std::unique_ptr<tag> value;
+    std::unique_ptr<tag> tag_;
 };
 
 }
