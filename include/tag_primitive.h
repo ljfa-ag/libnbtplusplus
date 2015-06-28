@@ -55,6 +55,8 @@ public:
 
 private:
     T value;
+
+    bool equals(const tag& rhs) const override;
 };
 
 //Typedefs that should be used instead of the template tag_primitive.
@@ -105,6 +107,12 @@ template<class T>
 tag_type tag_primitive<T>::get_type() const noexcept
 {
     return type;
+}
+
+template<class T>
+bool tag_primitive<T>::equals(const tag& rhs) const
+{
+    return value == static_cast<const tag_primitive<T>&>(rhs).value;
 }
 
 }

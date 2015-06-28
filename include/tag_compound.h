@@ -92,6 +92,8 @@ public:
 
 private:
 
+
+    bool equals(const tag& rhs) const override;
 };
 
 }

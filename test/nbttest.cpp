@@ -112,7 +112,7 @@ void test_tag_compound()
         {"baz", -2.0},
         {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}}
     }*/;
-    //ASSERT(comp == comp2);
+    ASSERT(comp == comp2);
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
     ASSERT(comp != comp2["quux"]);
 }

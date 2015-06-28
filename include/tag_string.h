@@ -52,6 +52,8 @@ public:
 
 private:
     std::string value;
+
+    bool equals(const tag& rhs) const override;
 };
 
 }

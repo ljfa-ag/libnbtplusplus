@@ -51,6 +51,12 @@ public:
 
     ///Returns the type of the tag
     virtual tag_type get_type() const noexcept = 0;
+
+    friend bool operator==(const tag& lhs, const tag& rhs);
+    friend bool operator!=(const tag& lhs, const tag& rhs);
+
+private:
+    virtual bool equals(const tag& rhs) const = 0;
 };
 
 }
