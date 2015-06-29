@@ -61,18 +61,18 @@ void test_tag_string()
     ASSERT(tag.get() == "foo");
     std::string& ref = tag;
     ref = "bar";
-    ASSERT(tag == "bar");
-    ASSERT(tag != "foo");
+    ASSERT(tag.get() == "bar");
+    ASSERT(tag.get() != "foo");
     tag.set("baz");
     ASSERT(ref == "baz");
     tag = "quux";
     ASSERT("quux" == static_cast<std::string>(tag));
     std::string str("foo");
     tag = str;
-    ASSERT(tag == str);
+    ASSERT(tag.get() == str);
 
-    ASSERT(tag_string(str) == "foo");
-    ASSERT(tag_string() == "");
+    ASSERT(tag_string(str).get() == "foo");
+    ASSERT(tag_string().get() == "");
 }
 
 void test_tag_compound()

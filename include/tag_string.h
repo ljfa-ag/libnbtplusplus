@@ -36,9 +36,6 @@ public:
     tag_string(const std::string& str);
     tag_string(std::string&& str = "");
 
-    bool operator==(const std::string& rhs) const;
-    bool operator!=(const std::string& rhs) const;
-
     operator std::string&();
     operator const std::string&() const;
     const std::string& get() const;
