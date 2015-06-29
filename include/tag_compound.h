@@ -62,7 +62,6 @@ public:
      * Else, a new uninitalized entry is created under this key.
      */
     value& operator[](const std::string& key);
-    const value& operator[](const std::string& key) const;
 
     /**
      * @brief Erases a tag from the compound
@@ -71,7 +70,7 @@ public:
     bool erase(const std::string& key);
 
     ///Returns true if the given key exists in the compound
-    bool has_key(const std::string& key);
+    bool has_key(const std::string& key) const;
 
     ///Returns the number of tags in the compound
     size_t size() const;

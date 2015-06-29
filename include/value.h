@@ -42,6 +42,8 @@ class tag_list;
 class value
 {
 public:
+    explicit value() {}
+
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
     value(value&&) = default;
