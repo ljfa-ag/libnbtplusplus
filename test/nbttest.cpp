@@ -20,6 +20,7 @@
 #include "microtest.h"
 #include "libnbt.h"
 #include <iostream>
+#include <stdexcept>
 
 using namespace nbt;
 
@@ -76,8 +77,6 @@ void test_tag_string()
 
 void test_tag_compound()
 {
-    //Preliminary
-    //Doesn't work yet, but this is the syntax I would like to have:
     tag_compound comp/*{
         {"foo", int16_t(12)},
         {"bar", "baz"},
@@ -85,19 +84,24 @@ void test_tag_compound()
     }*/;
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
-    ASSERT(int(comp["foo"]) == 12);
+    ASSERT(int32_t(comp["foo"]) == 12);
     ASSERT(int16_t(comp.at("foo")) == int16_t(12));
+    EXPECT_EXCEPTION(int8_t(comp["foo"]), std::bad_cast);
+    EXPECT_EXCEPTION(std::string(comp["foo"]), std::bad_cast);
 
     ASSERT(comp["bar"].get_type() == tag_type::String);
     ASSERT(std::string(comp["bar"]) == "baz");
+    EXPECT_EXCEPTION(int(comp["bar"]), std::bad_cast);
 
     ASSERT(comp["baz"].get_type() == tag_type::Double);
     ASSERT(double(comp["baz"]) == -2.0);
-    ASSERT(float(comp["baz"]) == -2.0f);
+    EXPECT_EXCEPTION(float(comp["baz"]), std::bad_cast);
 
     comp["quux"] = tag_compound{/*{"Hello", "World"}, {"zero", 0}*/};
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
+
+    EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
     tag_compound comp2/*{
         {"foo", int16_t(12)},
@@ -108,6 +112,16 @@ void test_tag_compound()
     ASSERT(comp == comp2);
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
     ASSERT(comp != comp2["quux"]);
+
+    ASSERT(comp.size() == 4);
+
+    ASSERT(comp.erase("nothing") == false);
+    ASSERT(comp.has_key("quux"));
+    ASSERT(comp.erase("quux") == true);
+    ASSERT(!comp.has_key("quux"));
+
+    comp.clear();
+    ASSERT(comp == tag_compound{});
 }
 
 int main()
