@@ -21,6 +21,7 @@
 #define TAG_H_INCLUDED
 
 #include <cstdint>
+#include <memory>
 
 namespace nbt
 {
@@ -51,6 +52,8 @@ public:
 
     ///Returns the type of the tag
     virtual tag_type get_type() const noexcept = 0;
+
+    virtual std::unique_ptr<tag> move_clone() && = 0;
 
     friend bool operator==(const tag& lhs, const tag& rhs);
     friend bool operator!=(const tag& lhs, const tag& rhs);

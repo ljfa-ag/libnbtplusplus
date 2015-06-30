@@ -84,6 +84,11 @@ tag_type tag_compound::get_type() const noexcept
     return type;
 }
 
+std::unique_ptr<tag> tag_compound::move_clone() &&
+{
+    return std::unique_ptr<tag>(new tag_compound(std::move(*this)));
+}
+
 bool tag_compound::equals(const tag& rhs) const
 {
     return tags == static_cast<const tag_compound&>(rhs).tags;

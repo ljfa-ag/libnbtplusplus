@@ -53,6 +53,8 @@ public:
 
     tag_type get_type() const noexcept override;
 
+    std::unique_ptr<tag> move_clone() && override;
+
 private:
     T value;
 
@@ -107,6 +109,12 @@ template<class T>
 tag_type tag_primitive<T>::get_type() const noexcept
 {
     return type;
+}
+
+template<class T>
+std::unique_ptr<tag> tag_primitive<T>::move_clone() &&
+{
+    return std::unique_ptr<tag>(new tag_primitive<T>(std::move(*this)));
 }
 
 template<class T>

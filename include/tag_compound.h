@@ -109,6 +109,8 @@ public:
 
     tag_type get_type() const noexcept override;
 
+    std::unique_ptr<tag> move_clone() && override;
+
 private:
     std::map<std::string, value> tags;
 
