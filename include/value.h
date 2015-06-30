@@ -44,14 +44,14 @@ public:
     explicit value(std::unique_ptr<tag>&& t);
     explicit value(tag&& t);
 
+    value& operator=(std::unique_ptr<tag>&& t);
+    value& operator=(tag&& t);
+
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
     value(value&&) = default;
     value& operator=(const value&) = delete;
     value& operator=(value&&) = default;
-
-    value& operator=(std::unique_ptr<tag>&& t);
-    value& operator=(tag&& t);
 
     //Assignment of primitives and string
     /**

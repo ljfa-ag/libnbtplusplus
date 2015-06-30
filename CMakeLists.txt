@@ -7,7 +7,8 @@ add_definitions(-std=c++11)
 include_directories(include)
 add_library(nbt++ STATIC
     src/tag_compound.cpp
-    src/tag_string.cpp)
+    src/tag_string.cpp
+    src/value.cpp)
 
 enable_testing()
 add_subdirectory(test)
