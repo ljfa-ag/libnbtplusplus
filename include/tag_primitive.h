@@ -33,7 +33,7 @@ namespace nbt
  * Common class for tag_byte, tag_short, tag_int, tag_long, tag_float and tag_double.
  */
 template<class T>
-class tag_primitive : public tag
+class tag_primitive final : public tag
 {
 public:
     ///The type of the value

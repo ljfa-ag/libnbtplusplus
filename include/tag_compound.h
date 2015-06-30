@@ -29,7 +29,7 @@ namespace nbt
 {
 
 ///Tag that contains multiple unordered named tags of arbitrary types
-class tag_compound : public tag
+class tag_compound final : public tag
 {
 public:
     //Iterator types
