@@ -37,6 +37,21 @@ value& tag_compound::operator[](const std::string& key)
     return tags[key];
 }
 
+bool tag_compound::put(const std::string& key, std::unique_ptr<tag>&& t)
+{
+    auto it = tags.find(key);
+    if(it != tags.end())
+    {
+        it->second = std::move(t);
+        return false;
+    }
+    else
+    {
+        tags.emplace(key, value(std::move(t)));
+        return true;
+    }
+}
+
 bool tag_compound::erase(const std::string& key)
 {
     return tags.erase(key) != 0;

@@ -34,15 +34,15 @@ class tag_list;
 /**
  * @brief Contains an NBT value of fixed type
  *
- * A wrapper class that can contain a tag of an arbitrary but fixed type.
- * Casting or assigning incompatible types will throw an exception.
- * It can also refer to an uninitialized value (e.g. when using tag_compound::operator[]
- * with a non-existant key).
+ * A wrapper class that contains a dynamically allocated tag of a fixed type.
+ * Casting or assigning incompatible types will throw a exceptions.
  */
 class value
 {
 public:
     explicit value() {}
+    explicit value(std::unique_ptr<tag>&& t);
+    explicit value(tag&& t);
 
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
@@ -50,9 +50,10 @@ public:
     value& operator=(const value&) = delete;
     value& operator=(value&&) = default;
 
-    //value& operator=(std::unique_ptr<tag>&& ptr);
+    value& operator=(std::unique_ptr<tag>&& t);
+    value& operator=(tag&& t);
 
-    //Assignment
+    //Assignment of primitives and string
     /**
      * @brief Assigns the given value to the tag if the type matches
      * @throw std::bad_cast if the value is not convertible to the tag type
@@ -65,8 +66,6 @@ public:
     value& operator=(float val);
     value& operator=(double val);
     value& operator=(const std::string& str);
-    value& operator=(tag_compound&& comp);
-    value& operator=(tag_list&& list);
 
     //Conversion to tag
     operator tag&();
@@ -78,13 +77,13 @@ public:
      * @throw std::bad_cast if the tag type is not convertible to the desired
      * type via a widening conversion
      */
-    explicit operator int8_t() const;
-    explicit operator int16_t() const;
-    explicit operator int32_t() const;
-    explicit operator int64_t() const;
-    explicit operator float() const;
-    explicit operator double() const;
-    explicit operator const std::string&() const;
+    operator int8_t() const;
+    operator int16_t() const;
+    operator int32_t() const;
+    operator int64_t() const;
+    operator float() const;
+    operator double() const;
+    operator const std::string&() const;
 
     /**
      * @brief In case of a tag_compound, accesses a tag by key with bounds checking

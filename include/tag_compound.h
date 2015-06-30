@@ -58,10 +58,31 @@ public:
     /**
      * @brief Accesses a tag by key
      *
-     * If the key exists, returns a value to the corresponding tag.
-     * Else, a new uninitalized entry is created under this key.
+     * Returns a value to the tag with the specified key, or throws an
+     * exception if it does not exist.
+     * @throw std::out_of_range if given key does not exist
+     * @todo Make it create a new entry rather than throwing an exception
      */
     value& operator[](const std::string& key);
+
+    /**
+     * @brief Inserts or assigns a tag
+     *
+     * If the given key already exists, assigns the tag to it.
+     * Otherwise, it is inserted under the given key.
+     * @return true if the key did not exist
+     */
+    bool put(const std::string& key, std::unique_ptr<tag>&& t);
+
+    /**
+     * @brief Constructs and assigns or inserts a tag into the compound
+     *
+     * Constructs a new tag of type @c T with the given args and inserts
+     * or assigns it to the given key.
+     * @return true if the key did not exist
+     */
+    template<class T, class... Args>
+    bool emplace(const std::string& key, Args&&... args);
 
     /**
      * @brief Erases a tag from the compound
@@ -93,6 +114,12 @@ private:
 
     bool equals(const tag& rhs) const override;
 };
+
+template<class T, class... Args>
+bool tag_compound::emplace(const std::string& key, Args&&... args)
+{
+    return put(key, new T(std::forward<Args>(args)...));
+}
 
 }
 
