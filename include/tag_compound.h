@@ -108,8 +108,10 @@ public:
     const_iterator cend() const;
 
     tag_type get_type() const noexcept override;
-
     std::unique_ptr<tag> move_clone() && override;
+
+    friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
+    friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 
 private:
     std::map<std::string, value> tags;
@@ -117,9 +119,6 @@ private:
     bool equals(const tag& rhs) const override;
 
     tag_compound& assign(tag&& rhs) override;
-
-    friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
-    friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 };
 
 template<class T, class... Args>

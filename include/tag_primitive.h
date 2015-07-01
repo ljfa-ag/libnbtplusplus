@@ -52,7 +52,6 @@ public:
     void set(T value);
 
     tag_type get_type() const noexcept override;
-
     std::unique_ptr<tag> move_clone() && override;
 
 private:
