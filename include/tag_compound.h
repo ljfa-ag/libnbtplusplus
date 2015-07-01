@@ -20,7 +20,7 @@
 #ifndef TAG_COMPOUND_H_INCLUDED
 #define TAG_COMPOUND_H_INCLUDED
 
-#include "tag.h"
+#include "crtp_tag.h"
 #include "value.h"
 #include <map>
 #include <string>
@@ -29,7 +29,7 @@ namespace nbt
 {
 
 ///Tag that contains multiple unordered named tags of arbitrary types
-class tag_compound final : public tag
+class tag_compound final : public detail::crtp_tag<tag_compound>
 {
 public:
     //Iterator types
@@ -108,17 +108,12 @@ public:
     const_iterator cend() const;
 
     tag_type get_type() const noexcept override;
-    std::unique_ptr<tag> move_clone() && override;
 
     friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
     friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 
 private:
     std::map<std::string, value> tags;
-
-    bool equals(const tag& rhs) const override;
-
-    tag_compound& assign(tag&& rhs) override;
 };
 
 template<class T, class... Args>

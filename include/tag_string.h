@@ -20,14 +20,14 @@
 #ifndef TAG_STRING_H_INCLUDED
 #define TAG_STRING_H_INCLUDED
 
-#include "tag.h"
+#include "crtp_tag.h"
 #include <string>
 
 namespace nbt
 {
 
 ///Tag that contains a UTF-8 string
-class tag_string final : public tag
+class tag_string final : public detail::crtp_tag<tag_string>
 {
 public:
     ///The type of the tag
@@ -46,14 +46,9 @@ public:
     void set(std::string&& str);
 
     tag_type get_type() const noexcept override;
-    std::unique_ptr<tag> move_clone() && override;
 
 private:
     std::string value;
-
-    bool equals(const tag& rhs) const override;
-
-    tag_string& assign(tag&& rhs) override;
 };
 
 bool operator==(const tag_string& lhs, const tag_string& rhs);

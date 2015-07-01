@@ -20,7 +20,7 @@
 #ifndef TAG_PRIMITIVE_H_INCLUDED
 #define TAG_PRIMITIVE_H_INCLUDED
 
-#include "tag.h"
+#include "crtp_tag.h"
 #include "primitive_detail.h"
 #include <type_traits>
 
@@ -33,7 +33,7 @@ namespace nbt
  * Common class for tag_byte, tag_short, tag_int, tag_long, tag_float and tag_double.
  */
 template<class T>
-class tag_primitive final : public tag
+class tag_primitive final : public detail::crtp_tag<tag_primitive<T>>
 {
 public:
     ///The type of the value
@@ -52,14 +52,9 @@ public:
     void set(T value);
 
     tag_type get_type() const noexcept override;
-    std::unique_ptr<tag> move_clone() && override;
 
 private:
     T value;
-
-    bool equals(const tag& rhs) const override;
-
-    tag_primitive<T>& assign(tag&& rhs) override;
 };
 
 template<class T> bool operator==(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs);
@@ -113,24 +108,6 @@ template<class T>
 tag_type tag_primitive<T>::get_type() const noexcept
 {
     return type;
-}
-
-template<class T>
-std::unique_ptr<tag> tag_primitive<T>::move_clone() &&
-{
-    return std::unique_ptr<tag>(new tag_primitive<T>(std::move(*this)));
-}
-
-template<class T>
-bool tag_primitive<T>::equals(const tag& rhs) const
-{
-    return *this == static_cast<const tag_primitive<T>&>(rhs);
-}
-
-template<class T>
-tag_primitive<T>& tag_primitive<T>::assign(tag&& rhs)
-{
-    return *this = dynamic_cast<tag_primitive<T>&&>(rhs);
 }
 
 template<class T>
