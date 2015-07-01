@@ -27,10 +27,6 @@ value::value(std::unique_ptr<tag>&& t):
     tag_(std::move(t))
 {}
 
-value::value(tag&& t):
-    tag_(std::move(t).move_clone())
-{}
-
 value& value::operator=(std::unique_ptr<tag>&& t)
 {
     tag_ = std::move(t);

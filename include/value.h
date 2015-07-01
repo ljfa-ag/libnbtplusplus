@@ -41,11 +41,6 @@ class value
 {
 public:
     explicit value() {}
-    explicit value(std::unique_ptr<tag>&& t);
-    explicit value(tag&& t);
-
-    value& operator=(std::unique_ptr<tag>&& t);
-    value& operator=(tag&& t);
 
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
@@ -53,9 +48,19 @@ public:
     value& operator=(const value&) = delete;
     value& operator=(value&&) = default;
 
-    //Assignment of primitives and string
+    explicit value(std::unique_ptr<tag>&& t);
+    value& operator=(std::unique_ptr<tag>&& t);
+
     /**
      * @brief Assigns the given value to the tag if the type matches
+     * @throw std::bad_cast if the type of @c t is not the same as the type
+     * of this value
+     */
+    value& operator=(tag&& t);
+
+    //Assignment of primitives and string
+    /**
+     * @brief Assigns the given value to the tag if the type is compatible
      * @throw std::bad_cast if the value is not convertible to the tag type
      * via a widening conversion
      */
