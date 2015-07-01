@@ -66,7 +66,7 @@ private:
     virtual bool equals(const tag& rhs) const = 0;
 
     /**
-     * @brief Assigns the given tag if the class is the same
+     * @brief Move-assigns the given tag if the class is the same
      * @throw std::bad_cast if @c rhs is not the same type as @c *this
      */
     virtual tag& assign(tag&& rhs) = 0;
