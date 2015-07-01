@@ -51,8 +51,6 @@ public:
     tag_primitive& operator=(T value);
     void set(T value);
 
-    tag_type get_type() const noexcept override;
-
 private:
     T value;
 };
@@ -102,12 +100,6 @@ template<class T>
 T tag_primitive<T>::get() const
 {
     return value;
-}
-
-template<class T>
-tag_type tag_primitive<T>::get_type() const noexcept
-{
-    return type;
 }
 
 template<class T>

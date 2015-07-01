@@ -79,11 +79,6 @@ auto tag_compound::end() const    -> const_iterator { return tags.end(); }
 auto tag_compound::cbegin() const -> const_iterator { return tags.cbegin(); }
 auto tag_compound::cend() const   -> const_iterator { return tags.cend(); }
 
-tag_type tag_compound::get_type() const noexcept
-{
-    return type;
-}
-
 bool operator==(const tag_compound& lhs, const tag_compound& rhs)
 {
     return lhs.tags == rhs.tags;

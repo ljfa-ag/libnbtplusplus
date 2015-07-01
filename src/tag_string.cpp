@@ -67,11 +67,6 @@ void tag_string::set(std::string&& str)
     value = std::move(str);
 }
 
-tag_type tag_string::get_type() const noexcept
-{
-    return type;
-}
-
 bool operator==(const tag_string& lhs, const tag_string& rhs)
 {
     return lhs.get() == rhs.get();

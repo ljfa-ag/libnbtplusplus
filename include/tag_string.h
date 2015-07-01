@@ -45,8 +45,6 @@ public:
     void set(const std::string& str);
     void set(std::string&& str);
 
-    tag_type get_type() const noexcept override;
-
 private:
     std::string value;
 };

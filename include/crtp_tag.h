@@ -32,12 +32,26 @@ namespace detail
     class crtp_tag : public tag
     {
     public:
+        //Pure virtual destructor to make the class abstract
+        virtual ~crtp_tag() = 0;
+
+        tag_type get_type() const noexcept override final;
+
         std::unique_ptr<tag> move_clone() && override final;
 
     private:
         bool equals(const tag& rhs) const override final;
         tag& assign(tag&& rhs) override final;
     };
+
+    template<class Sub>
+    crtp_tag<Sub>::~crtp_tag() {}
+
+    template<class Sub>
+    tag_type crtp_tag<Sub>::get_type() const noexcept
+    {
+        return Sub::type;
+    }
 
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::move_clone() &&

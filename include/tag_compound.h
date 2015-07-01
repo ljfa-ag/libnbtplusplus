@@ -107,8 +107,6 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
-    tag_type get_type() const noexcept override;
-
     friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
     friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 
