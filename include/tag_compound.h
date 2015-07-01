@@ -115,6 +115,9 @@ private:
     std::map<std::string, value> tags;
 
     bool equals(const tag& rhs) const override;
+
+    friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
+    friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 };
 
 template<class T, class... Args>

@@ -55,6 +55,9 @@ private:
     bool equals(const tag& rhs) const override;
 };
 
+bool operator==(const tag_string& lhs, const tag_string& rhs);
+bool operator!=(const tag_string& lhs, const tag_string& rhs);
+
 }
 
 #endif // TAG_STRING_H_INCLUDED

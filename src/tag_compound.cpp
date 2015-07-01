@@ -91,7 +91,17 @@ std::unique_ptr<tag> tag_compound::move_clone() &&
 
 bool tag_compound::equals(const tag& rhs) const
 {
-    return tags == static_cast<const tag_compound&>(rhs).tags;
+    return *this == static_cast<const tag_compound&>(rhs);
+}
+
+bool operator==(const tag_compound& lhs, const tag_compound& rhs)
+{
+    return lhs.tags == rhs.tags;
+}
+
+bool operator!=(const tag_compound& lhs, const tag_compound& rhs)
+{
+    return !(lhs == rhs);
 }
 
 }

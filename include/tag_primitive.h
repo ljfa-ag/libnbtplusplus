@@ -61,6 +61,9 @@ private:
     bool equals(const tag& rhs) const override;
 };
 
+template<class T> bool operator==(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs);
+template<class T> bool operator!=(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs);
+
 //Typedefs that should be used instead of the template tag_primitive.
 typedef tag_primitive<int8_t> tag_byte;
 typedef tag_primitive<int16_t> tag_short;
@@ -120,7 +123,19 @@ std::unique_ptr<tag> tag_primitive<T>::move_clone() &&
 template<class T>
 bool tag_primitive<T>::equals(const tag& rhs) const
 {
-    return value == static_cast<const tag_primitive<T>&>(rhs).value;
+    return *this == static_cast<const tag_primitive<T>&>(rhs);
+}
+
+template<class T>
+bool operator==(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs)
+{
+    return lhs.get() == rhs.get();
+}
+
+template<class T>
+bool operator!=(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs)
+{
+    return !(lhs == rhs);
 }
 
 }
