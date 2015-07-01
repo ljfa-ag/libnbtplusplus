@@ -94,6 +94,11 @@ bool tag_compound::equals(const tag& rhs) const
     return *this == static_cast<const tag_compound&>(rhs);
 }
 
+tag_compound& tag_compound::assign(tag&& rhs)
+{
+    return *this = dynamic_cast<tag_compound&&>(rhs);
+}
+
 bool operator==(const tag_compound& lhs, const tag_compound& rhs)
 {
     return lhs.tags == rhs.tags;

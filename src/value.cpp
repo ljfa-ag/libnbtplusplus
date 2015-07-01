@@ -19,6 +19,7 @@
  */
 #include "value.h"
 #include "libnbt.h"
+#include <typeinfo>
 
 namespace nbt
 {
@@ -35,7 +36,8 @@ value& value::operator=(std::unique_ptr<tag>&& t)
 
 value& value::operator=(tag&& t)
 {
-    return *this = std::move(t).move_clone();
+    tag_->assign(std::move(t));
+    return *this;
 }
 
 tag_type value::get_type() const

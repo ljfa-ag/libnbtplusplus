@@ -53,6 +53,8 @@ private:
     std::string value;
 
     bool equals(const tag& rhs) const override;
+
+    tag_string& assign(tag&& rhs) override;
 };
 
 bool operator==(const tag_string& lhs, const tag_string& rhs);

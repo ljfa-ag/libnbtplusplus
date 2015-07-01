@@ -64,6 +64,14 @@ private:
      * @param rhs an instance of the same class as @c *this
      */
     virtual bool equals(const tag& rhs) const = 0;
+
+    /**
+     * @brief Assigns the given tag if the class is the same
+     * @throw std::bad_cast if @c rhs is not the same type as @c *this
+     */
+    virtual tag& assign(tag&& rhs) = 0;
+
+    friend class value;
 };
 
 }

@@ -82,6 +82,11 @@ bool tag_string::equals(const tag& rhs) const
     return *this == static_cast<const tag_string&>(rhs);
 }
 
+tag_string& tag_string::assign(tag&& rhs)
+{
+    return *this = dynamic_cast<tag_string&&>(rhs);
+}
+
 bool operator==(const tag_string& lhs, const tag_string& rhs)
 {
     return lhs.get() == rhs.get();

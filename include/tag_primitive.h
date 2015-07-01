@@ -59,6 +59,8 @@ private:
     T value;
 
     bool equals(const tag& rhs) const override;
+
+    tag_primitive<T>& assign(tag&& rhs) override;
 };
 
 template<class T> bool operator==(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs);
@@ -124,6 +126,12 @@ template<class T>
 bool tag_primitive<T>::equals(const tag& rhs) const
 {
     return *this == static_cast<const tag_primitive<T>&>(rhs);
+}
+
+template<class T>
+tag_primitive<T>& tag_primitive<T>::assign(tag&& rhs)
+{
+    return *this = dynamic_cast<tag_primitive<T>&&>(rhs);
 }
 
 template<class T>
