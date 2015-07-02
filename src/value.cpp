@@ -28,16 +28,30 @@ value::value(std::unique_ptr<tag>&& t):
     tag_(std::move(t))
 {}
 
-value& value::operator=(std::unique_ptr<tag>&& t)
-{
-    tag_ = std::move(t);
-    return *this;
-}
-
 value& value::operator=(tag&& t)
 {
     tag_->assign(std::move(t));
     return *this;
+}
+
+value::operator bool() const
+{
+    return tag_ != nullptr;
+}
+
+std::unique_ptr<tag>& value::get_ptr()
+{
+    return tag_;
+}
+
+const std::unique_ptr<tag>& value::get_ptr() const
+{
+    return tag_;
+}
+
+void value::set_ptr(std::unique_ptr<tag>&& t)
+{
+    tag_ = std::move(t);
 }
 
 tag_type value::get_type() const

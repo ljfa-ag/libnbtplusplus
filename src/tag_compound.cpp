@@ -42,7 +42,7 @@ bool tag_compound::put(const std::string& key, std::unique_ptr<tag>&& t)
     auto it = tags.find(key);
     if(it != tags.end())
     {
-        it->second = std::move(t);
+        it->second.set_ptr(std::move(t));
         return false;
     }
     else

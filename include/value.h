@@ -34,22 +34,20 @@ class tag_list;
 /**
  * @brief Contains an NBT value of fixed type
  *
- * A wrapper class that contains a dynamically allocated tag of a fixed type.
- * Casting or assigning incompatible types will throw a exceptions.
+ * A convenience wrapper around @c std::unique_ptr<tag>, contains a tag of
+ * fixed type.
  */
 class value
 {
 public:
     explicit value() {}
+    explicit value(std::unique_ptr<tag>&& t);
 
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
     value(value&&) = default;
     value& operator=(const value&) = delete;
     value& operator=(value&&) = default;
-
-    explicit value(std::unique_ptr<tag>&& t);
-    value& operator=(std::unique_ptr<tag>&& t);
 
     /**
      * @brief Assigns the given value to the tag if the type matches
@@ -90,6 +88,9 @@ public:
     operator double() const;
     operator const std::string&() const;
 
+    ///Returns true if the contained tag is not @c nullptr
+    explicit operator bool() const;
+
     /**
      * @brief In case of a tag_compound, accesses a tag by key with bounds checking
      * @throw std::bad_cast if the tag type is not tag_compound
@@ -106,6 +107,10 @@ public:
      */
     value& operator[](const std::string& key);
     const value& operator[](const std::string& key) const;
+
+    std::unique_ptr<tag>& get_ptr();
+    const std::unique_ptr<tag>& get_ptr() const;
+    void set_ptr(std::unique_ptr<tag>&& t);
 
     ///@sa tag::get_type
     tag_type get_type() const;
