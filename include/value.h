@@ -40,7 +40,7 @@ class tag_list;
 class value
 {
 public:
-    explicit value() {}
+    value() {}
     explicit value(std::unique_ptr<tag>&& t);
 
     //Movable but not (implicitly) copyable
