@@ -77,11 +77,11 @@ void test_tag_string()
 
 void test_tag_compound()
 {
-    tag_compound comp/*{
+    tag_compound comp{
         {"foo", int16_t(12)},
         {"bar", "baz"},
         {"baz", -2.0}
-    }*/;
+    };
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
     ASSERT(int32_t(comp["foo"]) == 12);
@@ -111,12 +111,12 @@ void test_tag_compound()
 
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
-    tag_compound comp2/*{
+    tag_compound comp2{
         {"foo", int16_t(32)},
         {"bar", "barbaz"},
         {"baz", -2.0},
         {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}}
-    }*/;
+    };
     ASSERT(comp == comp2);
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
     ASSERT(comp != comp2["quux"]);
@@ -144,7 +144,7 @@ void test_tag_compound()
     ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_long(-28))) == false);
     ASSERT(comp.emplace<tag_string>("def", "ghi") == true);
     ASSERT(comp.emplace<tag_byte>("def", 4) == false);
-    ASSERT((comp == tag_compound{/*{"abc", tag_long(-28)}, {"def", tag_byte(4)}*/}));
+    ASSERT((comp == tag_compound{{"abc", tag_long(-28)}, {"def", tag_byte(4)}}));
 }
 
 int main()

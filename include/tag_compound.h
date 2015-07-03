@@ -22,6 +22,7 @@
 
 #include "crtp_tag.h"
 #include "value.h"
+#include "value_initializer.h"
 #include <map>
 #include <string>
 
@@ -42,8 +43,7 @@ public:
     ///Constructs an empty compound
     tag_compound() {}
 
-    //TODO: Make a separate class similar to and convertible to value for initializing tag values
-    //tag_compound(std::initializer_list<std::pair<std::string, value&&>> init);
+    tag_compound(std::initializer_list<std::pair<std::string, value_initializer&&>> init);
 
     /**
      * @brief Accesses a tag by key with bounds checking

@@ -22,6 +22,12 @@
 namespace nbt
 {
 
+tag_compound::tag_compound(std::initializer_list<std::pair<std::string, value_initializer&&>> init)
+{
+    for(auto& pair: init)
+        tags.emplace(pair);
+}
+
 value& tag_compound::at(const std::string& key)
 {
     return tags.at(key);
