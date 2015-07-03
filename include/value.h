@@ -42,6 +42,7 @@ class value
 public:
     value() {}
     explicit value(std::unique_ptr<tag>&& t);
+    explicit value(tag&& t);
 
     //Movable but not (implicitly) copyable
     value(const value&) = delete;
