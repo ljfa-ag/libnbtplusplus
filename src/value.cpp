@@ -34,6 +34,22 @@ value& value::operator=(tag&& t)
     return *this;
 }
 
+value& value::operator=(const std::string& str)
+{
+    return *this = std::move(std::string(str));
+}
+
+value& value::operator=(std::string&& str)
+{
+    dynamic_cast<tag_string&>(*tag_).set(std::move(str));
+    return *this;
+}
+
+value::operator const std::string&() const
+{
+    return dynamic_cast<tag_string&>(*tag_).get();
+}
+
 value::operator bool() const
 {
     return tag_ != nullptr;
