@@ -120,7 +120,6 @@ public:
      * @sa tag_compound::operator[]
      */
     value& operator[](const std::string& key);
-    const value& operator[](const std::string& key) const;
 
     std::unique_ptr<tag>& get_ptr();
     const std::unique_ptr<tag>& get_ptr() const;

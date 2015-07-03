@@ -314,6 +314,21 @@ value::operator bool() const
     return tag_ != nullptr;
 }
 
+value& value::at(const std::string& key)
+{
+    return dynamic_cast<tag_compound&>(*tag_).at(key);
+}
+
+const value& value::at(const std::string& key) const
+{
+    return dynamic_cast<const tag_compound&>(*tag_).at(key);
+}
+
+value& value::operator[](const std::string& key)
+{
+    return dynamic_cast<tag_compound&>(*tag_)[key];
+}
+
 std::unique_ptr<tag>& value::get_ptr()
 {
     return tag_;
