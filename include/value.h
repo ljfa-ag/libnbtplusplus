@@ -27,10 +27,6 @@
 namespace nbt
 {
 
-//Forward declarations
-class tag_compound;
-class tag_list;
-
 /**
  * @brief Contains an NBT value of fixed type
  *
