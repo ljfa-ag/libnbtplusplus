@@ -34,6 +34,240 @@ value& value::operator=(tag&& t)
     return *this;
 }
 
+//Primitive assignment
+//FIXME: Make this less copypaste!
+value& value::operator=(int8_t val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        static_cast<tag_byte&>(*tag_).set(val);
+        break;
+    case tag_type::Short:
+        static_cast<tag_short&>(*tag_).set(val);
+        break;
+    case tag_type::Int:
+        static_cast<tag_int&>(*tag_).set(val);
+        break;
+    case tag_type::Long:
+        static_cast<tag_long&>(*tag_).set(val);
+        break;
+    case tag_type::Float:
+        static_cast<tag_float&>(*tag_).set(val);
+        break;
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+value& value::operator=(int16_t val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Short:
+        static_cast<tag_short&>(*tag_).set(val);
+        break;
+    case tag_type::Int:
+        static_cast<tag_int&>(*tag_).set(val);
+        break;
+    case tag_type::Long:
+        static_cast<tag_long&>(*tag_).set(val);
+        break;
+    case tag_type::Float:
+        static_cast<tag_float&>(*tag_).set(val);
+        break;
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+value& value::operator=(int32_t val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Int:
+        static_cast<tag_int&>(*tag_).set(val);
+        break;
+    case tag_type::Long:
+        static_cast<tag_long&>(*tag_).set(val);
+        break;
+    case tag_type::Float:
+        static_cast<tag_float&>(*tag_).set(val);
+        break;
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+value& value::operator=(int64_t val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Long:
+        static_cast<tag_long&>(*tag_).set(val);
+        break;
+    case tag_type::Float:
+        static_cast<tag_float&>(*tag_).set(val);
+        break;
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+value& value::operator=(float val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Float:
+        static_cast<tag_float&>(*tag_).set(val);
+        break;
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+value& value::operator=(double val)
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Double:
+        static_cast<tag_double&>(*tag_).set(val);
+        break;
+
+    default:
+        throw std::bad_cast();
+    }
+    return *this;
+}
+
+//Primitive conversion
+value::operator int8_t() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
+value::operator int16_t() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+    case tag_type::Short:
+        return static_cast<tag_short&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
+value::operator int32_t() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+    case tag_type::Short:
+        return static_cast<tag_short&>(*tag_).get();
+    case tag_type::Int:
+        return static_cast<tag_int&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
+value::operator int64_t() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+    case tag_type::Short:
+        return static_cast<tag_short&>(*tag_).get();
+    case tag_type::Int:
+        return static_cast<tag_int&>(*tag_).get();
+    case tag_type::Long:
+        return static_cast<tag_long&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
+value::operator float() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+    case tag_type::Short:
+        return static_cast<tag_short&>(*tag_).get();
+    case tag_type::Int:
+        return static_cast<tag_int&>(*tag_).get();
+    case tag_type::Long:
+        return static_cast<tag_long&>(*tag_).get();
+    case tag_type::Float:
+        return static_cast<tag_float&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
+value::operator double() const
+{
+    switch(tag_->get_type())
+    {
+    case tag_type::Byte:
+        return static_cast<tag_byte&>(*tag_).get();
+    case tag_type::Short:
+        return static_cast<tag_short&>(*tag_).get();
+    case tag_type::Int:
+        return static_cast<tag_int&>(*tag_).get();
+    case tag_type::Long:
+        return static_cast<tag_long&>(*tag_).get();
+    case tag_type::Float:
+        return static_cast<tag_float&>(*tag_).get();
+    case tag_type::Double:
+        return static_cast<tag_double&>(*tag_).get();
+
+    default:
+        throw std::bad_cast();
+    }
+}
+
 value& value::operator=(const std::string& str)
 {
     return *this = std::move(std::string(str));
