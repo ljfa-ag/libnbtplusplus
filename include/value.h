@@ -56,6 +56,10 @@ public:
      */
     value& operator=(tag&& t);
 
+    //Conversion to tag
+    operator tag&();
+    operator const tag&() const;
+
     //Assignment of primitives and string
     /**
      * @brief Assigns the given value to the tag if the type is compatible
@@ -68,15 +72,17 @@ public:
     value& operator=(int64_t val);
     value& operator=(float val);
     value& operator=(double val);
-    value& operator=(const std::string& str);
 
-    //Conversion to tag
-    operator tag&();
-    operator const tag&() const;
+    /**
+     * @brief Assigns the given string to the tag if it is a tag_string
+     * @throw std::bad_cast if the contained tag is not a tag_string
+     */
+    value& operator=(const std::string& str);
+    value& operator=(std::string&& str);
 
     //Conversions to primitives and string
     /**
-     * @brief Casts the value if the type matches
+     * @brief Returns the contained value if the type is compatible
      * @throw std::bad_cast if the tag type is not convertible to the desired
      * type via a widening conversion
      */
@@ -86,9 +92,14 @@ public:
     operator int64_t() const;
     operator float() const;
     operator double() const;
+
+    /**
+     * @brief Returns the contained string if the type is tag_string
+     * @throw std::bad_cast if the tag type is not tag_string
+     */
     operator const std::string&() const;
 
-    ///Returns true if the contained tag is not @c nullptr
+    ///Returns true if the value is not uninitialized
     explicit operator bool() const;
 
     /**
