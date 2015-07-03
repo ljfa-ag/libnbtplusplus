@@ -30,8 +30,33 @@ value::value(std::unique_ptr<tag>&& t):
 
 value& value::operator=(tag&& t)
 {
-    tag_->assign(std::move(t));
+    set(std::move(t));
     return *this;
+}
+
+void value::set(tag&& t)
+{
+    tag_->assign(std::move(t));
+}
+
+value::operator tag&()
+{
+    return get();
+}
+
+value::operator const tag&() const
+{
+    return get();
+}
+
+tag& value::get()
+{
+    return *tag_;
+}
+
+const tag& value::get() const
+{
+    return *tag_;
 }
 
 //Primitive assignment

@@ -55,10 +55,13 @@ public:
      * of this value
      */
     value& operator=(tag&& t);
+    void set(tag&& t);
 
     //Conversion to tag
     operator tag&();
     operator const tag&() const;
+    tag& get();
+    const tag& get() const;
 
     //Assignment of primitives and string
     /**
