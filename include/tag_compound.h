@@ -117,7 +117,7 @@ private:
 template<class T, class... Args>
 bool tag_compound::emplace(const std::string& key, Args&&... args)
 {
-    return put(key, new T(std::forward<Args>(args)...));
+    return put(key, std::unique_ptr<tag>(new T(std::forward<Args>(args)...)));
 }
 
 }
