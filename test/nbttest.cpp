@@ -89,9 +89,17 @@ void test_tag_compound()
     EXPECT_EXCEPTION(int8_t(comp["foo"]), std::bad_cast);
     EXPECT_EXCEPTION(std::string(comp["foo"]), std::bad_cast);
 
+    EXPECT_EXCEPTION(comp["foo"] = 32, std::bad_cast);
+    comp["foo"] = int8_t(32);
+    ASSERT(int8_t(comp["foo"]) == 32);
+
     ASSERT(comp["bar"].get_type() == tag_type::String);
     ASSERT(std::string(comp["bar"]) == "baz");
     EXPECT_EXCEPTION(int(comp["bar"]), std::bad_cast);
+
+    EXPECT_EXCEPTION(comp["bar"] = -128, std::bad_cast);
+    comp["bar"] = "barbaz";
+    ASSERT(std::string(comp["foo"]) == "barbaz");
 
     ASSERT(comp["baz"].get_type() == tag_type::Double);
     ASSERT(double(comp["baz"]) == -2.0);
@@ -104,8 +112,8 @@ void test_tag_compound()
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
     tag_compound comp2/*{
-        {"foo", int16_t(12)},
-        {"bar", "baz"},
+        {"foo", int16_t(32)},
+        {"bar", "barbaz"},
         {"baz", -2.0},
         {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}}
     }*/;
@@ -113,7 +121,16 @@ void test_tag_compound()
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
     ASSERT(comp != comp2["quux"]);
 
-    ASSERT(comp.size() == 4);
+    ASSERT(comp2.size() == 4);
+    const char* keys[] = {"bar", "baz", "foo", "quux"}; //alphabetic order
+    unsigned i = 0;
+    for(const std::pair<const std::string, value>& val: comp2)
+    {
+        ASSERT(i < comp2.size());
+        ASSERT(val.first == keys[i]);
+        ASSERT(val.second == comp2[keys[i]]);
+        ++i;
+    }
 
     ASSERT(comp.erase("nothing") == false);
     ASSERT(comp.has_key("quux"));
@@ -122,6 +139,12 @@ void test_tag_compound()
 
     comp.clear();
     ASSERT(comp == tag_compound{});
+
+    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_double(6.0))) == true);
+    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_long(-28))) == false);
+    ASSERT(comp.emplace<tag_string>("def", "ghi") == true);
+    ASSERT(comp.emplace<tag_byte>("def", 4) == false);
+    ASSERT((comp == tag_compound{/*{"abc", tag_long(-28)}, {"def", tag_byte(4)}*/}));
 }
 
 int main()
