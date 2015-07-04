@@ -64,7 +64,7 @@ namespace detail
     template<class Sub>
     bool crtp_tag<Sub>::equals(const tag& rhs) const
     {
-        return *this == static_cast<const Sub&>(rhs);
+        return static_cast<const Sub&>(*this) == static_cast<const Sub&>(rhs);
     }
 
     template<class Sub>
