@@ -43,7 +43,7 @@ public:
     ///Constructs an empty compound
     tag_compound() {}
 
-    tag_compound(std::initializer_list<std::pair<std::string, value_initializer&&>> init);
+    tag_compound(std::initializer_list<std::pair<std::string, value_initializer>> init);
 
     /**
      * @brief Accesses a tag by key with bounds checking
