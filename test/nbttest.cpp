@@ -91,7 +91,7 @@ void test_tag_compound()
 
     EXPECT_EXCEPTION(comp["foo"] = 32, std::bad_cast);
     comp["foo"] = int8_t(32);
-    ASSERT(int8_t(comp["foo"]) == 32);
+    ASSERT(int16_t(comp["foo"]) == 32);
 
     ASSERT(comp["bar"].get_type() == tag_type::String);
     ASSERT(std::string(comp["bar"]) == "baz");
@@ -99,13 +99,13 @@ void test_tag_compound()
 
     EXPECT_EXCEPTION(comp["bar"] = -128, std::bad_cast);
     comp["bar"] = "barbaz";
-    ASSERT(std::string(comp["foo"]) == "barbaz");
+    ASSERT(std::string(comp["bar"]) == "barbaz");
 
     ASSERT(comp["baz"].get_type() == tag_type::Double);
     ASSERT(double(comp["baz"]) == -2.0);
     EXPECT_EXCEPTION(float(comp["baz"]), std::bad_cast);
 
-    comp["quux"] = tag_compound{/*{"Hello", "World"}, {"zero", 0}*/};
+    comp["quux"] = tag_compound{{"Hello", "World"}, {"zero", 0}};
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
 
