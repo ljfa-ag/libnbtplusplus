@@ -40,7 +40,8 @@ enum class tag_type : int8_t
     String = 8,
     List = 9,
     Compound = 10,
-    Int_Array = 11
+    Int_Array = 11,
+    Null = -1
 };
 
 ///Base class for all NBT tag classes

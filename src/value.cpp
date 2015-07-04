@@ -40,7 +40,10 @@ value& value::operator=(tag&& t)
 
 void value::set(tag&& t)
 {
-    tag_->assign(std::move(t));
+    if(tag_)
+        tag_->assign(std::move(t));
+    else
+        tag_ = std::move(t).move_clone();
 }
 
 value::operator tag&()
@@ -67,7 +70,9 @@ const tag& value::get() const
 //FIXME: Make this less copypaste!
 value& value::operator=(int8_t val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_byte(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Byte:
         static_cast<tag_byte&>(*tag_).set(val);
@@ -96,7 +101,9 @@ value& value::operator=(int8_t val)
 
 value& value::operator=(int16_t val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_short(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Short:
         static_cast<tag_short&>(*tag_).set(val);
@@ -122,7 +129,9 @@ value& value::operator=(int16_t val)
 
 value& value::operator=(int32_t val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_int(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Int:
         static_cast<tag_int&>(*tag_).set(val);
@@ -145,7 +154,9 @@ value& value::operator=(int32_t val)
 
 value& value::operator=(int64_t val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_long(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Long:
         static_cast<tag_long&>(*tag_).set(val);
@@ -165,7 +176,9 @@ value& value::operator=(int64_t val)
 
 value& value::operator=(float val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_float(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Float:
         static_cast<tag_float&>(*tag_).set(val);
@@ -182,7 +195,9 @@ value& value::operator=(float val)
 
 value& value::operator=(double val)
 {
-    switch(tag_->get_type())
+    if(!tag_)
+        set(tag_double(val));
+    else switch(tag_->get_type())
     {
     case tag_type::Double:
         static_cast<tag_double&>(*tag_).set(val);
@@ -304,7 +319,10 @@ value& value::operator=(const std::string& str)
 
 value& value::operator=(std::string&& str)
 {
-    dynamic_cast<tag_string&>(*tag_).set(std::move(str));
+    if(!tag_)
+        set(tag_string(std::move(str)));
+    else
+        dynamic_cast<tag_string&>(*tag_).set(std::move(str));
     return *this;
 }
 
@@ -350,12 +368,15 @@ void value::set_ptr(std::unique_ptr<tag>&& t)
 
 tag_type value::get_type() const
 {
-    return tag_->get_type();
+    return tag_ ? tag_->get_type() : tag_type::Null;
 }
 
 bool operator==(const value& lhs, const value& rhs)
 {
-    return *lhs.tag_ == *rhs.tag_;
+    if(lhs.tag_ != nullptr && rhs.tag_ != nullptr)
+        return *lhs.tag_ == *rhs.tag_;
+    else
+        return lhs.tag_ == nullptr && rhs.tag_ == nullptr;
 }
 
 bool operator!=(const value& lhs, const value& rhs)
