@@ -20,7 +20,6 @@
 #include "microtest.h"
 #include "libnbt.h"
 #include <iostream>
-#include <stdexcept>
 
 using namespace nbt;
 

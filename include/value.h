@@ -21,7 +21,6 @@
 #define TAG_REF_PROXY_H_INCLUDED
 
 #include "tag.h"
-#include <memory>
 #include <string>
 
 namespace nbt

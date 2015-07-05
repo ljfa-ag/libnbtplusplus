@@ -21,8 +21,6 @@
 #define VALUE_INITIALIZER_H_INCLUDED
 
 #include "value.h"
-#include <memory>
-#include <string>
 
 namespace nbt
 {
