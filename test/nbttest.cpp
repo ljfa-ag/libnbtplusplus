@@ -36,6 +36,7 @@ void test_get_type()
     //ASSERT(tag_list().get_type()       == tag_type::List);
     ASSERT(tag_compound().get_type()   == tag_type::Compound);
     //ASSERT(tag_int_array().get_type()  == tag_type::Int_Array);
+    std::clog << "test_get_type passed" << std::endl;
 }
 
 void test_tag_primitive()
@@ -52,6 +53,7 @@ void test_tag_primitive()
     ASSERT(7 == static_cast<int>(tag));
 
     ASSERT(tag_double() == 0.0);
+    std::clog << "test_tag_primitive passed" << std::endl;
 }
 
 void test_tag_string()
@@ -72,6 +74,7 @@ void test_tag_string()
 
     ASSERT(tag_string(str).get() == "foo");
     ASSERT(tag_string().get() == "");
+    std::clog << "test_tag_string passed" << std::endl;
 }
 
 void test_tag_compound()
@@ -144,6 +147,8 @@ void test_tag_compound()
     ASSERT(comp.emplace<tag_string>("def", "ghi") == true);
     ASSERT(comp.emplace<tag_byte>("def", 4) == false);
     ASSERT((comp == tag_compound{{"abc", tag_long(-28)}, {"def", tag_byte(4)}}));
+
+    std::clog << "test_tag_compound passed" << std::endl;
 }
 
 int main()
