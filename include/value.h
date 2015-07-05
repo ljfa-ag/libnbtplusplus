@@ -115,6 +115,7 @@ public:
      * @sa tag_compound::operator[]
      */
     value& operator[](const std::string& key);
+    value& operator[](const char* key); //need this overload because of conflict with built-in operator[]
 
     std::unique_ptr<tag>& get_ptr();
     const std::unique_ptr<tag>& get_ptr() const;

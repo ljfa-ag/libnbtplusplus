@@ -351,6 +351,11 @@ value& value::operator[](const std::string& key)
     return dynamic_cast<tag_compound&>(*tag_)[key];
 }
 
+value& value::operator[](const char* key)
+{
+    return (*this)[std::string(key)];
+}
+
 std::unique_ptr<tag>& value::get_ptr()
 {
     return tag_;
