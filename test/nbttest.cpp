@@ -110,6 +110,7 @@ void test_tag_compound()
     comp["quux"] = tag_compound{{"Hello", "World"}, {"zero", 0}};
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
+    ASSERT(std::string(comp["quux"]["Hello"]) == "World");
 
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
@@ -151,10 +152,54 @@ void test_tag_compound()
     std::clog << "test_tag_compound passed" << std::endl;
 }
 
+void test_value()
+{
+    value val1;
+    value val2(std::unique_ptr<tag>(new tag_int(42)));
+    value val3(tag_int(42));
+
+    ASSERT(!val1 && val2 && val3);
+    ASSERT(val1 == val1);
+    ASSERT(val1 != val2);
+    ASSERT(val2 == val3);
+    ASSERT(val3 == val3);
+
+    val1 = int64_t(42);
+    ASSERT(val2 != val1);
+    EXPECT_EXCEPTION(val2 = int64_t(12), std::bad_cast);
+    ASSERT(int64_t(val2) == 42);
+    val2 = 52;
+    ASSERT(int32_t(val2) == 52);
+
+    EXPECT_EXCEPTION(val1["foo"], std::bad_cast);
+    EXPECT_EXCEPTION(val1.at("foo"), std::bad_cast);
+
+    val3 = 52;
+    ASSERT(val2 == val3);
+    ASSERT(val2.get_ptr() != val3.get_ptr());
+
+    val3 = std::move(val2);
+    ASSERT(val3 == tag_int(52));
+    ASSERT(!val2);
+
+    tag_int& tag = dynamic_cast<tag_int&>(val3.get());
+    ASSERT(tag == tag_int(52));
+    tag = 21;
+    ASSERT(int32_t(val3) == 21);
+    val1.set_ptr(std::move(val3.get_ptr()));
+    ASSERT(tag_int(val1) == 21);
+
+    ASSERT(val1.get_type() == tag_type::Int);
+    ASSERT(val2.get_type() == tag_type::Null);
+    ASSERT(val3.get_type() == tag_type::Null);
+    std::clog << "test_value passed" << std::endl;
+}
+
 int main()
 {
     test_get_type();
     test_tag_primitive();
     test_tag_string();
     test_tag_compound();
+    test_value();
 }
