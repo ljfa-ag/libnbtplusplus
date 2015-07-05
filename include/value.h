@@ -113,7 +113,6 @@ public:
 
     /**
      * @brief In case of a tag_compound, accesses a tag by key
-     * @throw std::bad_cast if the tag type is not tag_compound
      * @sa tag_compound::operator[]
      */
     value& operator[](const std::string& key);

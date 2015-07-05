@@ -58,10 +58,8 @@ public:
     /**
      * @brief Accesses a tag by key
      *
-     * Returns a value to the tag with the specified key, or throws an
-     * exception if it does not exist.
-     * @throw std::out_of_range if given key does not exist
-     * @todo Make it create a new entry rather than throwing an exception
+     * Returns a value to the tag with the specified key. If it does not exist,
+     * creates a new uninitialized entry under the key.
      */
     value& operator[](const std::string& key);
 
