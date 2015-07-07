@@ -45,11 +45,13 @@ public:
     value_initializer(std::string&& str);
     value_initializer(const char* str);
 
-    value& get() const;
+    value& get();
+    const value& get() const;
+    operator value&();
+    operator const value&() const;
 
 private:
-    mutable value value_; //FIXME: std::initializer_list objects are constant.
-                          //This solution will probably fail
+    value value_;
 };
 
 }

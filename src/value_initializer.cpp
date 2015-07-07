@@ -37,6 +37,9 @@ value_initializer::value_initializer(const std::string& str): value_(tag_string(
 value_initializer::value_initializer(std::string&& str): value_(tag_string(std::move(str))) {}
 value_initializer::value_initializer(const char* str): value_(tag_string(str)) {}
 
-value& value_initializer::get() const { return value_; }
+value& value_initializer::get() { return value_; }
+const value& value_initializer::get() const { return value_; }
+value_initializer::operator value&() { return value_; }
+value_initializer::operator const value&() const { return value_; }
 
 }
