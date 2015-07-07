@@ -21,7 +21,6 @@
 #define TAG_COMPOUND_H_INCLUDED
 
 #include "crtp_tag.h"
-#include "value.h"
 #include "value_initializer.h"
 #include <map>
 #include <string>

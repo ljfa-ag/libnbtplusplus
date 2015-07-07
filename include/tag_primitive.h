@@ -22,7 +22,6 @@
 
 #include "crtp_tag.h"
 #include "primitive_detail.h"
-#include <type_traits>
 
 namespace nbt
 {

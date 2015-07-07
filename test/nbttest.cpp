@@ -19,7 +19,6 @@
  */
 #include "microtest.h"
 #include "libnbt.h"
-#include <iostream>
 
 using namespace nbt;
 
