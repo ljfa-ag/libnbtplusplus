@@ -37,6 +37,7 @@ namespace detail
 
         tag_type get_type() const noexcept override final;
 
+        std::unique_ptr<tag> clone() const& override final;
         std::unique_ptr<tag> move_clone() && override final;
 
     private:
@@ -52,6 +53,15 @@ namespace detail
     {
         return Sub::type;
     }
+
+    //TODO: Add copy constructors for tags that are missing it before this becomes useable
+    /*template<class Sub>
+    std::unique_ptr<tag> crtp_tag<Sub>::clone() const&
+    {
+        return std::unique_ptr<tag>(
+            new Sub(static_cast<const Sub&>(*this))
+        );
+    }*/
 
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::move_clone() &&

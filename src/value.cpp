@@ -356,6 +356,11 @@ value& value::operator[](const char* key)
     return (*this)[std::string(key)];
 }
 
+value value::copy() const
+{
+    return value(tag_->clone());
+}
+
 std::unique_ptr<tag>& value::get_ptr()
 {
     return tag_;
