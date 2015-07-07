@@ -54,6 +54,11 @@ public:
     void set(tag&& t);
 
     //Conversion to tag
+    /**
+     * @brief Returns the contained tag
+     *
+     * If the value is uninitialized, the behavior is undefined.
+     */
     operator tag&();
     operator const tag&() const;
     tag& get();
@@ -94,6 +99,8 @@ public:
 
     /**
      * @brief Returns the contained string if the type is tag_string
+     *
+     * If the value is uninitialized, the behavior is undefined.
      * @throw std::bad_cast if the tag type is not tag_string
      */
     operator const std::string&() const;
@@ -103,6 +110,8 @@ public:
 
     /**
      * @brief In case of a tag_compound, accesses a tag by key with bounds checking
+     *
+     * If the value is uninitialized, the behavior is undefined.
      * @throw std::bad_cast if the tag type is not tag_compound
      * @throw std::out_of_range if given key does not exist
      * @sa tag_compound::at
@@ -112,6 +121,8 @@ public:
 
     /**
      * @brief In case of a tag_compound, accesses a tag by key
+     *
+     * If the value is uninitialized, the behavior is undefined.
      * @sa tag_compound::operator[]
      */
     value& operator[](const std::string& key);
