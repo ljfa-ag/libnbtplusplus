@@ -54,7 +54,6 @@ namespace detail
         return Sub::type;
     }
 
-    //TODO: Add copy constructors for tags that are missing it before this becomes useable
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::clone() const&
     {
