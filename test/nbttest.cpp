@@ -143,10 +143,10 @@ void test_tag_compound()
     comp.clear();
     ASSERT(comp == tag_compound{});
 
-    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_double(6.0))) == true);
-    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_long(-28))) == false);
-    ASSERT(comp.emplace<tag_string>("def", "ghi") == true);
-    ASSERT(comp.emplace<tag_byte>("def", 4) == false);
+    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_double(6.0))).second == true);
+    ASSERT(comp.put("abc", std::unique_ptr<tag>(new tag_long(-28))).second == false);
+    ASSERT(comp.emplace<tag_string>("def", "ghi").second == true);
+    ASSERT(comp.emplace<tag_byte>("def", 4).second == false);
     ASSERT((comp == tag_compound{{"abc", tag_long(-28)}, {"def", tag_byte(4)}}));
 
     std::clog << "test_tag_compound passed" << std::endl;

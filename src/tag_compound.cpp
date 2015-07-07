@@ -43,18 +43,17 @@ value& tag_compound::operator[](const std::string& key)
     return tags[key];
 }
 
-bool tag_compound::put(const std::string& key, std::unique_ptr<tag>&& t)
+std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key, std::unique_ptr<tag>&& t)
 {
     auto it = tags.find(key);
     if(it != tags.end())
     {
         it->second.set_ptr(std::move(t));
-        return false;
+        return {it, false};
     }
     else
     {
-        tags.emplace(key, value(std::move(t)));
-        return true;
+        return tags.emplace(key, value(std::move(t)));
     }
 }
 

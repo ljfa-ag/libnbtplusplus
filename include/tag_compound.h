@@ -68,19 +68,21 @@ public:
      *
      * If the given key already exists, assigns the tag to it.
      * Otherwise, it is inserted under the given key.
-     * @return true if the key did not exist
+     * @return a pair of the iterator to the value and a bool indicating
+     * whether the key did not exist
      */
-    bool put(const std::string& key, std::unique_ptr<tag>&& t);
+    std::pair<iterator, bool> put(const std::string& key, std::unique_ptr<tag>&& t);
 
     /**
      * @brief Constructs and assigns or inserts a tag into the compound
      *
      * Constructs a new tag of type @c T with the given args and inserts
      * or assigns it to the given key.
-     * @return true if the key did not exist
+     * @return a pair of the iterator to the value and a bool indicating
+     * whether the key did not exist
      */
     template<class T, class... Args>
-    bool emplace(const std::string& key, Args&&... args);
+    std::pair<iterator, bool> emplace(const std::string& key, Args&&... args);
 
     /**
      * @brief Erases a tag from the compound
@@ -113,7 +115,7 @@ private:
 };
 
 template<class T, class... Args>
-bool tag_compound::emplace(const std::string& key, Args&&... args)
+std::pair<tag_compound::iterator, bool> tag_compound::emplace(const std::string& key, Args&&... args)
 {
     return put(key, std::unique_ptr<tag>(new T(std::forward<Args>(args)...)));
 }
