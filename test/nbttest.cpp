@@ -192,6 +192,18 @@ void test_value()
     ASSERT(val1.get_type() == tag_type::Int);
     ASSERT(val2.get_type() == tag_type::Null);
     ASSERT(val3.get_type() == tag_type::Null);
+
+    val2 = val1;
+    val1 = val3;
+    ASSERT(!val1 && val2 && !val3);
+    ASSERT(val1.get_ptr() == nullptr);
+    ASSERT(val2.get() == tag_int(21));
+    ASSERT(value(val1) == val1);
+    ASSERT(value(val2) == val2);
+    val1 = val1;
+    val2 = val2;
+    ASSERT(!val1);
+    ASSERT(val2 == tag_int(21));
     std::clog << "test_value passed" << std::endl;
 }
 
