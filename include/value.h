@@ -39,11 +39,13 @@ public:
     explicit value(std::unique_ptr<tag>&& t);
     explicit value(tag&& t);
 
-    //Movable but not (implicitly) copyable
-    value(const value&) = delete;
+    //Moving
     value(value&&) = default;
-    value& operator=(const value&) = delete;
     value& operator=(value&&) = default;
+
+    //Copying
+    explicit value(const value& rhs);
+    value& operator=(const value& rhs);
 
     /**
      * @brief Assigns the given value to the tag if the type matches
@@ -127,11 +129,6 @@ public:
      */
     value& operator[](const std::string& key);
     value& operator[](const char* key); //need this overload because of conflict with built-in operator[]
-
-    /**
-     * @brief Creates a copy of the value
-     */
-    value copy() const;
 
     std::unique_ptr<tag>& get_ptr();
     const std::unique_ptr<tag>& get_ptr() const;

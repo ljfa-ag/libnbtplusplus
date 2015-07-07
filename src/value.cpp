@@ -32,6 +32,19 @@ value::value(tag&& t):
     tag_(std::move(t).move_clone())
 {}
 
+value::value(const value& rhs):
+    tag_(rhs.tag_ ? rhs.tag_->clone() : nullptr)
+{}
+
+value& value::operator=(const value& rhs)
+{
+    if(this != &rhs)
+    {
+        tag_ = rhs.tag_ ? rhs.tag_->clone() : nullptr;
+    }
+    return *this;
+}
+
 value& value::operator=(tag&& t)
 {
     set(std::move(t));
@@ -354,11 +367,6 @@ value& value::operator[](const std::string& key)
 value& value::operator[](const char* key)
 {
     return (*this)[std::string(key)];
-}
-
-value value::copy() const
-{
-    return value(tag_->clone());
 }
 
 std::unique_ptr<tag>& value::get_ptr()
