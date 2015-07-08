@@ -56,6 +56,7 @@ public:
 
     virtual std::unique_ptr<tag> clone() const& = 0;
     virtual std::unique_ptr<tag> move_clone() && = 0;
+    std::unique_ptr<tag> clone() &&;
 
     friend bool operator==(const tag& lhs, const tag& rhs);
     friend bool operator!=(const tag& lhs, const tag& rhs);

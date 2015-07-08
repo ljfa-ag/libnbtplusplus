@@ -23,6 +23,11 @@
 namespace nbt
 {
 
+std::unique_ptr<tag> tag::clone() &&
+{
+    return std::move(*this).move_clone();
+}
+
 bool operator==(const tag& lhs, const tag& rhs)
 {
     if(typeid(lhs) != typeid(rhs))
