@@ -58,6 +58,12 @@ public:
     virtual std::unique_ptr<tag> move_clone() && = 0;
     std::unique_ptr<tag> clone() &&;
 
+    /**
+     * @brief Move-assigns the given tag if the class is the same
+     * @throw std::bad_cast if @c rhs is not the same type as @c *this
+     */
+    virtual tag& assign(tag&& rhs) = 0;
+
     friend bool operator==(const tag& lhs, const tag& rhs);
     friend bool operator!=(const tag& lhs, const tag& rhs);
 
@@ -67,14 +73,6 @@ private:
      * @param rhs an instance of the same class as @c *this
      */
     virtual bool equals(const tag& rhs) const = 0;
-
-    /**
-     * @brief Move-assigns the given tag if the class is the same
-     * @throw std::bad_cast if @c rhs is not the same type as @c *this
-     */
-    virtual tag& assign(tag&& rhs) = 0;
-
-    friend class value;
 };
 
 }

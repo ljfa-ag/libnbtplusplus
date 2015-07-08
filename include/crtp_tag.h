@@ -40,9 +40,10 @@ namespace detail
         std::unique_ptr<tag> clone() const& override final;
         std::unique_ptr<tag> move_clone() && override final;
 
+        tag& assign(tag&& rhs) override final;
+
     private:
         bool equals(const tag& rhs) const override final;
-        tag& assign(tag&& rhs) override final;
     };
 
     template<class Sub>
@@ -71,15 +72,15 @@ namespace detail
     }
 
     template<class Sub>
-    bool crtp_tag<Sub>::equals(const tag& rhs) const
-    {
-        return static_cast<const Sub&>(*this) == static_cast<const Sub&>(rhs);
-    }
-
-    template<class Sub>
     tag& crtp_tag<Sub>::assign(tag&& rhs)
     {
         return *this = dynamic_cast<Sub&&>(rhs);
+    }
+
+    template<class Sub>
+    bool crtp_tag<Sub>::equals(const tag& rhs) const
+    {
+        return static_cast<const Sub&>(*this) == static_cast<const Sub&>(rhs);
     }
 
 }
