@@ -144,9 +144,14 @@ void test_tag_compound()
 
     ASSERT(comp.put("abc", value(tag_double(6.0))).second == true);
     ASSERT(comp.put("abc", value(tag_long(-28))).second == false);
+    ASSERT(comp.insert("ghi", value(tag_string("world"))).second == true);
+    ASSERT(comp.insert("abc", value(tag_string("hello"))).second == false);
     ASSERT(comp.emplace<tag_string>("def", "ghi").second == true);
     ASSERT(comp.emplace<tag_byte>("def", 4).second == false);
-    ASSERT((comp == tag_compound{{"abc", tag_long(-28)}, {"def", tag_byte(4)}}));
+    ASSERT((comp == tag_compound{
+        {"abc", tag_long(-28)},
+        {"def", tag_byte(4)},
+        {"ghi", tag_string("world")}}));
 
     std::clog << "test_tag_compound passed" << std::endl;
 }

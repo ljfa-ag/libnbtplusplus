@@ -57,6 +57,11 @@ std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key
     }
 }
 
+std::pair<tag_compound::iterator, bool> tag_compound::insert(const std::string& key, value&& val)
+{
+    return tags.emplace(key, std::move(val));
+}
+
 bool tag_compound::erase(const std::string& key)
 {
     return tags.erase(key) != 0;

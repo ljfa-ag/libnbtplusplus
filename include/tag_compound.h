@@ -73,10 +73,18 @@ public:
     std::pair<iterator, bool> put(const std::string& key, value&& val);
 
     /**
+     * @brief Inserts a tag if the key does not exist
+     * @return a pair of the iterator to the value with the key and a bool
+     * indicating whether the value was actually inserted
+     */
+    std::pair<iterator, bool> insert(const std::string& key, value&& val);
+
+    /**
      * @brief Constructs and assigns or inserts a tag into the compound
      *
      * Constructs a new tag of type @c T with the given args and inserts
      * or assigns it to the given key.
+     * @note Unlike std::map::emplace, this will overwrite existing values
      * @return a pair of the iterator to the value and a bool indicating
      * whether the key did not exist
      */
