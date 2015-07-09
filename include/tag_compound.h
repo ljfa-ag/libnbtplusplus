@@ -70,7 +70,7 @@ public:
      * @return a pair of the iterator to the value and a bool indicating
      * whether the key did not exist
      */
-    std::pair<iterator, bool> put(const std::string& key, std::unique_ptr<tag>&& t);
+    std::pair<iterator, bool> put(const std::string& key, value&& val);
 
     /**
      * @brief Constructs and assigns or inserts a tag into the compound
@@ -116,7 +116,7 @@ private:
 template<class T, class... Args>
 std::pair<tag_compound::iterator, bool> tag_compound::emplace(const std::string& key, Args&&... args)
 {
-    return put(key, std::unique_ptr<tag>(new T(std::forward<Args>(args)...)));
+    return put(key, value(T(std::forward<Args>(args)...)));
 }
 
 }
