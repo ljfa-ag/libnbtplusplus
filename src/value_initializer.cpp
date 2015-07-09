@@ -23,23 +23,18 @@
 namespace nbt
 {
 
-value_initializer::value_initializer(std::unique_ptr<tag>&& t): value_(std::move(t)) {}
-value_initializer::value_initializer(value&& val): value_(std::move(val)) {}
-value_initializer::value_initializer(tag&& t): value_(std::move(t)) {}
+value_initializer::value_initializer(std::unique_ptr<tag>&& t): value(std::move(t)) {}
+value_initializer::value_initializer(value&& val): value(std::move(val)) {}
+value_initializer::value_initializer(tag&& t): value(std::move(t)) {}
 
-value_initializer::value_initializer(int8_t val): value_(tag_byte(val)) {}
-value_initializer::value_initializer(int16_t val): value_(tag_short(val)) {}
-value_initializer::value_initializer(int32_t val): value_(tag_int(val)) {}
-value_initializer::value_initializer(int64_t val): value_(tag_long(val)) {}
-value_initializer::value_initializer(float val): value_(tag_float(val)) {}
-value_initializer::value_initializer(double val): value_(tag_double(val)) {}
-value_initializer::value_initializer(const std::string& str): value_(tag_string(str)) {}
-value_initializer::value_initializer(std::string&& str): value_(tag_string(std::move(str))) {}
-value_initializer::value_initializer(const char* str): value_(tag_string(str)) {}
-
-value& value_initializer::get() { return value_; }
-const value& value_initializer::get() const { return value_; }
-value_initializer::operator value&() { return value_; }
-value_initializer::operator const value&() const { return value_; }
+value_initializer::value_initializer(int8_t val): value(tag_byte(val)) {}
+value_initializer::value_initializer(int16_t val): value(tag_short(val)) {}
+value_initializer::value_initializer(int32_t val): value(tag_int(val)) {}
+value_initializer::value_initializer(int64_t val): value(tag_long(val)) {}
+value_initializer::value_initializer(float val): value(tag_float(val)) {}
+value_initializer::value_initializer(double val): value(tag_double(val)) {}
+value_initializer::value_initializer(const std::string& str): value(tag_string(str)) {}
+value_initializer::value_initializer(std::string&& str): value(tag_string(std::move(str))) {}
+value_initializer::value_initializer(const char* str): value(tag_string(str)) {}
 
 }

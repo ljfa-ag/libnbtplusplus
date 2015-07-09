@@ -27,8 +27,10 @@ namespace nbt
 
 /**
  * @brief Helper class for implicitly constructing value objects
+ * @note Instances of this class can unproblematically be "sliced" (converted)
+ * into @ref value objects.
  */
-class value_initializer
+class value_initializer : public value
 {
 public:
     value_initializer(std::unique_ptr<tag>&& t);
@@ -44,14 +46,6 @@ public:
     value_initializer(const std::string& str);
     value_initializer(std::string&& str);
     value_initializer(const char* str);
-
-    value& get();
-    const value& get() const;
-    operator value&();
-    operator const value&() const;
-
-private:
-    value value_;
 };
 
 }
