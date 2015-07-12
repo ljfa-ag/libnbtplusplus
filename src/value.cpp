@@ -369,6 +369,26 @@ value& value::operator[](const char* key)
     return (*this)[std::string(key)];
 }
 
+value& value::at(size_t i)
+{
+    return dynamic_cast<tag_list&>(*tag_).at(i);
+}
+
+const value& value::at(size_t i) const
+{
+    return dynamic_cast<const tag_list&>(*tag_).at(i);
+}
+
+value& value::operator[](size_t i)
+{
+    return dynamic_cast<tag_list&>(*tag_)[i];
+}
+
+const value& value::operator[](size_t i) const
+{
+    return dynamic_cast<const tag_list&>(*tag_)[i];
+}
+
 std::unique_ptr<tag>& value::get_ptr()
 {
     return tag_;

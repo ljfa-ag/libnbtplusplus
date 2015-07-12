@@ -81,7 +81,8 @@ void test_tag_compound()
     tag_compound comp{
         {"foo", int16_t(12)},
         {"bar", "baz"},
-        {"baz", -2.0}
+        {"baz", -2.0},
+        {"list", tag_list{int8_t(16), int8_t(17)}}
     };
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
@@ -110,6 +111,7 @@ void test_tag_compound()
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
     ASSERT(std::string(comp["quux"]["Hello"]) == "World");
+    ASSERT(comp["list"][1] == tag_byte(17));
 
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
@@ -117,14 +119,15 @@ void test_tag_compound()
         {"foo", int16_t(32)},
         {"bar", "barbaz"},
         {"baz", -2.0},
-        {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}}
+        {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}},
+        {"list", tag_list{int8_t(16), int8_t(17)}}
     };
     ASSERT(comp == comp2);
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
     ASSERT(comp != comp2["quux"]);
 
-    ASSERT(comp2.size() == 4);
-    const char* keys[] = {"bar", "baz", "foo", "quux"}; //alphabetic order
+    ASSERT(comp2.size() == 5);
+    const char* keys[] = {"bar", "baz", "foo", "list", "quux"}; //alphabetic order
     unsigned i = 0;
     for(const std::pair<const std::string, value>& val: comp2)
     {
