@@ -23,5 +23,6 @@
 #include "tag_primitive.h"
 #include "tag_string.h"
 #include "tag_compound.h"
+#include "tag_list.h"
 
 #endif // LIBNBT_H_INCLUDED

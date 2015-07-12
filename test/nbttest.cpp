@@ -32,7 +32,7 @@ void test_get_type()
     ASSERT(tag_double().get_type()     == tag_type::Double);
     //ASSERT(tag_byte_array().get_type() == tag_type::Byte_Array);
     ASSERT(tag_string().get_type()     == tag_type::String);
-    //ASSERT(tag_list().get_type()       == tag_type::List);
+    ASSERT(tag_list().get_type()       == tag_type::List);
     ASSERT(tag_compound().get_type()   == tag_type::Compound);
     //ASSERT(tag_int_array().get_type()  == tag_type::Int_Array);
     std::clog << "test_get_type passed" << std::endl;
