@@ -21,6 +21,8 @@
 #define TAG_LIST_H_INCLUDED
 
 #include "crtp_tag.h"
+#include "value.h"
+#include <typeinfo>
 #include <vector>
 
 namespace nbt
@@ -98,7 +100,7 @@ public:
     ///Returns the number of tags in the list
     size_t size() const;
 
-    ///Erases all tags from the list
+    ///Erases all tags from the list. Preserves the content type.
     void clear();
 
     //Iterators
@@ -116,6 +118,16 @@ private:
     std::vector<value> tags;
     tag_type el_type_;
 };
+
+template<class T, class... Args>
+void tag_list::emplace_back(Args&&... args)
+{
+    if(el_type_ == tag_type::Null) //set content type if undetermined
+        el_type_ = T::type;
+    else if(el_type_ != T::type)
+        throw std::bad_cast();
+    tags.emplace_back(T(std::forward<Args>(args)...));
+}
 
 }
 
