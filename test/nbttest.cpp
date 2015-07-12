@@ -224,7 +224,7 @@ void test_tag_list()
     EXPECT_EXCEPTION(list.push_back(value(tag_int(42))), std::bad_cast);
     EXPECT_EXCEPTION(list.emplace_back<tag_compound>(), std::bad_cast);
 
-    //ASSERT(list == tag_list{"foo", "bar"});
+    ASSERT((list == tag_list{"foo", "bar"}));
     ASSERT(list[0] == tag_string("foo"));
     ASSERT(std::string(list.at(1)) == "bar");
 
@@ -245,7 +245,9 @@ void test_tag_list()
     }
 
     list.pop_back();
-    //ASSERT(list == tag_list{"foo"});
+    ASSERT(list == tag_list{"foo"});
+    ASSERT(list == tag_list{std::string("foo")});
+    ASSERT((list != tag_list{2, 3, 5, 7}));
 
     list.clear();
     ASSERT(list.size() == 0);
@@ -254,6 +256,13 @@ void test_tag_list()
 
     ASSERT(tag_list() == tag_list(tag_type::Int));
     ASSERT(tag_list(tag_type::Short) == tag_list(tag_type::Int));
+
+    tag_list short_list{int16_t(25), int16_t(36)};
+    ASSERT(short_list.el_type() == tag_type::Short);
+    ASSERT((short_list != tag_list{25, 36}));
+    ASSERT((short_list == tag_list{value(tag_short(25)), value(tag_short(36))}));
+
+    EXPECT_EXCEPTION((tag_list{value(tag_byte(4)), value(tag_int(5))}), std::bad_cast);
     std::clog << "test_tag_list passed" << std::endl;
 }
 

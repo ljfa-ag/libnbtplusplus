@@ -28,6 +28,12 @@
 namespace nbt
 {
 
+//Forward declarations
+class tag_list;
+class tag_compound;
+class tag_byte_array;
+class tag_int_array;
+
 ///Tag that contains multiple unnamed tags of the same type
 class tag_list : public detail::crtp_tag<tag_list>
 {
@@ -48,6 +54,25 @@ public:
 
     ///Constructs an empty list with the given content type
     tag_list(tag_type type);
+
+    ///Constructs a list with the given contents
+    tag_list(std::initializer_list<int8_t> init);
+    tag_list(std::initializer_list<int16_t> init);
+    tag_list(std::initializer_list<int32_t> init);
+    tag_list(std::initializer_list<int64_t> init);
+    tag_list(std::initializer_list<float> init);
+    tag_list(std::initializer_list<double> init);
+    tag_list(std::initializer_list<std::string> init);
+    tag_list(std::initializer_list<tag_byte_array> init);
+    tag_list(std::initializer_list<tag_list> init);
+    tag_list(std::initializer_list<tag_compound> init);
+    tag_list(std::initializer_list<tag_int_array> init);
+
+    /**
+     * @brief Constructs a list with the given contents
+     * @throw std::bad_cast if the tags are not all of the same type
+     */
+    tag_list(std::initializer_list<value> init);
 
     /**
      * @brief Accesses a tag by index with bounds checking
