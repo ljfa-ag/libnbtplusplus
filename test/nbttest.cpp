@@ -216,7 +216,7 @@ void test_tag_list()
 {
     tag_list list;
     ASSERT(list.el_type() == tag_type::Null);
-    EXPECT_EXCEPTION(list.push_back(value()), std::bad_cast);
+    EXPECT_EXCEPTION(list.push_back(value(nullptr)), std::bad_cast);
 
     list.emplace_back<tag_string>("foo");
     ASSERT(list.el_type() == tag_type::String);
@@ -252,7 +252,7 @@ void test_tag_list()
     list.clear();
     ASSERT(list.size() == 0);
     EXPECT_EXCEPTION(list.push_back(value(tag_short(25))), std::bad_cast);
-    EXPECT_EXCEPTION(list.push_back(value()), std::bad_cast);
+    EXPECT_EXCEPTION(list.push_back(value(nullptr)), std::bad_cast);
 
     ASSERT(tag_list() == tag_list(tag_type::Int));
     ASSERT(tag_list(tag_type::Short) == tag_list(tag_type::Int));
@@ -263,6 +263,9 @@ void test_tag_list()
     ASSERT((short_list == tag_list{value(tag_short(25)), value(tag_short(36))}));
 
     EXPECT_EXCEPTION((tag_list{value(tag_byte(4)), value(tag_int(5))}), std::bad_cast);
+    EXPECT_EXCEPTION((tag_list{value(nullptr), value(tag_int(6))}), std::bad_cast);
+    EXPECT_EXCEPTION((tag_list{value(tag_int(7)), value(tag_int(8)), value(nullptr)}), std::bad_cast);
+    ASSERT((tag_list(std::initializer_list<value>{})).el_type() == tag_type::Null);
     std::clog << "test_tag_list passed" << std::endl;
 }
 
