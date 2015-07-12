@@ -151,7 +151,8 @@ void test_tag_compound()
     ASSERT((comp == tag_compound{
         {"abc", tag_long(-28)},
         {"def", tag_byte(4)},
-        {"ghi", tag_string("world")}}));
+        {"ghi", tag_string("world")}
+    }));
 
     std::clog << "test_tag_compound passed" << std::endl;
 }
@@ -211,6 +212,49 @@ void test_value()
     std::clog << "test_value passed" << std::endl;
 }
 
+void test_tag_list()
+{
+    tag_list list;
+    ASSERT(list.el_type() == tag_type::Null);
+    EXPECT_EXCEPTION(list.push_back(value()), std::bad_cast);
+
+    list.emplace_back<tag_string>("foo");
+    ASSERT(list.el_type() == tag_type::String);
+    list.push_back(value(tag_string("bar")));
+    EXPECT_EXCEPTION(list.push_back(value(tag_int(42))), std::bad_cast);
+    EXPECT_EXCEPTION(list.emplace_back<tag_compound>(), std::bad_cast);
+
+    //ASSERT(list == tag_list{"foo", "bar"});
+    ASSERT(list[0] == tag_string("foo"));
+    ASSERT(std::string(list.at(1)) == "bar");
+
+    ASSERT(list.size() == 2);
+    EXPECT_EXCEPTION(list.at(2), std::out_of_range);
+    EXPECT_EXCEPTION(list.at(-1), std::out_of_range);
+
+    list.set(1, value(tag_string("baz")));
+    ASSERT(std::string(list[1]) == "baz");
+
+    const char* values[] = {"foo", "baz"};
+    unsigned i = 0;
+    for(const value& val: list)
+    {
+        ASSERT(i < list.size());
+        ASSERT(std::string(val) == values[i]);
+        ++i;
+    }
+
+    list.pop_back();
+    //ASSERT(list == tag_list{"foo"});
+
+    list.clear();
+    ASSERT(list.size() == 0);
+    EXPECT_EXCEPTION(list.push_back(value(tag_short(25))), std::bad_cast);
+    EXPECT_EXCEPTION(list.push_back(value()), std::bad_cast);
+
+    std::clog << "test_tag_list passed" << std::endl;
+}
+
 int main()
 {
     test_get_type();
@@ -218,4 +262,5 @@ int main()
     test_tag_string();
     test_tag_compound();
     test_value();
+    test_tag_list();
 }
