@@ -125,10 +125,33 @@ public:
      * @brief In case of a tag_compound, accesses a tag by key
      *
      * If the value is uninitialized, the behavior is undefined.
+     * @throw std::bad_cast if the tag type is not tag_compound
      * @sa tag_compound::operator[]
      */
     value& operator[](const std::string& key);
     value& operator[](const char* key); //need this overload because of conflict with built-in operator[]
+
+    /**
+     * @brief In case of a tag_list, accesses a tag by index with bounds checking
+     *
+     * If the value is uninitialized, the behavior is undefined.
+     * @throw std::bad_cast if the tag type is not tag_list
+     * @throw std::out_of_range if the index is out of range
+     * @sa tag_list::at
+     */
+    value& at(size_t i);
+    const value& at(size_t i) const;
+
+    /**
+     * @brief In case of a tag_list, accesses a tag by index
+     *
+     * No bounds checking is performed. If the value is uninitialized, the
+     * behavior is undefined.
+     * @throw std::bad_cast if the tag type is not tag_list
+     * @sa tag_list::operator[]
+     */
+    value& operator[](size_t i);
+    const value& operator[](size_t i) const;
 
     std::unique_ptr<tag>& get_ptr();
     const std::unique_ptr<tag>& get_ptr() const;
