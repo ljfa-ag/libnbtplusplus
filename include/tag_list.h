@@ -37,8 +37,15 @@ public:
     ///The type of the tag
     static constexpr tag_type type = tag_type::List;
 
-    ///Constructs an empty list
-    tag_list() {}
+    /**
+     * @brief Constructs an empty list
+     *
+     * The content type is determined when the first tag is added.
+     */
+    tag_list();
+
+    ///Constructs an empty list with the given content type
+    tag_list(tag_type type);
 
     /**
      * @brief Accesses a tag by index with bounds checking
@@ -77,6 +84,9 @@ public:
     ///Removes the last element of the list
     void pop_back();
 
+    ///Returns the content type of the list, or tag_type::Null if undetermined
+    tag_type el_type() const;
+
     ///Returns the number of tags in the list
     size_t size() const;
 
@@ -96,6 +106,7 @@ public:
 
 private:
     std::vector<value> tags;
+    tag_type el_type;
 };
 
 }
