@@ -42,6 +42,7 @@ public:
     ///Constructs an empty compound
     tag_compound() {}
 
+    ///Constructs a compound with the given key-value pairs
     tag_compound(std::initializer_list<std::pair<std::string, value_initializer>> init);
 
     /**

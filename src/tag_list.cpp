@@ -31,15 +31,6 @@ tag_list::tag_list(tag_type type):
     el_type_(type)
 {}
 
-template<class T, class Arg>
-tag_list::tag_list(T dummy, std::initializer_list<Arg> init):
-    el_type_(T::type)
-{
-    tags.reserve(init.size());
-    for(const Arg& arg: init)
-        tags.emplace_back(T(arg));
-}
-
 tag_list::tag_list(std::initializer_list<int8_t>         init): tag_list(tag_byte()      , init) {}
 tag_list::tag_list(std::initializer_list<int16_t>        init): tag_list(tag_short()     , init) {}
 tag_list::tag_list(std::initializer_list<int32_t>        init): tag_list(tag_int()       , init) {}

@@ -46,6 +46,13 @@ public:
     static constexpr tag_type type = tag_type::List;
 
     /**
+     * @brief Constructs a list with the given contents of type T
+     * @param init list of values that are, one by one, given to a constructor of T
+     */
+    template<class T, class Arg>
+    static tag_list of(std::initializer_list<Arg> init);
+
+    /**
      * @brief Constructs an empty list
      *
      * The content type is determined when the first tag is added.
@@ -159,6 +166,12 @@ private:
     tag_list(T dummy, std::initializer_list<Arg> init);
 };
 
+template<class T, class Arg>
+tag_list tag_list::of(std::initializer_list<Arg> init)
+{
+    return tag_list(T(), std::move(init));
+}
+
 template<class T, class... Args>
 void tag_list::emplace_back(Args&&... args)
 {
@@ -167,6 +180,15 @@ void tag_list::emplace_back(Args&&... args)
     else if(el_type_ != T::type)
         throw std::bad_cast();
     tags.emplace_back(T(std::forward<Args>(args)...));
+}
+
+template<class T, class Arg>
+tag_list::tag_list(T dummy, std::initializer_list<Arg> init):
+    el_type_(T::type)
+{
+    tags.reserve(init.size());
+    for(const Arg& arg: init)
+        tags.emplace_back(T(arg));
 }
 
 }
