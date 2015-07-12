@@ -252,6 +252,8 @@ void test_tag_list()
     EXPECT_EXCEPTION(list.push_back(value(tag_short(25))), std::bad_cast);
     EXPECT_EXCEPTION(list.push_back(value()), std::bad_cast);
 
+    ASSERT(tag_list() == tag_list(tag_type::Int));
+    ASSERT(tag_list(tag_type::Short) == tag_list(tag_type::Int));
     std::clog << "test_tag_list passed" << std::endl;
 }
 

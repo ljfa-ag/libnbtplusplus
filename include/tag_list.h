@@ -111,6 +111,12 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
+    /**
+     * @brief Equality comparison for lists
+     *
+     * Lists are considered equal if they contain equal tags. Empty lists
+     * are always considered equal.
+     */
     friend bool operator==(const tag_list& lhs, const tag_list& rhs);
     friend bool operator!=(const tag_list& lhs, const tag_list& rhs);
 
