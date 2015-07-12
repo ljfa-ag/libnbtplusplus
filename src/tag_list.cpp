@@ -18,6 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag_list.h"
+#include "libnbt.h"
 
 namespace nbt
 {
@@ -29,6 +30,43 @@ tag_list::tag_list():
 tag_list::tag_list(tag_type type):
     el_type_(type)
 {}
+
+template<class T, class Arg>
+tag_list::tag_list(T dummy, std::initializer_list<Arg> init):
+    el_type_(T::type)
+{
+    tags.reserve(init.size());
+    for(const Arg& arg: init)
+        tags.emplace_back(T(arg));
+}
+
+tag_list::tag_list(std::initializer_list<int8_t>         init): tag_list(tag_byte()      , init) {}
+tag_list::tag_list(std::initializer_list<int16_t>        init): tag_list(tag_short()     , init) {}
+tag_list::tag_list(std::initializer_list<int32_t>        init): tag_list(tag_int()       , init) {}
+tag_list::tag_list(std::initializer_list<int64_t>        init): tag_list(tag_long()      , init) {}
+tag_list::tag_list(std::initializer_list<float>          init): tag_list(tag_float()     , init) {}
+tag_list::tag_list(std::initializer_list<double>         init): tag_list(tag_double()    , init) {}
+tag_list::tag_list(std::initializer_list<std::string>    init): tag_list(tag_string()    , init) {}
+//tag_list::tag_list(std::initializer_list<tag_byte_array> init): tag_list(tag_byte_array(), init) {}
+tag_list::tag_list(std::initializer_list<tag_list>       init): tag_list(tag_list()      , init) {}
+tag_list::tag_list(std::initializer_list<tag_compound>   init): tag_list(tag_compound()  , init) {}
+//tag_list::tag_list(std::initializer_list<tag_int_array>  init): tag_list(tag_int_array() , init) {}
+
+tag_list::tag_list(std::initializer_list<value> init)
+{
+    if(init.size() == 0)
+        el_type_ = tag_type::Null;
+    else
+    {
+        el_type_ = init.begin()->get_type();
+        for(const value& val: init)
+        {
+            if(!val || val.get_type() != el_type_)
+                throw std::bad_cast();
+        }
+        tags.assign(init.begin(), init.end());
+    }
+}
 
 value& tag_list::at(size_t i)
 {

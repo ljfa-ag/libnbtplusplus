@@ -148,6 +148,15 @@ public:
 private:
     std::vector<value> tags;
     tag_type el_type_;
+
+    /**
+     * Internally used constructor that initializes the list with tags of
+     * type T, with the constructor arguments of each T given by init.
+     * @param dummy ignored, only used for inducing the template parameter T
+     * @param init list of values that are, one by one, given to a constructor of T
+     */
+    template<class T, class Arg>
+    tag_list(T dummy, std::initializer_list<Arg> init);
 };
 
 template<class T, class... Args>
