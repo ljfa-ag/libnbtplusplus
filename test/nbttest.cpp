@@ -270,6 +270,7 @@ void test_tag_list()
     EXPECT_EXCEPTION((tag_list{value(nullptr), value(tag_int(6))}), std::bad_cast);
     EXPECT_EXCEPTION((tag_list{value(tag_int(7)), value(tag_int(8)), value(nullptr)}), std::bad_cast);
     ASSERT((tag_list(std::initializer_list<value>{})).el_type() == tag_type::Null);
+    ASSERT((tag_list{2, 3, 5, 7}).el_type() == tag_type::Int);
     std::clog << "test_tag_list passed" << std::endl;
 }
 
