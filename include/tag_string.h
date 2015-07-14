@@ -35,6 +35,7 @@ public:
 
     tag_string(const std::string& str);
     tag_string(std::string&& str = "");
+    tag_string(const char* str);
 
     operator std::string&();
     operator const std::string&() const;
@@ -42,6 +43,7 @@ public:
 
     tag_string& operator=(const std::string& str);
     tag_string& operator=(std::string&& str);
+    tag_string& operator=(const char* str);
     void set(const std::string& str);
     void set(std::string&& str);
 

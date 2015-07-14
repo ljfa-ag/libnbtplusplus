@@ -30,6 +30,10 @@ tag_string::tag_string(std::string&& str):
     value(std::move(str))
 {}
 
+tag_string::tag_string(const char* str):
+    value(std::string(str))
+{}
+
 tag_string::operator std::string&()
 {
     return value;
@@ -54,6 +58,12 @@ tag_string& tag_string::operator=(const std::string& str)
 tag_string& tag_string::operator=(std::string&& str)
 {
     value = std::move(str);
+    return *this;
+}
+
+tag_string& tag_string::operator=(const char* str)
+{
+    value = std::string(str);
     return *this;
 }
 
