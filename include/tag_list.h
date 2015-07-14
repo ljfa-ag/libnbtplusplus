@@ -49,8 +49,8 @@ public:
      * @brief Constructs a list with the given contents of type T
      * @param init list of values that are, one by one, given to a constructor of T
      */
-    template<class T, class Arg>
-    static tag_list of(std::initializer_list<Arg> init);
+    template<class T>
+    static tag_list of(std::initializer_list<T> init);
 
     /**
      * @brief Constructs an empty list
@@ -165,11 +165,11 @@ private:
     void init(std::initializer_list<Arg> il);
 };
 
-template<class T, class Arg>
-tag_list tag_list::of(std::initializer_list<Arg> il)
+template<class T>
+tag_list tag_list::of(std::initializer_list<T> il)
 {
     tag_list result;
-    result.init<T>(il);
+    result.init<T, T>(il);
     return result;
 }
 
