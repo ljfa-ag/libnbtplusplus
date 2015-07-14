@@ -31,17 +31,17 @@ tag_list::tag_list(tag_type type):
     el_type_(type)
 {}
 
-tag_list::tag_list(std::initializer_list<int8_t>         init): tag_list(tag_byte()      , init) {}
-tag_list::tag_list(std::initializer_list<int16_t>        init): tag_list(tag_short()     , init) {}
-tag_list::tag_list(std::initializer_list<int32_t>        init): tag_list(tag_int()       , init) {}
-tag_list::tag_list(std::initializer_list<int64_t>        init): tag_list(tag_long()      , init) {}
-tag_list::tag_list(std::initializer_list<float>          init): tag_list(tag_float()     , init) {}
-tag_list::tag_list(std::initializer_list<double>         init): tag_list(tag_double()    , init) {}
-tag_list::tag_list(std::initializer_list<std::string>    init): tag_list(tag_string()    , init) {}
-//tag_list::tag_list(std::initializer_list<tag_byte_array> init): tag_list(tag_byte_array(), init) {}
-tag_list::tag_list(std::initializer_list<tag_list>       init): tag_list(tag_list()      , init) {}
-tag_list::tag_list(std::initializer_list<tag_compound>   init): tag_list(tag_compound()  , init) {}
-//tag_list::tag_list(std::initializer_list<tag_int_array>  init): tag_list(tag_int_array() , init) {}
+tag_list::tag_list(std::initializer_list<int8_t>         il) { init<tag_byte>(il); }
+tag_list::tag_list(std::initializer_list<int16_t>        il) { init<tag_short>(il); }
+tag_list::tag_list(std::initializer_list<int32_t>        il) { init<tag_int>(il); }
+tag_list::tag_list(std::initializer_list<int64_t>        il) { init<tag_long>(il); }
+tag_list::tag_list(std::initializer_list<float>          il) { init<tag_float>(il); }
+tag_list::tag_list(std::initializer_list<double>         il) { init<tag_double>(il); }
+tag_list::tag_list(std::initializer_list<std::string>    il) { init<tag_string>(il); }
+//tag_list::tag_list(std::initializer_list<tag_byte_array> il) { init<tag_byte_array>(il); }
+tag_list::tag_list(std::initializer_list<tag_list>       il) { init<tag_list>(il); }
+tag_list::tag_list(std::initializer_list<tag_compound>   il) { init<tag_compound>(il); }
+//tag_list::tag_list(std::initializer_list<tag_int_array>  il) { init<tag_int_array>(il); }
 
 tag_list::tag_list(std::initializer_list<value> init)
 {

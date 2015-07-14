@@ -157,19 +157,20 @@ private:
     tag_type el_type_;
 
     /**
-     * Internally used constructor that initializes the list with tags of
-     * type T, with the constructor arguments of each T given by init.
-     * @param dummy ignored, only used for inducing the template parameter T
-     * @param init list of values that are, one by one, given to a constructor of T
+     * Internally used initialization function that initializes the list with
+     * tags of type T, with the constructor arguments of each T given by il.
+     * @param il list of values that are, one by one, given to a constructor of T
      */
     template<class T, class Arg>
-    tag_list(T dummy, std::initializer_list<Arg> init);
+    void init(std::initializer_list<Arg> il);
 };
 
 template<class T, class Arg>
-tag_list tag_list::of(std::initializer_list<Arg> init)
+tag_list tag_list::of(std::initializer_list<Arg> il)
 {
-    return tag_list(T(), std::move(init));
+    tag_list result;
+    result.init<T>(il);
+    return result;
 }
 
 template<class T, class... Args>
@@ -183,9 +184,9 @@ void tag_list::emplace_back(Args&&... args)
 }
 
 template<class T, class Arg>
-tag_list::tag_list(T dummy, std::initializer_list<Arg> init):
-    el_type_(T::type)
+void tag_list::init(std::initializer_list<Arg> init)
 {
+    el_type_ = T::type;
     tags.reserve(init.size());
     for(const Arg& arg: init)
         tags.emplace_back(T(arg));
