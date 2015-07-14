@@ -82,7 +82,7 @@ void test_tag_compound()
         {"foo", int16_t(12)},
         {"bar", "baz"},
         {"baz", -2.0},
-        {"list", tag_list::of<tag_byte>({16, 17})}
+        {"list", tag_list::of<tag_byte>{16, 17}}
     };
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
@@ -120,7 +120,7 @@ void test_tag_compound()
         {"bar", "barbaz"},
         {"baz", -2.0},
         {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}},
-        {"list", tag_list::of<tag_byte>({16, 17})}
+        {"list", tag_list::of<tag_byte>{16, 17}}
     };
     ASSERT(comp == comp2);
     ASSERT(comp != (const tag_compound&)comp2["quux"]);
@@ -249,7 +249,8 @@ void test_tag_list()
 
     list.pop_back();
     ASSERT(list == tag_list{"foo"});
-    ASSERT(list == tag_list::of<tag_string>({"foo"}));
+    ASSERT(list == tag_list::of<tag_string>{"foo"});
+    ASSERT(tag_list::of<tag_string>{"foo"} == tag_list{"foo"});
     ASSERT((list != tag_list{2, 3, 5, 7}));
 
     list.clear();
@@ -260,7 +261,7 @@ void test_tag_list()
     ASSERT(tag_list() == tag_list(tag_type::Int));
     ASSERT(tag_list(tag_type::Short) == tag_list(tag_type::Int));
 
-    tag_list short_list = tag_list::of<tag_short>({25, 36});
+    tag_list::of<tag_short> short_list{25, 36};
     ASSERT(short_list.el_type() == tag_type::Short);
     ASSERT((short_list == tag_list{int16_t(25), int16_t(36)}));
     ASSERT((short_list != tag_list{25, 36}));
