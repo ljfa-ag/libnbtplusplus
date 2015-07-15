@@ -283,18 +283,22 @@ void test_tag_list()
 
 void test_tag_byte_array()
 {
+    std::vector<int8_t> vec{1, 2, 127, -128};
     tag_byte_array arr{1, 2, 127, -128};
     ASSERT(arr.size() == 4);
     ASSERT(arr.at(0) == 1 && arr[1] == 2 && arr[2] == 127 && arr.at(3) == -128);
     EXPECT_EXCEPTION(arr.at(-1), std::out_of_range);
     EXPECT_EXCEPTION(arr.at(4), std::out_of_range);
 
+    ASSERT(arr.get() == vec);
+    ASSERT(arr == tag_byte_array(std::vector<int8_t>(vec)));
+
     arr.push_back(42);
+    vec.push_back(42);
 
     ASSERT(arr.size() == 5);
-    int8_t values[] = {1, 2, 127, -128, 42};
     ASSERT(arr.end() - arr.begin() == int(arr.size()));
-    ASSERT(std::equal(arr.begin(), arr.end(), values));
+    ASSERT(std::equal(arr.begin(), arr.end(), vec.begin()));
 
     arr.pop_back();
     arr.pop_back();
@@ -310,18 +314,22 @@ void test_tag_byte_array()
 
 void test_tag_int_array()
 {
+    std::vector<int32_t> vec{100, 200, INT32_MAX, INT32_MIN};
     tag_int_array arr{100, 200, INT32_MAX, INT32_MIN};
     ASSERT(arr.size() == 4);
     ASSERT(arr.at(0) == 100 && arr[1] == 200 && arr[2] == INT32_MAX && arr.at(3) == INT32_MIN);
     EXPECT_EXCEPTION(arr.at(-1), std::out_of_range);
     EXPECT_EXCEPTION(arr.at(4), std::out_of_range);
 
+    ASSERT(arr.get() == vec);
+    ASSERT(arr == tag_int_array(std::vector<int32_t>(vec)));
+
     arr.push_back(42);
+    vec.push_back(42);
 
     ASSERT(arr.size() == 5);
-    int32_t values[] = {100, 200, INT32_MAX, INT32_MIN, 42};
     ASSERT(arr.end() - arr.begin() == int(arr.size()));
-    ASSERT(std::equal(arr.begin(), arr.end(), values));
+    ASSERT(std::equal(arr.begin(), arr.end(), vec.begin()));
 
     arr.pop_back();
     arr.pop_back();

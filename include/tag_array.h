@@ -62,6 +62,11 @@ public:
 
     ///Constructs an array with the given values
     tag_array(std::initializer_list<T> init);
+    tag_array(std::vector<T>&& vec);
+
+    ///Returns a reference to the vector that contains the values
+    std::vector<T>& get();
+    const std::vector<T>& get() const;
 
     /**
      * @brief Accesses a value by index with bounds checking
@@ -98,7 +103,7 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
-    ///The vector that holds the values
+private:
     std::vector<T> data;
 };
 
@@ -113,6 +118,23 @@ template<class T>
 tag_array<T>::tag_array(std::initializer_list<T> init):
     data(init)
 {}
+
+template<class T>
+tag_array<T>::tag_array(std::vector<T>&& vec):
+    data(std::move(vec))
+{}
+
+template<class T>
+std::vector<T>& tag_array<T>::get()
+{
+    return data;
+}
+
+template<class T>
+const std::vector<T>& tag_array<T>::get() const
+{
+    return data;
+}
 
 template<class T>
 T& tag_array<T>::at(size_t i)
@@ -172,7 +194,7 @@ template<class T> auto tag_array<T>::cend() const   -> const_iterator { return d
 template<class T>
 bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)
 {
-    return lhs.data == rhs.data;
+    return lhs.get() == rhs.get();
 }
 
 template<class T>
