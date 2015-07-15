@@ -21,6 +21,7 @@
 #define TAG_ARRAY_H_INCLUDED
 
 #include "crtp_tag.h"
+#include <vector>
 
 namespace nbt
 {
@@ -33,7 +34,60 @@ namespace nbt
 template<class T>
 class tag_array final : public detail::crtp_tag<tag_array<T>>
 {
+public:
+    //Iterator types
+    typedef typename std::vector<T>::iterator iterator;
+    typedef typename std::vector<T>::const_iterator const_iterator;
 
+    ///The type of the contained values
+    typedef T value_type;
+
+    ///The type of the tag
+    static constexpr tag_type type = tag_type::Byte_Array;
+
+    ///Constructs an empty array
+    tag_array();
+
+    ///Constructs an array with the given values
+    tag_array(std::initializer_list<T> init);
+
+    /**
+     * @brief Accesses a value by index with bounds checking
+     * @throw std::out_of_range if the index is out of range
+     */
+    T& at(size_t i);
+    T at(size_t i) const;
+
+    /**
+     * @brief Accesses a value by index
+     *
+     * No bounds checking is performed.
+     */
+    T& operator[](size_t i);
+    T operator[](size_t i) const;
+
+    ///Appends a value at the end of the array
+    void push_back(T val);
+
+    ///Removes the last element from the array
+    void pop_back();
+
+    ///Returns the number of values in the array
+    size_t size() const;
+
+    ///Erases all values from the array.
+    void clear();
+
+    //Iterators
+    iterator begin();
+    iterator end();
+    const_iterator begin() const;
+    const_iterator end() const;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+
+private:
+    std::vector<T> values;
 };
 
 //Typedefs that should be used instead of the template tag_array.

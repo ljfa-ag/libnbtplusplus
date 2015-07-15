@@ -38,10 +38,10 @@ tag_list::tag_list(std::initializer_list<int64_t>        il) { init<tag_long>(il
 tag_list::tag_list(std::initializer_list<float>          il) { init<tag_float>(il); }
 tag_list::tag_list(std::initializer_list<double>         il) { init<tag_double>(il); }
 tag_list::tag_list(std::initializer_list<std::string>    il) { init<tag_string>(il); }
-//tag_list::tag_list(std::initializer_list<tag_byte_array> il) { init<tag_byte_array>(il); }
+tag_list::tag_list(std::initializer_list<tag_byte_array> il) { init<tag_byte_array>(il); }
 tag_list::tag_list(std::initializer_list<tag_list>       il) { init<tag_list>(il); }
 tag_list::tag_list(std::initializer_list<tag_compound>   il) { init<tag_compound>(il); }
-//tag_list::tag_list(std::initializer_list<tag_int_array>  il) { init<tag_int_array>(il); }
+tag_list::tag_list(std::initializer_list<tag_int_array>  il) { init<tag_int_array>(il); }
 
 tag_list::tag_list(std::initializer_list<value> init)
 {
