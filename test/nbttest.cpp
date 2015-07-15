@@ -52,6 +52,15 @@ void test_tag_primitive()
     ASSERT(7 == static_cast<int>(tag));
 
     ASSERT(tag_double() == 0.0);
+
+    ASSERT(tag_byte(INT8_MAX).get() == INT8_MAX);
+    ASSERT(tag_byte(INT8_MIN).get() == INT8_MIN);
+    ASSERT(tag_short(INT16_MAX).get() == INT16_MAX);
+    ASSERT(tag_short(INT16_MIN).get() == INT16_MIN);
+    ASSERT(tag_int(INT32_MAX).get() == INT32_MAX);
+    ASSERT(tag_int(INT32_MIN).get() == INT32_MIN);
+    ASSERT(tag_long(INT64_MAX).get() == INT64_MAX);
+    ASSERT(tag_long(INT64_MIN).get() == INT64_MIN);
     std::clog << "test_tag_primitive passed" << std::endl;
 }
 

@@ -20,7 +20,11 @@
 #ifndef PRIMITIVE_DETAIL_H_INCLUDED
 #define PRIMITIVE_DETAIL_H_INCLUDED
 
+#include <limits>
 #include <type_traits>
+
+static_assert(std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559,
+    "The floating point values for NBT must conform to IEC 559/IEEE 754");
 
 ///@cond
 namespace nbt
