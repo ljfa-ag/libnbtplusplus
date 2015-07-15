@@ -27,16 +27,17 @@
 namespace nbt
 {
 
+///@cond
 namespace detail
 {
-
+    ///Meta-struct that holds the tag_type value for a specific array type
     template<class T> struct get_array_type
-    { static_assert(sizeof(T) != sizeof(T), "Can only use byte or int as parameter for tag_array"); };
+    { static_assert(sizeof(T) != sizeof(T), "Invalid type paramter for tag_primitive, can only use byte or int"); };
 
     template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
     template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
-
 }
+///@cond
 
 /**
  * @brief Tag that contains an array of byte or int values
@@ -113,95 +114,6 @@ template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& r
 //Typedefs that should be used instead of the template tag_array.
 typedef tag_array<int8_t> tag_byte_array;
 typedef tag_array<int32_t> tag_int_array;
-
-template<class T>
-tag_array<T>::tag_array(std::initializer_list<T> init):
-    data(init)
-{}
-
-template<class T>
-tag_array<T>::tag_array(std::vector<T>&& vec):
-    data(std::move(vec))
-{}
-
-template<class T>
-std::vector<T>& tag_array<T>::get()
-{
-    return data;
-}
-
-template<class T>
-const std::vector<T>& tag_array<T>::get() const
-{
-    return data;
-}
-
-template<class T>
-T& tag_array<T>::at(size_t i)
-{
-    return data.at(i);
-}
-
-template<class T>
-T tag_array<T>::at(size_t i) const
-{
-    return data.at(i);
-}
-
-template<class T>
-T& tag_array<T>::operator[](size_t i)
-{
-    return data[i];
-}
-
-template<class T>
-T tag_array<T>::operator[](size_t i) const
-{
-    return data[i];
-}
-
-template<class T>
-void tag_array<T>::push_back(T val)
-{
-    data.push_back(val);
-}
-
-template<class T>
-void tag_array<T>::pop_back()
-{
-    data.pop_back();
-}
-
-template<class T>
-size_t tag_array<T>::size() const
-{
-    return data.size();
-}
-
-template<class T>
-void tag_array<T>::clear()
-{
-    data.clear();
-}
-
-template<class T> auto tag_array<T>::begin() -> iterator { return data.begin(); }
-template<class T> auto tag_array<T>::end()   -> iterator { return data.end(); }
-template<class T> auto tag_array<T>::begin() const  -> const_iterator { return data.begin(); }
-template<class T> auto tag_array<T>::end() const    -> const_iterator { return data.end(); }
-template<class T> auto tag_array<T>::cbegin() const -> const_iterator { return data.cbegin(); }
-template<class T> auto tag_array<T>::cend() const   -> const_iterator { return data.cend(); }
-
-template<class T>
-bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)
-{
-    return lhs.get() == rhs.get();
-}
-
-template<class T>
-bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs)
-{
-    return !(lhs == rhs);
-}
 
 }
 
