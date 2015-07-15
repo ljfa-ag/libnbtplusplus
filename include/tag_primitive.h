@@ -65,54 +65,6 @@ typedef tag_primitive<int64_t> tag_long;
 typedef tag_primitive<float> tag_float;
 typedef tag_primitive<double> tag_double;
 
-template<class T>
-tag_primitive<T>::tag_primitive(T val):
-    value(val)
-{}
-
-template<class T>
-tag_primitive<T>& tag_primitive<T>::operator=(T val)
-{
-    value = val;
-    return *this;
-}
-
-template<class T>
-void tag_primitive<T>::set(T val)
-{
-    value = val;
-}
-
-template<class T>
-tag_primitive<T>::operator T&()
-{
-    return value;
-}
-
-template<class T>
-tag_primitive<T>::operator T() const
-{
-    return value;
-}
-
-template<class T>
-T tag_primitive<T>::get() const
-{
-    return value;
-}
-
-template<class T>
-bool operator==(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs)
-{
-    return lhs.get() == rhs.get();
-}
-
-template<class T>
-bool operator!=(const tag_primitive<T>& lhs, const tag_primitive<T>& rhs)
-{
-    return !(lhs == rhs);
-}
-
 }
 
 #endif // TAG_PRIMITIVE_H_INCLUDED
