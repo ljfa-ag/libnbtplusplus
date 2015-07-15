@@ -17,13 +17,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBNBT_H_INCLUDED
-#define LIBNBT_H_INCLUDED
+#ifndef TAG_ARRAY_H_INCLUDED
+#define TAG_ARRAY_H_INCLUDED
 
-#include "tag_primitive.h"
-#include "tag_string.h"
-#include "tag_compound.h"
-#include "tag_list.h"
-#include "tag_array.h"
+#include "crtp_tag.h"
 
-#endif // LIBNBT_H_INCLUDED
+namespace nbt
+{
+
+/**
+ * @brief Tag that contains an array of byte or int values
+ *
+ * Common class for tag_byte_array and tag_int_array.
+ */
+template<class T>
+class tag_array final : public detail::crtp_tag<tag_array<T>>
+{
+
+};
+
+//Typedefs that should be used instead of the template tag_array.
+typedef tag_array<int8_t> tag_byte_array;
+typedef tag_array<int32_t> tag_int_array;
+
+}
+
+#endif // TAG_ARRAY_H_INCLUDED
