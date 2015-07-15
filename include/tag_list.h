@@ -35,7 +35,7 @@ class tag_byte_array;
 class tag_int_array;
 
 ///Tag that contains multiple unnamed tags of the same type
-class tag_list : public detail::crtp_tag<tag_list>
+class tag_list final : public detail::crtp_tag<tag_list>
 {
 public:
     //Iterator types
