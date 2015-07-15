@@ -52,6 +52,10 @@ void test_tag_primitive()
     tag = 7;
     ASSERT(7 == static_cast<int>(tag));
 
+    ASSERT(tag == tag_int(7));
+    ASSERT(tag_float(2.5) != tag_float(-2.5));
+    ASSERT(tag_float(2.5) != tag_double(2.5));
+
     ASSERT(tag_double() == 0.0);
 
     ASSERT(tag_byte(INT8_MAX).get() == INT8_MAX);
