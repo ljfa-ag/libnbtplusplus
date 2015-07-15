@@ -21,10 +21,22 @@
 #define TAG_ARRAY_H_INCLUDED
 
 #include "crtp_tag.h"
+#include <type_traits>
 #include <vector>
 
 namespace nbt
 {
+
+namespace detail
+{
+
+    template<class T> struct get_array_type
+    { static_assert(sizeof(T) != sizeof(T), "Can only use byte or int as parameter for tag_array"); };
+
+    template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
+    template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
+
+}
 
 /**
  * @brief Tag that contains an array of byte or int values
@@ -43,10 +55,10 @@ public:
     typedef T value_type;
 
     ///The type of the tag
-    static constexpr tag_type type = tag_type::Byte_Array;
+    static constexpr tag_type type = detail::get_array_type<T>::value;
 
     ///Constructs an empty array
-    tag_array();
+    tag_array() {}
 
     ///Constructs an array with the given values
     tag_array(std::initializer_list<T> init);
@@ -86,13 +98,88 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
-private:
-    std::vector<T> values;
+    ///The vector that holds the values
+    std::vector<T> data;
 };
+
+template<class T> bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs);
+template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs);
 
 //Typedefs that should be used instead of the template tag_array.
 typedef tag_array<int8_t> tag_byte_array;
 typedef tag_array<int32_t> tag_int_array;
+
+template<class T>
+tag_array<T>::tag_array(std::initializer_list<T> init):
+    data(init)
+{}
+
+template<class T>
+T& tag_array<T>::at(size_t i)
+{
+    return data.at(i);
+}
+
+template<class T>
+T tag_array<T>::at(size_t i) const
+{
+    return data.at(i);
+}
+
+template<class T>
+T& tag_array<T>::operator[](size_t i)
+{
+    return data[i];
+}
+
+template<class T>
+T tag_array<T>::operator[](size_t i) const
+{
+    return data[i];
+}
+
+template<class T>
+void tag_array<T>::push_back(T val)
+{
+    data.push_back(val);
+}
+
+template<class T>
+void tag_array<T>::pop_back()
+{
+    data.pop_back();
+}
+
+template<class T>
+size_t tag_array<T>::size() const
+{
+    return data.size();
+}
+
+template<class T>
+void tag_array<T>::clear()
+{
+    data.clear();
+}
+
+template<class T> auto tag_array<T>::begin() -> iterator { return data.begin(); }
+template<class T> auto tag_array<T>::end()   -> iterator { return data.end(); }
+template<class T> auto tag_array<T>::begin() const  -> const_iterator { return data.begin(); }
+template<class T> auto tag_array<T>::end() const    -> const_iterator { return data.end(); }
+template<class T> auto tag_array<T>::cbegin() const -> const_iterator { return data.cbegin(); }
+template<class T> auto tag_array<T>::cend() const   -> const_iterator { return data.cend(); }
+
+template<class T>
+bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)
+{
+    return lhs.data == rhs.data;
+}
+
+template<class T>
+bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs)
+{
+    return !(lhs == rhs);
+}
 
 }
 

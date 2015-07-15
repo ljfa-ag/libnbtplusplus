@@ -34,9 +34,7 @@ namespace detail
 {
     ///Meta-struct that holds the tag_type value for a specific primitive type
     template<class T> struct get_primitive_type
-    {
-        static_assert(sizeof(T) != sizeof(T), "Can only use primitive types used by NBT as parameter for tag_primitive");
-    };
+    { static_assert(sizeof(T) != sizeof(T), "Can only use primitive types used by NBT as parameter for tag_primitive"); };
 
     template<> struct get_primitive_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte> {};
     template<> struct get_primitive_type<int16_t> : public std::integral_constant<tag_type, tag_type::Short> {};
