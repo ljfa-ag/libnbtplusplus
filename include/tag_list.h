@@ -42,11 +42,15 @@ public:
     typedef std::vector<value>::iterator iterator;
     typedef std::vector<value>::const_iterator const_iterator;
 
-    template<class T>
-    class of;
-
     ///The type of the tag
     static constexpr tag_type type = tag_type::List;
+
+    /**
+     * @brief Constructs a list with the given contents of type T
+     * @param init list of values that are, one by one, given to a constructor of T
+     */
+    template<class T>
+    static tag_list of(std::initializer_list<T> init);
 
     /**
      * @brief Constructs an empty list
@@ -148,7 +152,10 @@ public:
     friend bool operator==(const tag_list& lhs, const tag_list& rhs);
     friend bool operator!=(const tag_list& lhs, const tag_list& rhs);
 
-protected:
+private:
+    std::vector<value> tags;
+    tag_type el_type_;
+
     /**
      * Internally used initialization function that initializes the list with
      * tags of type T, with the constructor arguments of each T given by il.
@@ -156,25 +163,15 @@ protected:
      */
     template<class T, class Arg>
     void init(std::initializer_list<Arg> il);
-
-private:
-    std::vector<value> tags;
-    tag_type el_type_;
 };
 
-/**
- * @brief Subclass of tag_list with compile-time-known element type
- * @todo Statically override some of the superclass methods to forgo dynamic type checking
- */
 template<class T>
-class tag_list::of : public tag_list
+tag_list tag_list::of(std::initializer_list<T> il)
 {
-public:
-    of(std::initializer_list<T> il)
-    {
-        init<T>(il);
-    }
-};
+    tag_list result;
+    result.init<T, T>(il);
+    return result;
+}
 
 template<class T, class... Args>
 void tag_list::emplace_back(Args&&... args)
