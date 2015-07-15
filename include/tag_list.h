@@ -21,19 +21,13 @@
 #define TAG_LIST_H_INCLUDED
 
 #include "crtp_tag.h"
+#include "tagfwd.h"
 #include "value.h"
 #include <typeinfo>
 #include <vector>
 
 namespace nbt
 {
-
-//Forward declarations
-class tag_list;
-class tag_compound;
-template<class T> class tag_array;
-typedef tag_array<int8_t> tag_byte_array;
-typedef tag_array<int32_t> tag_int_array;
 
 ///Tag that contains multiple unnamed tags of the same type
 class tag_list final : public detail::crtp_tag<tag_list>
