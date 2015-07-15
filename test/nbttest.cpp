@@ -163,7 +163,7 @@ void test_tag_compound()
 void test_value()
 {
     value val1;
-    value val2(std::unique_ptr<tag>(new tag_int(42)));
+    value val2(make_unique<tag_int>(42));
     value val3(tag_int(42));
 
     ASSERT(!val1 && val2 && val3);

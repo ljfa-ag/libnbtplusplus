@@ -21,6 +21,7 @@
 #define CRTP_TAG_H_INCLUDED
 
 #include "tag.h"
+#include "make_unique.h"
 
 namespace nbt
 {
@@ -58,17 +59,13 @@ namespace detail
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::clone() const&
     {
-        return std::unique_ptr<tag>(
-            new Sub(static_cast<const Sub&>(*this))
-        );
+        return make_unique<Sub>(static_cast<const Sub&>(*this));
     }
 
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::move_clone() &&
     {
-        return std::unique_ptr<tag>(
-            new Sub(static_cast<Sub&&>(*this))
-        );
+        return make_unique<Sub>(static_cast<Sub&&>(*this));
     }
 
     template<class Sub>
