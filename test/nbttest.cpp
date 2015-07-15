@@ -19,6 +19,7 @@
  */
 #include "microtest.h"
 #include "libnbt.h"
+#include <algorithm>
 
 using namespace nbt;
 
@@ -247,14 +248,10 @@ void test_tag_list()
     list.set(1, value(tag_string("baz")));
     ASSERT(std::string(list[1]) == "baz");
 
-    const char* values[] = {"foo", "baz"};
-    unsigned i = 0;
-    for(const value& val: list)
-    {
-        ASSERT(i < list.size());
-        ASSERT(std::string(val) == values[i]);
-        ++i;
-    }
+    ASSERT(list.size() == 2);
+    tag_string values[] = {"foo", "baz"};
+    ASSERT(list.end() - list.begin() == int(list.size()));
+    ASSERT(std::equal(list.begin(), list.end(), values));
 
     list.pop_back();
     ASSERT(list == tag_list{"foo"});
