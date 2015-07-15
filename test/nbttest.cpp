@@ -281,6 +281,59 @@ void test_tag_list()
     std::clog << "test_tag_list passed" << std::endl;
 }
 
+void test_tag_byte_array()
+{
+    tag_byte_array arr{1, 2, 127, -128};
+    ASSERT(arr.size() == 4);
+    ASSERT(arr.at(0) == 1 && arr[1] == 2 && arr[2] == 127 && arr.at(3) == -128);
+    EXPECT_EXCEPTION(arr.at(-1), std::out_of_range);
+    EXPECT_EXCEPTION(arr.at(4), std::out_of_range);
+
+    arr.push_back(42);
+
+    ASSERT(arr.size() == 5);
+    int8_t values[] = {1, 2, 127, -128, 42};
+    ASSERT(arr.end() - arr.begin() == int(arr.size()));
+    ASSERT(std::equal(arr.begin(), arr.end(), values));
+
+    arr.pop_back();
+    arr.pop_back();
+    ASSERT(arr.size() == 3);
+    ASSERT((arr == tag_byte_array{1, 2, 127}));
+    ASSERT((arr != tag_int_array{1, 2, 127}));
+    ASSERT((arr != tag_byte_array{1, 2, -1}));
+
+    arr.clear();
+    ASSERT(arr == tag_byte_array());
+    std::clog << "test_tag_byte_array passed" << std::endl;
+}
+
+void test_tag_int_array()
+{
+    tag_int_array arr{100, 200, INT32_MAX, INT32_MIN};
+    ASSERT(arr.size() == 4);
+    ASSERT(arr.at(0) == 100 && arr[1] == 200 && arr[2] == INT32_MAX && arr.at(3) == INT32_MIN);
+    EXPECT_EXCEPTION(arr.at(-1), std::out_of_range);
+    EXPECT_EXCEPTION(arr.at(4), std::out_of_range);
+
+    arr.push_back(42);
+
+    ASSERT(arr.size() == 5);
+    int32_t values[] = {100, 200, INT32_MAX, INT32_MIN, 42};
+    ASSERT(arr.end() - arr.begin() == int(arr.size()));
+    ASSERT(std::equal(arr.begin(), arr.end(), values));
+
+    arr.pop_back();
+    arr.pop_back();
+    ASSERT(arr.size() == 3);
+    ASSERT((arr == tag_int_array{100, 200, INT32_MAX}));
+    ASSERT((arr != tag_int_array{100, -56, -1}));
+
+    arr.clear();
+    ASSERT(arr == tag_int_array());
+    std::clog << "test_tag_int_array passed" << std::endl;
+}
+
 int main()
 {
     test_get_type();
@@ -289,4 +342,6 @@ int main()
     test_tag_compound();
     test_value();
     test_tag_list();
+    test_tag_byte_array();
+    test_tag_int_array();
 }
