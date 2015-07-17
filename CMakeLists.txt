@@ -7,7 +7,10 @@ add_definitions(-std=c++11)
 include_directories(include)
 add_library(nbt++ STATIC
     src/tag.cpp
+    src/tag_array.cpp
     src/tag_compound.cpp
+    src/tag_list.cpp
+    src/tag_primitive.cpp
     src/tag_string.cpp
     src/value.cpp
     src/value_initializer.cpp)
