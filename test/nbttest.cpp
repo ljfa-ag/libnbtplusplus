@@ -96,7 +96,7 @@ void test_tag_compound()
         {"foo", int16_t(12)},
         {"bar", "baz"},
         {"baz", -2.0},
-        {"list", tag_list::of<tag_byte>({16, 17})}
+        {"list", tag_list{16, 17}}
     };
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
@@ -125,7 +125,7 @@ void test_tag_compound()
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
     ASSERT(std::string(comp["quux"]["Hello"]) == "World");
-    ASSERT(comp["list"][1] == tag_byte(17));
+    ASSERT(comp["list"][1] == tag_int(17));
 
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
@@ -134,11 +134,12 @@ void test_tag_compound()
         {"bar", "barbaz"},
         {"baz", -2.0},
         {"quux", tag_compound{{"Hello", "World"}, {"zero", 0}}},
-        {"list", tag_list::of<tag_byte>({16, 17})}
+        {"list", tag_list{16, 17}}
     };
     ASSERT(comp == comp2);
-    ASSERT(comp != (const tag_compound&)comp2["quux"]);
+    ASSERT(comp != dynamic_cast<const tag_compound&>(comp2["quux"].get()));
     ASSERT(comp != comp2["quux"]);
+    ASSERT(dynamic_cast<const tag_compound&>(comp["quux"].get()) == comp2["quux"]);
 
     ASSERT(comp2.size() == 5);
     const char* keys[] = {"bar", "baz", "foo", "list", "quux"}; //alphabetic order
@@ -191,6 +192,12 @@ void test_value()
     ASSERT(val1 != val2);
     ASSERT(val2 == val3);
     ASSERT(val3 == val3);
+
+    value valstr(tag_string("foo"));
+    ASSERT(std::string(valstr) == "foo");
+    valstr = "bar";
+    EXPECT_EXCEPTION(valstr = 5, std::bad_cast);
+    ASSERT(std::string(valstr) == "bar");
 
     val1 = int64_t(42);
     ASSERT(val2 != val1);
