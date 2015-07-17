@@ -153,8 +153,14 @@ void test_tag_compound()
 
     ASSERT(comp.erase("nothing") == false);
     ASSERT(comp.has_key("quux"));
+    ASSERT(comp.has_key("quux", tag_type::Compound));
+    ASSERT(!comp.has_key("quux", tag_type::List));
+    ASSERT(!comp.has_key("quux", tag_type::Null));
+
     ASSERT(comp.erase("quux") == true);
     ASSERT(!comp.has_key("quux"));
+    ASSERT(!comp.has_key("quux", tag_type::Compound));
+    ASSERT(!comp.has_key("quux", tag_type::Null));
 
     comp.clear();
     ASSERT(comp == tag_compound{});

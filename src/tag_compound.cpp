@@ -72,6 +72,12 @@ bool tag_compound::has_key(const std::string& key) const
     return tags.find(key) != tags.end();
 }
 
+bool tag_compound::has_key(const std::string& key, tag_type type) const
+{
+    auto it = tags.find(key);
+    return it != tags.end() && it->second.get_type() == type;
+}
+
 size_t tag_compound::size() const
 {
     return tags.size();

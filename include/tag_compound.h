@@ -100,6 +100,8 @@ public:
 
     ///Returns true if the given key exists in the compound
     bool has_key(const std::string& key) const;
+    ///Returns true if the given key exists and the tag has the given type
+    bool has_key(const std::string& key, tag_type type) const;
 
     ///Returns the number of tags in the compound
     size_t size() const;
