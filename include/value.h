@@ -30,8 +30,34 @@ namespace nbt
 /**
  * @brief Contains an NBT value of fixed type
  *
- * A convenience wrapper around @c std::unique_ptr<tag>, contains a tag of
- * fixed type.
+ * This class is a convenience wrapper for @c std::unique_ptr<tag>.
+ * A value can contain any kind of tag or no tag (nullptr) and provides
+ * operations for handling tags of which the type is not known at compile time.
+ * Assignment or the set method on a value with no tag will fill in the value.
+ * Once the value contains a tag, the type of the contained tag will not change
+ * unless set_ptr is used.
+ *
+ * The rationale for the existance of this class is to provide a type-erasured
+ * means of storing tags, especially when they are contained in tag_compound
+ * or tag_list. The alternative would be directly using @c std::unique_ptr<tag>
+ * and @c tag&, which is how it was done in libnbt++1. The main drawback is that
+ * it becomes very cumbersome to deal with tags of unknown type.
+ *
+ * For example, in this case it would not be possible to allow a syntax like
+ * <tt>compound["foo"] = 42</tt>. If the key "foo" does not exist beforehand,
+ * the left hand side could not have any sensible value if it was of type
+ * @c tag&.
+ * Firstly, the compound tag would have to create a new tag_int there, but it
+ * cannot know that the new tag is going to be assigned an integer.
+ * Also, if the type was @c tag& and it allowed assignment of integers, that
+ * would mean the tag base class has assignments and conversions like this.
+ * Which means that all other tag classes would inherit them from the base
+ * class, even though it does not make any sense to allow converting a
+ * tag_compound into an integer. Attempts like this should be caught at
+ * compile time.
+ *
+ * This is why all the syntactic sugar for tags is contained in the value class
+ * while the tag class only contains common operations for all tag types.
  */
 class value
 {

@@ -27,8 +27,19 @@ namespace nbt
 
 /**
  * @brief Helper class for implicitly constructing value objects
- * @note Instances of this class can unproblematically be "sliced" (converted)
- * into @ref value objects.
+ *
+ * This type is a subclass of @ref value. However the only difference to value
+ * is that this class has additional constructors which allow implicit
+ * conversion of various types to value objects. These constructors are not
+ * part of the value class itself because implicit conversions like this
+ * (especially from @c tag&& to @c value) can cause problems and ambiguities
+ * in some cases.
+ *
+ * value_initializer is especially useful as function parameter type, it will
+ * allow convenient conversion of various values to tags on function call.
+ *
+ * As value_initializer objects are in no way different than value objects,
+ * they can just be converted to value after construction.
  */
 class value_initializer : public value
 {
