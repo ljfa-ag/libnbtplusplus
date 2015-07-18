@@ -79,14 +79,14 @@ const value& tag_list::operator[](size_t i) const
     return tags[i];
 }
 
-void tag_list::set(size_t i, value&& val)
+void tag_list::set(size_t i, value_initializer&& val)
 {
     if(val.get_type() != el_type_)
         throw std::bad_cast();
     tags.at(i) = std::move(val);
 }
 
-void tag_list::push_back(value&& val)
+void tag_list::push_back(value_initializer&& val)
 {
     if(!val) //don't allow null values
         throw std::bad_cast();

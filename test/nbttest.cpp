@@ -102,6 +102,7 @@ void test_tag_compound()
     ASSERT(comp["foo"].get_type() == tag_type::Short);
     ASSERT(int32_t(comp["foo"]) == 12);
     ASSERT(int16_t(comp.at("foo")) == int16_t(12));
+    ASSERT(comp["foo"] == tag_short(12));
     EXPECT_EXCEPTION(int8_t(comp["foo"]), std::bad_cast);
     EXPECT_EXCEPTION(std::string(comp["foo"]), std::bad_cast);
 
@@ -166,10 +167,10 @@ void test_tag_compound()
     comp.clear();
     ASSERT(comp == tag_compound{});
 
-    ASSERT(comp.put("abc", value(tag_double(6.0))).second == true);
-    ASSERT(comp.put("abc", value(tag_long(-28))).second == false);
-    ASSERT(comp.insert("ghi", value(tag_string("world"))).second == true);
-    ASSERT(comp.insert("abc", value(tag_string("hello"))).second == false);
+    ASSERT(comp.put("abc", tag_double(6.0)).second == true);
+    ASSERT(comp.put("abc", tag_long(-28)).second == false);
+    ASSERT(comp.insert("ghi", tag_string("world")).second == true);
+    ASSERT(comp.insert("abc", tag_string("hello")).second == false);
     ASSERT(comp.emplace<tag_string>("def", "ghi").second == true);
     ASSERT(comp.emplace<tag_byte>("def", 4).second == false);
     ASSERT((comp == tag_compound{
@@ -250,8 +251,8 @@ void test_tag_list()
 
     list.emplace_back<tag_string>("foo");
     ASSERT(list.el_type() == tag_type::String);
-    list.push_back(value(tag_string("bar")));
-    EXPECT_EXCEPTION(list.push_back(value(tag_int(42))), std::bad_cast);
+    list.push_back(tag_string("bar"));
+    EXPECT_EXCEPTION(list.push_back(tag_int(42)), std::bad_cast);
     EXPECT_EXCEPTION(list.emplace_back<tag_compound>(), std::bad_cast);
 
     ASSERT((list == tag_list{"foo", "bar"}));
@@ -262,7 +263,7 @@ void test_tag_list()
     EXPECT_EXCEPTION(list.at(2), std::out_of_range);
     EXPECT_EXCEPTION(list.at(-1), std::out_of_range);
 
-    list.set(1, value(tag_string("baz")));
+    list.set(1, tag_string("baz"));
     ASSERT(std::string(list[1]) == "baz");
 
     ASSERT(list.size() == 2);
@@ -278,7 +279,7 @@ void test_tag_list()
 
     list.clear();
     ASSERT(list.size() == 0);
-    EXPECT_EXCEPTION(list.push_back(value(tag_short(25))), std::bad_cast);
+    EXPECT_EXCEPTION(list.push_back(tag_short(25)), std::bad_cast);
     EXPECT_EXCEPTION(list.push_back(value(nullptr)), std::bad_cast);
 
     ASSERT(tag_list() == tag_list(tag_type::Int));

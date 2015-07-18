@@ -22,7 +22,7 @@
 
 #include "crtp_tag.h"
 #include "tagfwd.h"
-#include "value.h"
+#include "value_initializer.h"
 #include <typeinfo>
 #include <vector>
 
@@ -101,14 +101,14 @@ public:
      * content type
      * @throw std::out_of_range if the index is out of range
      */
-    void set(size_t i, value&& val);
+    void set(size_t i, value_initializer&& val);
 
     /**
      * @brief Appends the tag to the end of the list
      * @throw std::bad_cast if the type of the tag does not match the list's
      * content type
      */
-    void push_back(value&& val);
+    void push_back(value_initializer&& val);
 
     /**
      * @brief Constructs and appends a tag to the end of the list

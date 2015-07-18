@@ -43,7 +43,7 @@ value& tag_compound::operator[](const std::string& key)
     return tags[key];
 }
 
-std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key, value&& val)
+std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key, value_initializer&& val)
 {
     auto it = tags.find(key);
     if(it != tags.end())
@@ -57,7 +57,7 @@ std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key
     }
 }
 
-std::pair<tag_compound::iterator, bool> tag_compound::insert(const std::string& key, value&& val)
+std::pair<tag_compound::iterator, bool> tag_compound::insert(const std::string& key, value_initializer&& val)
 {
     return tags.emplace(key, std::move(val));
 }
