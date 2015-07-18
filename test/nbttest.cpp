@@ -202,10 +202,14 @@ void test_value()
 
     val1 = int64_t(42);
     ASSERT(val2 != val1);
+
     EXPECT_EXCEPTION(val2 = int64_t(12), std::bad_cast);
     ASSERT(int64_t(val2) == 42);
+    tag_int* ptr = dynamic_cast<tag_int*>(val2.get_ptr().get());
+    ASSERT(*ptr == 42);
     val2 = 52;
     ASSERT(int32_t(val2) == 52);
+    ASSERT(*ptr == 52);
 
     EXPECT_EXCEPTION(val1["foo"], std::bad_cast);
     EXPECT_EXCEPTION(val1.at("foo"), std::bad_cast);
@@ -240,6 +244,9 @@ void test_value()
     val2 = val2;
     ASSERT(!val1);
     ASSERT(val2 == tag_int(21));
+
+    val2.set_ptr(make_unique<tag_string>("foo"));
+    ASSERT(val2 == tag_string("foo"));
     std::clog << "test_value passed" << std::endl;
 }
 
