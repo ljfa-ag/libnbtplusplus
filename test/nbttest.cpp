@@ -199,6 +199,9 @@ void test_value()
     valstr = "bar";
     EXPECT_EXCEPTION(valstr = 5, std::bad_cast);
     ASSERT(std::string(valstr) == "bar");
+    ASSERT(valstr.as<tag_string>() == "bar");
+    ASSERT(&valstr.as<tag>() == &valstr.get());
+    EXPECT_EXCEPTION(valstr.as<tag_float>(), std::bad_cast);
 
     val1 = int64_t(42);
     ASSERT(val2 != val1);
@@ -227,7 +230,7 @@ void test_value()
     tag = 21;
     ASSERT(int32_t(val3) == 21);
     val1.set_ptr(std::move(val3.get_ptr()));
-    ASSERT(tag_int(val1) == 21);
+    ASSERT(val1.as<tag_int>() == 21);
 
     ASSERT(val1.get_type() == tag_type::Int);
     ASSERT(val2.get_type() == tag_type::Null);

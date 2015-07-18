@@ -66,6 +66,15 @@ public:
     tag& get();
     const tag& get() const;
 
+    /**
+     * @brief Returns the contained tag as an instance of T
+     * @throw std::bad_cast if the tag is not of type T
+     */
+    template<class T>
+    T& as();
+    template<class T>
+    const T& as() const;
+
     //Assignment of primitives and string
     /**
      * @brief Assigns the given value to the tag if the type is compatible
@@ -92,12 +101,12 @@ public:
      * @throw std::bad_cast if the tag type is not convertible to the desired
      * type via a widening conversion
      */
-    operator int8_t() const;
-    operator int16_t() const;
-    operator int32_t() const;
-    operator int64_t() const;
-    operator float() const;
-    operator double() const;
+    explicit operator int8_t() const;
+    explicit operator int16_t() const;
+    explicit operator int32_t() const;
+    explicit operator int64_t() const;
+    explicit operator float() const;
+    explicit operator double() const;
 
     /**
      * @brief Returns the contained string if the type is tag_string
@@ -105,7 +114,7 @@ public:
      * If the value is uninitialized, the behavior is undefined.
      * @throw std::bad_cast if the tag type is not tag_string
      */
-    operator const std::string&() const;
+    explicit operator const std::string&() const;
 
     ///Returns true if the value is not uninitialized
     explicit operator bool() const;
@@ -166,6 +175,18 @@ public:
 private:
     std::unique_ptr<tag> tag_;
 };
+
+template<class T>
+T& value::as()
+{
+    return dynamic_cast<T&>(get());
+}
+
+template<class T>
+const T& value::as() const
+{
+    return dynamic_cast<T&>(get());
+}
 
 }
 
