@@ -22,6 +22,7 @@
 
 #include "tag.h"
 #include <string>
+#include <type_traits>
 
 namespace nbt
 {
@@ -179,12 +180,14 @@ private:
 template<class T>
 T& value::as()
 {
+    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
     return dynamic_cast<T&>(get());
 }
 
 template<class T>
 const T& value::as() const
 {
+    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
     return dynamic_cast<T&>(get());
 }
 
