@@ -100,27 +100,27 @@ void test_tag_compound()
     };
 
     ASSERT(comp["foo"].get_type() == tag_type::Short);
-    ASSERT(int32_t(comp["foo"]) == 12);
-    ASSERT(int16_t(comp.at("foo")) == int16_t(12));
+    ASSERT(static_cast<int32_t>(comp["foo"]) == 12);
+    ASSERT(static_cast<int16_t>(comp.at("foo")) == int16_t(12));
     ASSERT(comp["foo"] == tag_short(12));
-    EXPECT_EXCEPTION(int8_t(comp["foo"]), std::bad_cast);
-    EXPECT_EXCEPTION(std::string(comp["foo"]), std::bad_cast);
+    EXPECT_EXCEPTION(static_cast<int8_t>(comp["foo"]), std::bad_cast);
+    EXPECT_EXCEPTION(static_cast<std::string>(comp["foo"]), std::bad_cast);
 
     EXPECT_EXCEPTION(comp["foo"] = 32, std::bad_cast);
     comp["foo"] = int8_t(32);
-    ASSERT(int16_t(comp["foo"]) == 32);
+    ASSERT(static_cast<int16_t>(comp["foo"]) == 32);
 
     ASSERT(comp["bar"].get_type() == tag_type::String);
-    ASSERT(std::string(comp["bar"]) == "baz");
-    EXPECT_EXCEPTION(int(comp["bar"]), std::bad_cast);
+    ASSERT(static_cast<std::string>(comp["bar"]) == "baz");
+    EXPECT_EXCEPTION(static_cast<int>(comp["bar"]), std::bad_cast);
 
     EXPECT_EXCEPTION(comp["bar"] = -128, std::bad_cast);
     comp["bar"] = "barbaz";
-    ASSERT(std::string(comp["bar"]) == "barbaz");
+    ASSERT(static_cast<std::string>(comp["bar"]) == "barbaz");
 
     ASSERT(comp["baz"].get_type() == tag_type::Double);
-    ASSERT(double(comp["baz"]) == -2.0);
-    EXPECT_EXCEPTION(float(comp["baz"]), std::bad_cast);
+    ASSERT(static_cast<double>(comp["baz"]) == -2.0);
+    EXPECT_EXCEPTION(static_cast<float>(comp["baz"]), std::bad_cast);
 
     comp["quux"] = tag_compound{{"Hello", "World"}, {"zero", 0}};
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
@@ -195,10 +195,10 @@ void test_value()
     ASSERT(val3 == val3);
 
     value valstr(tag_string("foo"));
-    ASSERT(std::string(valstr) == "foo");
+    ASSERT(static_cast<std::string>(valstr) == "foo");
     valstr = "bar";
     EXPECT_EXCEPTION(valstr = 5, std::bad_cast);
-    ASSERT(std::string(valstr) == "bar");
+    ASSERT(static_cast<std::string>(valstr) == "bar");
     ASSERT(valstr.as<tag_string>() == "bar");
     ASSERT(&valstr.as<tag>() == &valstr.get());
     EXPECT_EXCEPTION(valstr.as<tag_float>(), std::bad_cast);
@@ -207,11 +207,11 @@ void test_value()
     ASSERT(val2 != val1);
 
     EXPECT_EXCEPTION(val2 = int64_t(12), std::bad_cast);
-    ASSERT(int64_t(val2) == 42);
+    ASSERT(static_cast<int64_t>(val2) == 42);
     tag_int* ptr = dynamic_cast<tag_int*>(val2.get_ptr().get());
     ASSERT(*ptr == 42);
     val2 = 52;
-    ASSERT(int32_t(val2) == 52);
+    ASSERT(static_cast<int32_t>(val2) == 52);
     ASSERT(*ptr == 52);
 
     EXPECT_EXCEPTION(val1["foo"], std::bad_cast);
@@ -228,7 +228,7 @@ void test_value()
     tag_int& tag = dynamic_cast<tag_int&>(val3.get());
     ASSERT(tag == tag_int(52));
     tag = 21;
-    ASSERT(int32_t(val3) == 21);
+    ASSERT(static_cast<int32_t>(val3) == 21);
     val1.set_ptr(std::move(val3.get_ptr()));
     ASSERT(val1.as<tag_int>() == 21);
 
@@ -267,14 +267,14 @@ void test_tag_list()
 
     ASSERT((list == tag_list{"foo", "bar"}));
     ASSERT(list[0] == tag_string("foo"));
-    ASSERT(std::string(list.at(1)) == "bar");
+    ASSERT(static_cast<std::string>(list.at(1)) == "bar");
 
     ASSERT(list.size() == 2);
     EXPECT_EXCEPTION(list.at(2), std::out_of_range);
     EXPECT_EXCEPTION(list.at(-1), std::out_of_range);
 
     list.set(1, tag_string("baz"));
-    ASSERT(std::string(list[1]) == "baz");
+    ASSERT(static_cast<std::string>(list[1]) == "baz");
 
     ASSERT(list.size() == 2);
     tag_string values[] = {"foo", "baz"};
