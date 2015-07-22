@@ -53,6 +53,7 @@ std::ostream& operator<<(std::ostream& os, tag_type tt)
     case tag_type::Float:       return os << "float";
     case tag_type::Double:      return os << "double";
     case tag_type::Byte_Array:  return os << "byte_array";
+    case tag_type::String:      return os << "string";
     case tag_type::List:        return os << "list";
     case tag_type::Compound:    return os << "compound";
     case tag_type::Int_Array:   return os << "int_array";
