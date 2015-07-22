@@ -71,7 +71,7 @@ namespace detail
     template<class Sub>
     tag& crtp_tag<Sub>::assign(tag&& rhs)
     {
-        return *this = dynamic_cast<Sub&&>(rhs);
+        return static_cast<Sub&>(*this) = dynamic_cast<Sub&&>(rhs);
     }
 
     template<class Sub>
