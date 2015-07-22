@@ -29,7 +29,12 @@
 namespace nbt
 {
 
-///Tag that contains multiple unnamed tags of the same type
+/**
+ * @brief Tag that contains multiple unnamed tags of the same type
+ *
+ * The list's behavior is undefined if the contained values are changed in a
+ * way that their type differs from the list's content type.
+ */
 class tag_list final : public detail::crtp_tag<tag_list>
 {
 public:
