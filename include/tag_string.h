@@ -33,14 +33,17 @@ public:
     ///The type of the tag
     static constexpr tag_type type = tag_type::String;
 
+    //Constructors
     tag_string(const std::string& str);
     tag_string(std::string&& str = "");
     tag_string(const char* str);
 
+    //Getters
     operator std::string&();
     operator const std::string&() const;
     const std::string& get() const;
 
+    //Setters
     tag_string& operator=(const std::string& str);
     tag_string& operator=(std::string&& str);
     tag_string& operator=(const char* str);

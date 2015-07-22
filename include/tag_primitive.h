@@ -41,12 +41,15 @@ public:
     ///The type of the tag
     static constexpr tag_type type = detail::get_primitive_type<T>::value;
 
+    //Constructor
     tag_primitive(T value = 0);
 
+    //Getters
     operator T&();
     operator T() const;
     T get() const;
 
+    //Setters
     tag_primitive& operator=(T value);
     void set(T value);
 

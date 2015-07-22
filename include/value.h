@@ -34,8 +34,6 @@ namespace nbt
  * A value can contain any kind of tag or no tag (nullptr) and provides
  * operations for handling tags of which the type is not known at compile time.
  * Assignment or the set method on a value with no tag will fill in the value.
- * Once the value contains a tag, the type of the contained tag will not change
- * unless set_ptr is used.
  *
  * The rationale for the existance of this class is to provide a type-erasured
  * means of storing tags, especially when they are contained in tag_compound
@@ -62,6 +60,7 @@ namespace nbt
 class value
 {
 public:
+    //Constructors
     value() {}
     explicit value(std::unique_ptr<tag>&& t);
     explicit value(tag&& t);
@@ -189,8 +188,10 @@ public:
     value& operator[](size_t i);
     const value& operator[](size_t i) const;
 
+    ///Returns a reference to the underlying std::unique_ptr<tag>
     std::unique_ptr<tag>& get_ptr();
     const std::unique_ptr<tag>& get_ptr() const;
+    ///Resets the underlying std::unique_ptr<tag> to a different value
     void set_ptr(std::unique_ptr<tag>&& t);
 
     ///@sa tag::get_type
