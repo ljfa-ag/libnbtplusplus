@@ -248,6 +248,10 @@ void test_value()
     ASSERT(!val1);
     ASSERT(val2 == tag_int(21));
 
+    val3 = tag_short(2);
+    EXPECT_EXCEPTION(val3 = tag_string("foo"), std::bad_cast);
+    ASSERT(val3.get() == tag_short(2));
+
     val2.set_ptr(make_unique<tag_string>("foo"));
     ASSERT(val2 == tag_string("foo"));
     std::clog << "test_value passed" << std::endl;
