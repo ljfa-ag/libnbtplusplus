@@ -21,6 +21,7 @@
 #define TAG_H_INCLUDED
 
 #include <cstdint>
+#include <iosfwd>
 #include <memory>
 
 namespace nbt
@@ -41,7 +42,7 @@ enum class tag_type : int8_t
     List = 9,
     Compound = 10,
     Int_Array = 11,
-    Null = -1
+    Null = -1   ///< Used to denote empty @ref value s
 };
 
 ///Base class for all NBT tag classes
@@ -74,6 +75,8 @@ private:
      */
     virtual bool equals(const tag& rhs) const = 0;
 };
+
+std::ostream& operator<<(std::ostream& os, tag_type tt);
 
 }
 

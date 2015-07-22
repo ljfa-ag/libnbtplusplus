@@ -18,6 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag.h"
+#include <ostream>
 #include <typeinfo>
 
 namespace nbt
@@ -38,6 +39,27 @@ bool operator==(const tag& lhs, const tag& rhs)
 bool operator!=(const tag& lhs, const tag& rhs)
 {
     return !(lhs == rhs);
+}
+
+std::ostream& operator<<(std::ostream& os, tag_type tt)
+{
+    switch(tt)
+    {
+    case tag_type::End:         return os << "end";
+    case tag_type::Byte:        return os << "byte";
+    case tag_type::Short:       return os << "short";
+    case tag_type::Int:         return os << "int";
+    case tag_type::Long:        return os << "long";
+    case tag_type::Float:       return os << "float";
+    case tag_type::Double:      return os << "double";
+    case tag_type::Byte_Array:  return os << "byte_array";
+    case tag_type::List:        return os << "list";
+    case tag_type::Compound:    return os << "compound";
+    case tag_type::Int_Array:   return os << "int_array";
+    case tag_type::Null:        return os << "null";
+
+    default:                    return os << "invalid";
+    }
 }
 
 }
