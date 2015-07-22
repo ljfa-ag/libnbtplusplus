@@ -127,7 +127,7 @@ private:
 template<class T, class... Args>
 std::pair<tag_compound::iterator, bool> tag_compound::emplace(const std::string& key, Args&&... args)
 {
-    return put(key, value(T(std::forward<Args>(args)...)));
+    return put(key, value(make_unique<T>(std::forward<Args>(args)...)));
 }
 
 }
