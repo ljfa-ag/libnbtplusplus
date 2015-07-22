@@ -277,9 +277,9 @@ void test_tag_list()
     EXPECT_EXCEPTION(list.at(2), std::out_of_range);
     EXPECT_EXCEPTION(list.at(-1), std::out_of_range);
 
-    list.set(1, tag_string("baz"));
+    list.set(1, value(tag_string("baz")));
     EXPECT_EXCEPTION(list.set(1, value(nullptr)), std::bad_cast);
-    EXPECT_EXCEPTION(list.set(1, -42), std::bad_cast);
+    EXPECT_EXCEPTION(list.set(1, value(tag_int(-42))), std::bad_cast);
     ASSERT(static_cast<std::string>(list[1]) == "baz");
 
     ASSERT(list.size() == 2);

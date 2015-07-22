@@ -79,7 +79,7 @@ const value& tag_list::operator[](size_t i) const
     return tags[i];
 }
 
-void tag_list::set(size_t i, value_initializer&& val)
+void tag_list::set(size_t i, value&& val)
 {
     if(val.get_type() != el_type_)
         throw std::bad_cast();

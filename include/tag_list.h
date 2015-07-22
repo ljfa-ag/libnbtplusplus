@@ -96,12 +96,12 @@ public:
     const value& operator[](size_t i) const;
 
     /**
-     * @brief Assigns a tag at the given index
-     * @throw std::bad_cast if the type of the tag does not match the list's
+     * @brief Assigns a value at the given index
+     * @throw std::bad_cast if the type of the value does not match the list's
      * content type
      * @throw std::out_of_range if the index is out of range
      */
-    void set(size_t i, value_initializer&& val);
+    void set(size_t i, value&& val);
 
     /**
      * @brief Appends the tag to the end of the list
