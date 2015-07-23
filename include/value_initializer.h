@@ -44,8 +44,8 @@ namespace nbt
 class value_initializer : public value
 {
 public:
-    value_initializer(std::unique_ptr<tag>&& t);
-    value_initializer(value&& val);
+    value_initializer(std::unique_ptr<tag>&& t) noexcept;
+    value_initializer(value&& val) noexcept;
     value_initializer(tag&& t);
 
     value_initializer(int8_t val);

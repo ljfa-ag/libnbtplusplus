@@ -63,7 +63,7 @@ public:
 
     ///Constructs an array with the given values
     tag_array(std::initializer_list<T> init);
-    tag_array(std::vector<T>&& vec);
+    tag_array(std::vector<T>&& vec) noexcept;
 
     ///Returns a reference to the vector that contains the values
     std::vector<T>& get();

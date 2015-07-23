@@ -27,7 +27,7 @@ static_assert(std::numeric_limits<float>::is_iec559 && std::numeric_limits<doubl
     "The floating point values for NBT must conform to IEC 559/IEEE 754");
 
 template<class T>
-tag_primitive<T>::tag_primitive(T val):
+tag_primitive<T>::tag_primitive(T val) noexcept:
     value(val)
 {}
 

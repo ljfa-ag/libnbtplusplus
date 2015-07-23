@@ -28,7 +28,7 @@ tag_array<T>::tag_array(std::initializer_list<T> init):
 {}
 
 template<class T>
-tag_array<T>::tag_array(std::vector<T>&& vec):
+tag_array<T>::tag_array(std::vector<T>&& vec) noexcept:
     data(std::move(vec))
 {}
 

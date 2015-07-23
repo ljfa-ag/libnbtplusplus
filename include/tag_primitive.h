@@ -42,7 +42,7 @@ public:
     static constexpr tag_type type = detail::get_primitive_type<T>::value;
 
     //Constructor
-    tag_primitive(T value = 0);
+    tag_primitive(T value = 0) noexcept;
 
     //Getters
     operator T&();

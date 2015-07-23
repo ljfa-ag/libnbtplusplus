@@ -61,13 +61,13 @@ class value
 {
 public:
     //Constructors
-    value() {}
-    explicit value(std::unique_ptr<tag>&& t);
+    value() noexcept {}
+    explicit value(std::unique_ptr<tag>&& t) noexcept;
     explicit value(tag&& t);
 
     //Moving
-    value(value&&) = default;
-    value& operator=(value&&) = default;
+    value(value&&) noexcept = default;
+    value& operator=(value&&) noexcept = default;
 
     //Copying
     explicit value(const value& rhs);

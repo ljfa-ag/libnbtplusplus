@@ -24,7 +24,7 @@
 namespace nbt
 {
 
-value::value(std::unique_ptr<tag>&& t):
+value::value(std::unique_ptr<tag>&& t) noexcept:
     tag_(std::move(t))
 {}
 

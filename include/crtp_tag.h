@@ -34,7 +34,7 @@ namespace detail
     {
     public:
         //Pure virtual destructor to make the class abstract
-        virtual ~crtp_tag() = 0;
+        virtual ~crtp_tag() noexcept = 0;
 
         tag_type get_type() const noexcept override final;
 
@@ -48,7 +48,7 @@ namespace detail
     };
 
     template<class Sub>
-    crtp_tag<Sub>::~crtp_tag() {}
+    crtp_tag<Sub>::~crtp_tag() noexcept {}
 
     template<class Sub>
     tag_type crtp_tag<Sub>::get_type() const noexcept
