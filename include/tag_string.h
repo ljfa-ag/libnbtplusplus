@@ -34,8 +34,9 @@ public:
     static constexpr tag_type type = tag_type::String;
 
     //Constructors
+    tag_string() {}
     tag_string(const std::string& str);
-    tag_string(std::string&& str = "");
+    tag_string(std::string&& str) noexcept;
     tag_string(const char* str);
 
     //Getters

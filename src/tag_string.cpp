@@ -26,12 +26,12 @@ tag_string::tag_string(const std::string& str):
     value(str)
 {}
 
-tag_string::tag_string(std::string&& str):
+tag_string::tag_string(std::string&& str) noexcept:
     value(std::move(str))
 {}
 
 tag_string::tag_string(const char* str):
-    value(std::string(str))
+    value(str)
 {}
 
 tag_string::operator std::string&()
