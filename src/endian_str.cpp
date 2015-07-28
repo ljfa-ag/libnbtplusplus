@@ -183,32 +183,32 @@ void write_little(std::ostream& os, uint8_t x)
 void write_little(std::ostream& os, uint16_t x)
 {
     uint8_t tmp[2] {
-        uint8_t( x & 0x00FF),
-        uint8_t((x & 0xFF00) >> 8)};
+        uint8_t(x),
+        uint8_t(x >> 8)};
     os.write(reinterpret_cast<const char*>(tmp), 2);
 }
 
 void write_little(std::ostream& os, uint32_t x)
 {
     uint8_t tmp[4] {
-        uint8_t( x & 0x000000FFUL),
-        uint8_t((x & 0x0000FF00UL) >> 8),
-        uint8_t((x & 0x00FF0000UL) >> 16),
-        uint8_t((x & 0xFF000000UL) >> 24)};
+        uint8_t(x),
+        uint8_t(x >> 8),
+        uint8_t(x >> 16),
+        uint8_t(x >> 24)};
     os.write(reinterpret_cast<const char*>(tmp), 4);
 }
 
 void write_little(std::ostream& os, uint64_t x)
 {
     uint8_t tmp[8] {
-        uint8_t( x & 0x00000000000000FFULL),
-        uint8_t((x & 0x000000000000FF00ULL) >> 8),
-        uint8_t((x & 0x0000000000FF0000ULL) >> 16),
-        uint8_t((x & 0x00000000FF000000ULL) >> 24),
-        uint8_t((x & 0x000000FF00000000ULL) >> 32),
-        uint8_t((x & 0x0000FF0000000000ULL) >> 40),
-        uint8_t((x & 0x00FF000000000000ULL) >> 48),
-        uint8_t((x & 0xFF00000000000000ULL) >> 56)};
+        uint8_t(x),
+        uint8_t(x >> 8),
+        uint8_t(x >> 16),
+        uint8_t(x >> 24),
+        uint8_t(x >> 32),
+        uint8_t(x >> 40),
+        uint8_t(x >> 48),
+        uint8_t(x >> 56)};
     os.write(reinterpret_cast<const char*>(tmp), 8);
 }
 
@@ -237,32 +237,32 @@ void write_big(std::ostream& os, uint8_t x)
 void write_big(std::ostream& os, uint16_t x)
 {
     uint8_t tmp[2] {
-        uint8_t((x & 0xFF00) >> 8),
-        uint8_t( x & 0x00FF)};
+        uint8_t(x >> 8),
+        uint8_t(x)};
     os.write(reinterpret_cast<const char*>(tmp), 2);
 }
 
 void write_big(std::ostream& os, uint32_t x)
 {
     uint8_t tmp[4] {
-        uint8_t((x & 0xFF000000UL) >> 24),
-        uint8_t((x & 0x00FF0000UL) >> 16),
-        uint8_t((x & 0x0000FF00UL) >> 8),
-        uint8_t( x & 0x000000FFUL)};
+        uint8_t(x >> 24),
+        uint8_t(x >> 16),
+        uint8_t(x >> 8),
+        uint8_t(x)};
     os.write(reinterpret_cast<const char*>(tmp), 4);
 }
 
 void write_big(std::ostream& os, uint64_t x)
 {
     uint8_t tmp[8] {
-        uint8_t((x & 0xFF00000000000000ULL) >> 56),
-        uint8_t((x & 0x00FF000000000000ULL) >> 48),
-        uint8_t((x & 0x0000FF0000000000ULL) >> 40),
-        uint8_t((x & 0x000000FF00000000ULL) >> 32),
-        uint8_t((x & 0x00000000FF000000ULL) >> 24),
-        uint8_t((x & 0x0000000000FF0000ULL) >> 16),
-        uint8_t((x & 0x000000000000FF00ULL) >> 8),
-        uint8_t( x & 0x00000000000000FFULL)};
+        uint8_t(x >> 56),
+        uint8_t(x >> 48),
+        uint8_t(x >> 40),
+        uint8_t(x >> 32),
+        uint8_t(x >> 24),
+        uint8_t(x >> 16),
+        uint8_t(x >> 8),
+        uint8_t(x)};
     os.write(reinterpret_cast<const char*>(tmp), 8);
 }
 
