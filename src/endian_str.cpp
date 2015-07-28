@@ -19,12 +19,31 @@
  */
 #include "endian_str.h"
 #include <climits>
+#include <cstring>
 #include <iostream>
 
 static_assert(CHAR_BIT == 8, "Assuming that a byte has 8 bits");
+static_assert(sizeof(float) == 4, "Assuming that a float is 4 byte long");
+static_assert(sizeof(double) == 8, "Assuming that a double is 8 byte long");
 
 namespace endian
 {
+
+namespace //anonymous
+{
+    void pun_int_to_float(float& f, uint32_t i)
+    {
+        //Yes we need to do it this way to avoid undefined behavior
+        memcpy(&f, &i, 4);
+    }
+
+    uint32_t pun_float_to_int(float f)
+    {
+        uint32_t ret;
+        memcpy(&ret, &f, 4);
+        return ret;
+    }
+}
 
 void read_little(std::istream& is, uint8_t& x)
 {
@@ -67,6 +86,13 @@ void read_little(std::istream& is, int8_t & x) { read_little(is, reinterpret_cas
 void read_little(std::istream& is, int16_t& x) { read_little(is, reinterpret_cast<uint16_t&>(x)); }
 void read_little(std::istream& is, int32_t& x) { read_little(is, reinterpret_cast<uint32_t&>(x)); }
 void read_little(std::istream& is, int64_t& x) { read_little(is, reinterpret_cast<uint64_t&>(x)); }
+
+void read_little(std::istream& is, float& x)
+{
+    uint32_t tmp;
+    read_little(is, tmp);
+    pun_int_to_float(x, tmp);
+}
 
 //------------------------------------------------------------------------------
 
@@ -112,6 +138,13 @@ void read_big(std::istream& is, int16_t& x) { read_big(is, reinterpret_cast<uint
 void read_big(std::istream& is, int32_t& x) { read_big(is, reinterpret_cast<uint32_t&>(x)); }
 void read_big(std::istream& is, int64_t& x) { read_big(is, reinterpret_cast<uint64_t&>(x)); }
 
+void read_big(std::istream& is, float& x)
+{
+    uint32_t tmp;
+    read_big(is, tmp);
+    pun_int_to_float(x, tmp);
+}
+
 //------------------------------------------------------------------------------
 
 void write_little(std::ostream& os, uint8_t x)
@@ -156,6 +189,11 @@ void write_little(std::ostream& os, int16_t x) { write_little(os, static_cast<ui
 void write_little(std::ostream& os, int32_t x) { write_little(os, static_cast<uint32_t>(x)); }
 void write_little(std::ostream& os, int64_t x) { write_little(os, static_cast<uint64_t>(x)); }
 
+void write_little(std::ostream& os, float x)
+{
+    write_little(os, pun_float_to_int(x));
+}
+
 //------------------------------------------------------------------------------
 
 void write_big(std::ostream& os, uint8_t x)
@@ -199,5 +237,10 @@ void write_big(std::ostream& os, int8_t  x) { write_big(os, static_cast<uint8_t 
 void write_big(std::ostream& os, int16_t x) { write_big(os, static_cast<uint16_t>(x)); }
 void write_big(std::ostream& os, int32_t x) { write_big(os, static_cast<uint32_t>(x)); }
 void write_big(std::ostream& os, int64_t x) { write_big(os, static_cast<uint64_t>(x)); }
+
+void write_big(std::ostream& os, float x)
+{
+    write_big(os, pun_float_to_int(x));
+}
 
 }

@@ -19,6 +19,7 @@
  */
 #include "microtest.h"
 #include "endian_str.h"
+#include <cstdlib>
 #include <sstream>
 
 using namespace endian;
@@ -129,8 +130,40 @@ void test_sint()
     ASSERT(str); //Check if stream has failed
 }
 
+void test_float()
+{
+    std::stringstream str(std::ios::in | std::ios::out | std::ios::binary);
+
+    //C99 has hexadecimal floating point literals, C++ doesn't...
+    const float fconst = strtof("-0xCDEF01p-63", nullptr); //-1.46325e-012
+    const double dconst = strtod("-0x1DEF0102030405p-375", nullptr); //-1.09484e-097
+    //We will be assuming IEEE 754 here
+
+    write_little(str, fconst);
+    write_big   (str, fconst);
+
+    const char expected[] = {
+        '\x01', '\xEF', '\xCD', '\xAB',
+
+        '\xAB', '\xCD', '\xEF', '\x01',
+        0}; //Null terminator
+    ASSERT(str.str() == expected);
+
+    float f;
+    double d;
+
+    read_little(str, f);
+    ASSERT(f == fconst);
+
+    read_big(str, f);
+    ASSERT(f == fconst);
+
+    ASSERT(str); //Check if stream has failed
+}
+
 int main()
 {
     test_uint();
     test_sint();
+    test_float();
 }
