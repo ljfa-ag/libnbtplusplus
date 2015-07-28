@@ -72,6 +72,8 @@ void test_uint()
     ASSERT(u32 == 0x090A0B0CUL);
     read_big(str, u64);
     ASSERT(u64 == 0x090A0B0C0D0E0F10ULL);
+
+    ASSERT(str); //Check if stream has failed
 }
 
 void test_sint()
@@ -123,6 +125,8 @@ void test_sint()
     ASSERT(i32 == -0x090A0B0CUL);
     read_big(str, i64);
     ASSERT(i64 == -0x090A0B0C0D0E0F10ULL);
+
+    ASSERT(str); //Check if stream has failed
 }
 
 int main()
