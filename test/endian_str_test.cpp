@@ -113,18 +113,18 @@ void test_sint()
     read_little(str, i16);
     ASSERT(i16 == -0x0102);
     read_little(str, i32);
-    ASSERT(i32 == -0x01020304UL);
+    ASSERT(i32 == -0x01020304L);
     read_little(str, i64);
-    ASSERT(i64 == -0x0102030405060708ULL);
+    ASSERT(i64 == -0x0102030405060708LL);
 
     read_big(str, i8);
     ASSERT(i8 == -0x09);
     read_big(str, i16);
     ASSERT(i16 == -0x090A);
     read_big(str, i32);
-    ASSERT(i32 == -0x090A0B0CUL);
+    ASSERT(i32 == -0x090A0B0CL);
     read_big(str, i64);
-    ASSERT(i64 == -0x090A0B0C0D0E0F10ULL);
+    ASSERT(i64 == -0x090A0B0C0D0E0F10LL);
 
     ASSERT(str); //Check if stream has failed
 }
