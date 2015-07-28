@@ -140,12 +140,16 @@ void test_float()
     //We will be assuming IEEE 754 here
 
     write_little(str, fconst);
+    write_little(str, dconst);
     write_big   (str, fconst);
+    write_big   (str, dconst);
 
     const char expected[] = {
         '\x01', '\xEF', '\xCD', '\xAB',
+        '\x05', '\x04', '\x03', '\x02', '\x01', '\xEF', '\xCD', '\xAB',
 
         '\xAB', '\xCD', '\xEF', '\x01',
+        '\xAB', '\xCD', '\xEF', '\x01', '\x02', '\x03', '\x04', '\x05',
         0}; //Null terminator
     ASSERT(str.str() == expected);
 
@@ -154,9 +158,13 @@ void test_float()
 
     read_little(str, f);
     ASSERT(f == fconst);
+    read_little(str, d);
+    ASSERT(d == dconst);
 
     read_big(str, f);
     ASSERT(f == fconst);
+    read_big(str, d);
+    ASSERT(d == dconst);
 
     ASSERT(str); //Check if stream has failed
 }

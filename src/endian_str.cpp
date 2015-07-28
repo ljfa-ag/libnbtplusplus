@@ -43,7 +43,21 @@ namespace //anonymous
         memcpy(&ret, &f, 4);
         return ret;
     }
+
+    void pun_int_to_double(double& d, uint64_t i)
+    {
+        memcpy(&d, &i, 8);
+    }
+
+    uint64_t pun_double_to_int(double f)
+    {
+        uint64_t ret;
+        memcpy(&ret, &f, 8);
+        return ret;
+    }
 }
+
+//------------------------------------------------------------------------------
 
 void read_little(std::istream& is, uint8_t& x)
 {
@@ -92,6 +106,13 @@ void read_little(std::istream& is, float& x)
     uint32_t tmp;
     read_little(is, tmp);
     pun_int_to_float(x, tmp);
+}
+
+void read_little(std::istream& is, double& x)
+{
+    uint64_t tmp;
+    read_little(is, tmp);
+    pun_int_to_double(x, tmp);
 }
 
 //------------------------------------------------------------------------------
@@ -145,6 +166,13 @@ void read_big(std::istream& is, float& x)
     pun_int_to_float(x, tmp);
 }
 
+void read_big(std::istream& is, double& x)
+{
+    uint64_t tmp;
+    read_big(is, tmp);
+    pun_int_to_double(x, tmp);
+}
+
 //------------------------------------------------------------------------------
 
 void write_little(std::ostream& os, uint8_t x)
@@ -194,6 +222,11 @@ void write_little(std::ostream& os, float x)
     write_little(os, pun_float_to_int(x));
 }
 
+void write_little(std::ostream& os, double x)
+{
+    write_little(os, pun_double_to_int(x));
+}
+
 //------------------------------------------------------------------------------
 
 void write_big(std::ostream& os, uint8_t x)
@@ -241,6 +274,11 @@ void write_big(std::ostream& os, int64_t x) { write_big(os, static_cast<uint64_t
 void write_big(std::ostream& os, float x)
 {
     write_big(os, pun_float_to_int(x));
+}
+
+void write_big(std::ostream& os, double x)
+{
+    write_big(os, pun_double_to_int(x));
 }
 
 }
