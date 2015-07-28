@@ -6,6 +6,7 @@ set(libnbt++_VERSION_MINOR 0)
 add_definitions(-std=c++11)
 include_directories(include)
 add_library(nbt++ STATIC
+    src/endian_str.cpp
     src/tag.cpp
     src/tag_array.cpp
     src/tag_compound.cpp

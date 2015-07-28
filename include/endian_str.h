@@ -31,52 +31,52 @@ namespace endian
 {
 
 ///Reads number from stream in little endian
-void read_little(std::istream& str, uint8_t& x);
-void read_little(std::istream& str, uint16_t& x);
-void read_little(std::istream& str, uint32_t& x);
-void read_little(std::istream& str, uint64_t& x);
-void read_little(std::istream& str, int8_t& x);
-void read_little(std::istream& str, int16_t& x);
-void read_little(std::istream& str, int32_t& x);
-void read_little(std::istream& str, int64_t& x);
-void read_little(std::istream& str, float& x);
-void read_little(std::istream& str, double& x);
-
-///Writes number to stream in little endian
-void write_little(std::ostream& str, uint8_t x);
-void write_little(std::ostream& str, uint16_t x);
-void write_little(std::ostream& str, uint32_t x);
-void write_little(std::ostream& str, uint64_t x);
-void write_little(std::ostream& str, int8_t x);
-void write_little(std::ostream& str, int16_t x);
-void write_little(std::ostream& str, int32_t x);
-void write_little(std::ostream& str, int64_t x);
-void write_little(std::ostream& str, float x);
-void write_little(std::ostream& str, double x);
+void read_little(std::istream& is, uint8_t& x);
+void read_little(std::istream& is, uint16_t& x);
+void read_little(std::istream& is, uint32_t& x);
+void read_little(std::istream& is, uint64_t& x);
+void read_little(std::istream& is, int8_t& x);
+void read_little(std::istream& is, int16_t& x);
+void read_little(std::istream& is, int32_t& x);
+void read_little(std::istream& is, int64_t& x);
+void read_little(std::istream& is, float& x);
+void read_little(std::istream& is, double& x);
 
 ///Reads number from stream in big endian
-void read_big(std::istream& str, uint8_t& x);
-void read_big(std::istream& str, uint16_t& x);
-void read_big(std::istream& str, uint32_t& x);
-void read_big(std::istream& str, uint64_t& x);
-void read_big(std::istream& str, int8_t& x);
-void read_big(std::istream& str, int16_t& x);
-void read_big(std::istream& str, int32_t& x);
-void read_big(std::istream& str, int64_t& x);
-void read_big(std::istream& str, float& x);
-void read_big(std::istream& str, double& x);
+void read_big(std::istream& is, uint8_t& x);
+void read_big(std::istream& is, uint16_t& x);
+void read_big(std::istream& is, uint32_t& x);
+void read_big(std::istream& is, uint64_t& x);
+void read_big(std::istream& is, int8_t& x);
+void read_big(std::istream& is, int16_t& x);
+void read_big(std::istream& is, int32_t& x);
+void read_big(std::istream& is, int64_t& x);
+void read_big(std::istream& is, float& x);
+void read_big(std::istream& is, double& x);
+
+///Writes number to stream in little endian
+void write_little(std::ostream& os, uint8_t x);
+void write_little(std::ostream& os, uint16_t x);
+void write_little(std::ostream& os, uint32_t x);
+void write_little(std::ostream& os, uint64_t x);
+void write_little(std::ostream& os, int8_t x);
+void write_little(std::ostream& os, int16_t x);
+void write_little(std::ostream& os, int32_t x);
+void write_little(std::ostream& os, int64_t x);
+void write_little(std::ostream& os, float x);
+void write_little(std::ostream& os, double x);
 
 ///Writes number to stream in big endian
-void write_big(std::ostream& str, uint8_t x);
-void write_big(std::ostream& str, uint16_t x);
-void write_big(std::ostream& str, uint32_t x);
-void write_big(std::ostream& str, uint64_t x);
-void write_big(std::ostream& str, int8_t x);
-void write_big(std::ostream& str, int16_t x);
-void write_big(std::ostream& str, int32_t x);
-void write_big(std::ostream& str, int64_t x);
-void write_big(std::ostream& str, float x);
-void write_big(std::ostream& str, double x);
+void write_big(std::ostream& os, uint8_t x);
+void write_big(std::ostream& os, uint16_t x);
+void write_big(std::ostream& os, uint32_t x);
+void write_big(std::ostream& os, uint64_t x);
+void write_big(std::ostream& os, int8_t x);
+void write_big(std::ostream& os, int16_t x);
+void write_big(std::ostream& os, int32_t x);
+void write_big(std::ostream& os, int64_t x);
+void write_big(std::ostream& os, float x);
+void write_big(std::ostream& os, double x);
 
 }
 
