@@ -81,7 +81,12 @@ template class tag_primitive<int32_t>;
 template class tag_primitive<int64_t>;
 template class tag_primitive<float>;
 template class tag_primitive<double>;
-//Need to also instantiate operator!=, whereas operator== already gets instantiated in crtp_tag
+template bool operator==<int8_t> (const tag_primitive<int8_t>& , const tag_primitive<int8_t>&);
+template bool operator==<int16_t>(const tag_primitive<int16_t>&, const tag_primitive<int16_t>&);
+template bool operator==<int32_t>(const tag_primitive<int32_t>&, const tag_primitive<int32_t>&);
+template bool operator==<int64_t>(const tag_primitive<int64_t>&, const tag_primitive<int64_t>&);
+template bool operator==<float>  (const tag_primitive<float>&  , const tag_primitive<float>&);
+template bool operator==<double> (const tag_primitive<double>& , const tag_primitive<double>&);
 template bool operator!=<int8_t> (const tag_primitive<int8_t>& , const tag_primitive<int8_t>&);
 template bool operator!=<int16_t>(const tag_primitive<int16_t>&, const tag_primitive<int16_t>&);
 template bool operator!=<int32_t>(const tag_primitive<int32_t>&, const tag_primitive<int32_t>&);

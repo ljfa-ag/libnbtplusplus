@@ -111,9 +111,11 @@ bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs)
     return !(lhs == rhs);
 }
 
-//Enforce template instantiations. Just as for tag_primitive we have to instantiate operator!=
+//Enforce template instantiations
 template class tag_array<int8_t>;
 template class tag_array<int32_t>;
+template bool operator==<int8_t> (const tag_array<int8_t>& , const tag_array<int8_t>&);
+template bool operator==<int32_t>(const tag_array<int32_t>&, const tag_array<int32_t>&);
 template bool operator!=<int8_t> (const tag_array<int8_t>& , const tag_array<int8_t>&);
 template bool operator!=<int32_t>(const tag_array<int32_t>&, const tag_array<int32_t>&);
 
