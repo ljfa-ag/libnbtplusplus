@@ -36,6 +36,8 @@ typedef tag_primitive<int64_t> tag_long;
 typedef tag_primitive<float> tag_float;
 typedef tag_primitive<double> tag_double;
 
+class tag_string;
+
 template<class T> class tag_array;
 typedef tag_array<int8_t> tag_byte_array;
 typedef tag_array<int32_t> tag_int_array;

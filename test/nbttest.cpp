@@ -18,7 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "microtest.h"
-#include "libnbt.h"
+#include "nbt_tags.h"
 #include <algorithm>
 
 using namespace nbt;

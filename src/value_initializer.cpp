@@ -18,7 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "value_initializer.h"
-#include "libnbt.h"
+#include "nbt_tags.h"
 
 namespace nbt
 {
