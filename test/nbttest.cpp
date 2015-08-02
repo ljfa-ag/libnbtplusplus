@@ -23,6 +23,30 @@
 
 using namespace nbt;
 
+void test_tag()
+{
+    ASSERT(*tag::create(tag_type::Byte) == tag_byte());
+    ASSERT(tag::create(tag_type::Null) == nullptr);
+    ASSERT(tag::create(tag_type::End) == nullptr);
+
+    tag_string tstr("foo");
+    auto cl = tstr.clone();
+    ASSERT(tstr.get() == "foo");
+    ASSERT(tstr == *cl);
+
+    cl = std::move(tstr).clone();
+    ASSERT(*cl == tag_string("foo"));
+    ASSERT(*cl != tag_string("bar"));
+
+    cl = std::move(*cl).move_clone();
+    ASSERT(*cl == tag_string("foo"));
+
+    tstr.assign(tag_string("bar"));
+    EXPECT_EXCEPTION(tstr.assign(tag_int(6)), std::bad_cast);
+    ASSERT(tstr.get() == "bar");
+    std::clog << "test_tag passed" << std::endl;
+}
+
 void test_get_type()
 {
     ASSERT(tag_byte().get_type()       == tag_type::Byte);
@@ -390,6 +414,7 @@ void test_tag_int_array()
 
 int main()
 {
+    test_tag();
     test_get_type();
     test_tag_primitive();
     test_tag_string();
