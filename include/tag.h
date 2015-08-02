@@ -55,6 +55,7 @@ public:
     ///Returns the type of the tag
     virtual tag_type get_type() const noexcept = 0;
 
+    //Polymorphic clone methods
     virtual std::unique_ptr<tag> clone() const& = 0;
     virtual std::unique_ptr<tag> move_clone() && = 0;
     std::unique_ptr<tag> clone() &&;
@@ -64,6 +65,12 @@ public:
      * @throw std::bad_cast if @c rhs is not the same type as @c *this
      */
     virtual tag& assign(tag&& rhs) = 0;
+
+    /**
+     * @brief Default-constructs a new tag of the given type
+     * @throw std::invalid_argument if the type is not valid (e.g. End or Null)
+     */
+    static std::unique_ptr<tag> create(tag_type type);
 
     friend bool operator==(const tag& lhs, const tag& rhs);
     friend bool operator!=(const tag& lhs, const tag& rhs);

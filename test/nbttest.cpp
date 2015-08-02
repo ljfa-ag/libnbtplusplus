@@ -20,14 +20,15 @@
 #include "microtest.h"
 #include "nbt_tags.h"
 #include <algorithm>
+#include <stdexcept>
 
 using namespace nbt;
 
 void test_tag()
 {
     ASSERT(*tag::create(tag_type::Byte) == tag_byte());
-    ASSERT(tag::create(tag_type::Null) == nullptr);
-    ASSERT(tag::create(tag_type::End) == nullptr);
+    EXPECT_EXCEPTION(tag::create(tag_type::Null), std::invalid_argument);
+    EXPECT_EXCEPTION(tag::create(tag_type::End), std::invalid_argument);
 
     tag_string tstr("foo");
     auto cl = tstr.clone();

@@ -18,7 +18,9 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag.h"
+#include "nbt_tags.h"
 #include <ostream>
+#include <stdexcept>
 #include <typeinfo>
 
 namespace nbt
@@ -27,6 +29,26 @@ namespace nbt
 std::unique_ptr<tag> tag::clone() &&
 {
     return std::move(*this).move_clone();
+}
+
+std::unique_ptr<tag> tag::create(tag_type type)
+{
+    switch(type)
+    {
+    case tag_type::Byte:        return make_unique<tag_byte>();
+    case tag_type::Short:       return make_unique<tag_short>();
+    case tag_type::Int:         return make_unique<tag_int>();
+    case tag_type::Long:        return make_unique<tag_long>();
+    case tag_type::Float:       return make_unique<tag_float>();
+    case tag_type::Double:      return make_unique<tag_double>();
+    case tag_type::Byte_Array:  return make_unique<tag_byte_array>();
+    case tag_type::String:      return make_unique<tag_string>();
+    case tag_type::List:        return make_unique<tag_list>();
+    case tag_type::Compound:    return make_unique<tag_compound>();
+    case tag_type::Int_Array:   return make_unique<tag_int_array>();
+
+    default: throw std::invalid_argument("Invalid tag type");
+    }
 }
 
 bool operator==(const tag& lhs, const tag& rhs)
