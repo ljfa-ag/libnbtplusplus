@@ -161,8 +161,8 @@ public:
     /**
      * @brief Equality comparison for lists
      *
-     * Lists are considered equal if they contain equal tags. Empty lists
-     * are always considered equal to each other.
+     * Lists are considered equal if their content types and the contained tags
+     * are equal.
      */
     friend bool operator==(const tag_list& lhs, const tag_list& rhs);
     friend bool operator!=(const tag_list& lhs, const tag_list& rhs);

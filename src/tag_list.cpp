@@ -132,8 +132,6 @@ auto tag_list::cend() const   -> const_iterator { return tags.cend(); }
 
 bool operator==(const tag_list& lhs, const tag_list& rhs)
 {
-    if(lhs.size() == 0 && rhs.size() == 0)
-        return true;
     return lhs.el_type_ == rhs.el_type_ && lhs.tags == rhs.tags;
 }
 
