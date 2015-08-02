@@ -117,6 +117,12 @@ void tag_list::clear()
     tags.clear();
 }
 
+void tag_list::reset(tag_type type)
+{
+    clear();
+    el_type_ = type;
+}
+
 auto tag_list::begin() -> iterator { return tags.begin(); }
 auto tag_list::end()   -> iterator { return tags.end(); }
 auto tag_list::begin() const  -> const_iterator { return tags.begin(); }

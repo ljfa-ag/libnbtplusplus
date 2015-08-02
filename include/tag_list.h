@@ -32,6 +32,13 @@ namespace nbt
 /**
  * @brief Tag that contains multiple unnamed tags of the same type
  *
+ * All the tags contained in the list have the same type, which can be queried
+ * with el_type().
+ *
+ * If the list is empty, the type can be undetermined, in which case el_type()
+ * will return tag_type::Null. The type will then be set when the first tag
+ * is added to the list.
+ *
  * The list's behavior is undefined if the contained values are changed in a
  * way that their type differs from the list's content type.
  */
@@ -46,8 +53,10 @@ public:
     static constexpr tag_type type = tag_type::List;
 
     /**
-     * @brief Constructs a list with the given contents of type T
-     * @param init list of values that are, one by one, given to a constructor of T
+     * @brief Constructs a list of type T with the given values
+     *
+     * Example: @code tag_list::of<tag_byte>({3, 4, 5}) @endcode
+     * @param init list of values from which the elements are constructed
      */
     template<class T>
     static tag_list of(std::initializer_list<T> init);
@@ -135,6 +144,12 @@ public:
     ///Erases all tags from the list. Preserves the content type.
     void clear();
 
+    /**
+     * @brief Erases all tags from the list and changes the content type.
+     * @param type the new content type. Can be tag_type::Null to leave it undetermined.
+     */
+    void reset(tag_type type = tag_type::Null);
+
     //Iterators
     iterator begin();
     iterator end();
@@ -147,7 +162,7 @@ public:
      * @brief Equality comparison for lists
      *
      * Lists are considered equal if they contain equal tags. Empty lists
-     * are always considered equal.
+     * are always considered equal to each other.
      */
     friend bool operator==(const tag_list& lhs, const tag_list& rhs);
     friend bool operator!=(const tag_list& lhs, const tag_list& rhs);

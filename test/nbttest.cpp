@@ -294,9 +294,19 @@ void test_tag_list()
     ASSERT((list != tag_list{2, 3, 5, 7}));
 
     list.clear();
-    ASSERT(list.size() == 0);
+    ASSERT(list.size() == 0 && list.el_type() == tag_type::String);
     EXPECT_EXCEPTION(list.push_back(tag_short(25)), std::bad_cast);
     EXPECT_EXCEPTION(list.push_back(value(nullptr)), std::bad_cast);
+    
+    list.reset();
+    ASSERT(list.el_type() == tag_type::Null);
+    list.emplace_back<tag_int>(17);
+    ASSERT(list.el_type() == tag_type::Int);
+    
+    list.reset(tag_type::Float);
+    ASSERT(list.el_type() == tag_type::Float);
+    list.emplace_back<tag_float>(17.0f);
+    ASSERT(list == tag_list({17.0f}));
 
     ASSERT(tag_list() == tag_list(tag_type::Int));
     ASSERT(tag_list(tag_type::Short) == tag_list(tag_type::Int));
