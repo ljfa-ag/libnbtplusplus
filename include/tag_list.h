@@ -69,7 +69,7 @@ public:
     tag_list();
 
     ///Constructs an empty list with the given content type
-    tag_list(tag_type type);
+    explicit tag_list(tag_type type);
 
     ///Constructs a list with the given contents
     tag_list(std::initializer_list<int8_t> init);
