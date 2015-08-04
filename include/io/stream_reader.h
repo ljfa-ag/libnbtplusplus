@@ -39,6 +39,7 @@ public:
     ///Exception that gets thrown when reading is not successful
     class input_error : public std::runtime_error
     {
+    public:
         input_error(const std::string& what_arg):
             std::runtime_error(what_arg) {}
     };
@@ -55,16 +56,27 @@ public:
     ///Returns the byte order
     endian::endian get_endian() const;
 
-    ///Reads a tag type from the stream
+    /**
+     * @brief Reads a tag type from the stream
+     * @param allow_end whether to consider tag_type::End valid
+     * @throw input_error on failure
+     */
     tag_type read_type(bool allow_end = false);
-    ///Reads a number from the stream
+
+    /**
+     * @brief Reads a binary number from the stream
+     *
+     * Does not check if the reading actually succeeds
+     */
     template<class T>
     void read_num(T& x);
+
     /**
      * @brief Reads an NBT string from the stream
      *
      * An NBT string consists of two bytes indicating the length, followed by
      * the characters encoded in modified UTF-8.
+     * @throw input_error on failure
      */
     std::string read_string();
 
