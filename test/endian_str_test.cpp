@@ -30,13 +30,13 @@ void test_uint()
 
     write_little(str, uint8_t (0x01));
     write_little(str, uint16_t(0x0102));
-    write_little(str, uint32_t(0x01020304UL));
+    write       (str, uint32_t(0x01020304UL), endian::little);
     write_little(str, uint64_t(0x0102030405060708ULL));
 
     write_big   (str, uint8_t (0x09));
     write_big   (str, uint16_t(0x090A));
     write_big   (str, uint32_t(0x090A0B0CUL));
-    write_big   (str, uint64_t(0x090A0B0C0D0E0F10ULL));
+    write       (str, uint64_t(0x090A0B0C0D0E0F10ULL), endian::big);
 
     const char expected[] = {
         1,
@@ -62,14 +62,14 @@ void test_uint()
     ASSERT(u16 == 0x0102);
     read_little(str, u32);
     ASSERT(u32 == 0x01020304UL);
-    read_little(str, u64);
+    read(str, u64, endian::little);
     ASSERT(u64 == 0x0102030405060708ULL);
 
     read_big(str, u8);
     ASSERT(u8 == 0x09);
     read_big(str, u16);
     ASSERT(u16 == 0x090A);
-    read_big(str, u32);
+    read(str, u32, endian::big);
     ASSERT(u32 == 0x090A0B0CUL);
     read_big(str, u64);
     ASSERT(u64 == 0x090A0B0C0D0E0F10ULL);
@@ -84,11 +84,11 @@ void test_sint()
     write_little(str, int8_t (-0x01));
     write_little(str, int16_t(-0x0102));
     write_little(str, int32_t(-0x01020304L));
-    write_little(str, int64_t(-0x0102030405060708LL));
+    write       (str, int64_t(-0x0102030405060708LL), endian::little);
 
     write_big   (str, int8_t (-0x09));
     write_big   (str, int16_t(-0x090A));
-    write_big   (str, int32_t(-0x090A0B0CL));
+    write       (str, int32_t(-0x090A0B0CL), endian::big);
     write_big   (str, int64_t(-0x090A0B0C0D0E0F10LL));
 
     const char expected[] = { //meh, stupid narrowing conversions
@@ -113,7 +113,7 @@ void test_sint()
     ASSERT(i8 == -0x01);
     read_little(str, i16);
     ASSERT(i16 == -0x0102);
-    read_little(str, i32);
+    read(str, i32, endian::little);
     ASSERT(i32 == -0x01020304L);
     read_little(str, i64);
     ASSERT(i64 == -0x0102030405060708LL);
@@ -124,7 +124,7 @@ void test_sint()
     ASSERT(i16 == -0x090A);
     read_big(str, i32);
     ASSERT(i32 == -0x090A0B0CL);
-    read_big(str, i64);
+    read(str, i64, endian::big);
     ASSERT(i64 == -0x090A0B0C0D0E0F10LL);
 
     ASSERT(str); //Check if stream has failed
