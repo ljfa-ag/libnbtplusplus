@@ -65,7 +65,8 @@ public:
 
     /**
      * @brief Reads a binary number from the stream
-     * @throw input_error on failure
+     *
+     * On failure, will set the failbit on the stream.
      */
     template<class T>
     void read_num(T& x);
