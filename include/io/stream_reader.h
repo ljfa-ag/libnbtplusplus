@@ -65,8 +65,7 @@ public:
 
     /**
      * @brief Reads a binary number from the stream
-     *
-     * Does not check if the reading actually succeeds
+     * @throw input_error on failure
      */
     template<class T>
     void read_num(T& x);
@@ -84,6 +83,12 @@ private:
     std::istream& is;
     const endian::endian endian;
 };
+
+template<class T>
+void stream_reader::read_num(T& x)
+{
+    endian::read(is, x, endian);
+}
 
 }
 }

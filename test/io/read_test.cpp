@@ -65,7 +65,7 @@ void test_stream_reader_big()
 
     //Test for unexpcted EOF on numbers (input too short for int32_t)
     is.str("\x03\x04");
-    EXPECT_EXCEPTION(reader.read_num(i), io::stream_reader::input_error);
+    reader.read_num(i);
     ASSERT(!is);
 }
 

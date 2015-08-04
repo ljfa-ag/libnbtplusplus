@@ -14,7 +14,9 @@ add_library(nbt++ STATIC
     src/tag_primitive.cpp
     src/tag_string.cpp
     src/value.cpp
-    src/value_initializer.cpp)
+    src/value_initializer.cpp
+    
+    src/io/stream_reader.cpp)
 
 enable_testing()
 add_subdirectory(test)
