@@ -1,4 +1,5 @@
 enable_testing()
+include_directories(.)
 include_directories(${libnbt++_SOURCE_DIR}/include)
 
 add_executable(nbttest nbttest.cpp)

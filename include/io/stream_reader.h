@@ -48,7 +48,7 @@ public:
      * @param e the byte order of the source data. The Java edition
      * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
      */
-    stream_reader(std::istream& is, endian::endian e = endian::big) noexcept;
+    explicit stream_reader(std::istream& is, endian::endian e = endian::big) noexcept;
 
     ///Returns the stream
     std::istream& get_istr() const;
