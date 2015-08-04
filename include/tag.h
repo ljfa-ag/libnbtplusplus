@@ -45,6 +45,12 @@ enum class tag_type : int8_t
     Null = -1   ///< Used to denote empty @ref value s
 };
 
+/**
+ * @brief Returns whether the given number falls within the range of valid tag types
+ * @param allow_end whether to consider tag_type::End (0) valid
+ */
+bool is_valid_type(int type, bool allow_end = false);
+
 ///Base class for all NBT tag classes
 class tag
 {

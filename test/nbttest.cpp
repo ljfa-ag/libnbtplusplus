@@ -26,6 +26,15 @@ using namespace nbt;
 
 void test_tag()
 {
+    ASSERT(!is_valid_type(-1));
+    ASSERT(!is_valid_type(0));
+    ASSERT(is_valid_type(0, true));
+    ASSERT(is_valid_type(1));
+    ASSERT(is_valid_type(5, false));
+    ASSERT(is_valid_type(7, true));
+    ASSERT(is_valid_type(11));
+    ASSERT(!is_valid_type(12));
+
     ASSERT(*tag::create(tag_type::Byte) == tag_byte());
     EXPECT_EXCEPTION(tag::create(tag_type::Null), std::invalid_argument);
     EXPECT_EXCEPTION(tag::create(tag_type::End), std::invalid_argument);
