@@ -30,15 +30,15 @@ void test_uint()
 
     write_little(str, uint8_t (0x01));
     write_little(str, uint16_t(0x0102));
-    write       (str, uint32_t(0x01020304UL), endian::little);
-    write_little(str, uint64_t(0x0102030405060708ULL));
+    write       (str, uint32_t(0x01020304), endian::little);
+    write_little(str, uint64_t(0x0102030405060708));
 
     write_big   (str, uint8_t (0x09));
     write_big   (str, uint16_t(0x090A));
-    write_big   (str, uint32_t(0x090A0B0CUL));
-    write       (str, uint64_t(0x090A0B0C0D0E0F10ULL), endian::big);
+    write_big   (str, uint32_t(0x090A0B0C));
+    write       (str, uint64_t(0x090A0B0C0D0E0F10), endian::big);
 
-    const char expected[] = {
+    const char expected[] {
         1,
         2, 1,
         4, 3, 2, 1,
@@ -61,18 +61,18 @@ void test_uint()
     read_little(str, u16);
     ASSERT(u16 == 0x0102);
     read_little(str, u32);
-    ASSERT(u32 == 0x01020304UL);
+    ASSERT(u32 == 0x01020304);
     read(str, u64, endian::little);
-    ASSERT(u64 == 0x0102030405060708ULL);
+    ASSERT(u64 == 0x0102030405060708);
 
     read_big(str, u8);
     ASSERT(u8 == 0x09);
     read_big(str, u16);
     ASSERT(u16 == 0x090A);
     read(str, u32, endian::big);
-    ASSERT(u32 == 0x090A0B0CUL);
+    ASSERT(u32 == 0x090A0B0C);
     read_big(str, u64);
-    ASSERT(u64 == 0x090A0B0C0D0E0F10ULL);
+    ASSERT(u64 == 0x090A0B0C0D0E0F10);
 
     ASSERT(str); //Check if stream has failed
 }
@@ -83,15 +83,15 @@ void test_sint()
 
     write_little(str, int8_t (-0x01));
     write_little(str, int16_t(-0x0102));
-    write_little(str, int32_t(-0x01020304L));
-    write       (str, int64_t(-0x0102030405060708LL), endian::little);
+    write_little(str, int32_t(-0x01020304));
+    write       (str, int64_t(-0x0102030405060708), endian::little);
 
     write_big   (str, int8_t (-0x09));
     write_big   (str, int16_t(-0x090A));
-    write       (str, int32_t(-0x090A0B0CL), endian::big);
-    write_big   (str, int64_t(-0x090A0B0C0D0E0F10LL));
+    write       (str, int32_t(-0x090A0B0C), endian::big);
+    write_big   (str, int64_t(-0x090A0B0C0D0E0F10));
 
-    const char expected[] = { //meh, stupid narrowing conversions
+    const char expected[] { //meh, stupid narrowing conversions
         '\xFF',
         '\xFE', '\xFE',
         '\xFC', '\xFC', '\xFD', '\xFE',
@@ -114,18 +114,18 @@ void test_sint()
     read_little(str, i16);
     ASSERT(i16 == -0x0102);
     read(str, i32, endian::little);
-    ASSERT(i32 == -0x01020304L);
+    ASSERT(i32 == -0x01020304);
     read_little(str, i64);
-    ASSERT(i64 == -0x0102030405060708LL);
+    ASSERT(i64 == -0x0102030405060708);
 
     read_big(str, i8);
     ASSERT(i8 == -0x09);
     read_big(str, i16);
     ASSERT(i16 == -0x090A);
     read_big(str, i32);
-    ASSERT(i32 == -0x090A0B0CL);
+    ASSERT(i32 == -0x090A0B0C);
     read(str, i64, endian::big);
-    ASSERT(i64 == -0x090A0B0C0D0E0F10LL);
+    ASSERT(i64 == -0x090A0B0C0D0E0F10);
 
     ASSERT(str); //Check if stream has failed
 }
@@ -144,7 +144,7 @@ void test_float()
     write_big   (str, fconst);
     write_big   (str, dconst);
 
-    const char expected[] = {
+    const char expected[] {
         '\x01', '\xEF', '\xCD', '\xAB',
         '\x05', '\x04', '\x03', '\x02', '\x01', '\xEF', '\xCD', '\xAB',
 

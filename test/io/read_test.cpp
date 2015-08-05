@@ -51,7 +51,7 @@ void test_stream_reader_big()
 
     int32_t i;
     reader.read_num(i);
-    ASSERT(i == 0x0a0b0c0dL);
+    ASSERT(i == 0x0a0b0c0d);
 
     ASSERT(reader.read_string() == "foobar");
 
@@ -89,7 +89,7 @@ void test_stream_reader_little()
 
     int64_t i;
     reader.read_num(i);
-    ASSERT(i == 0x0d0c0b0a09080706LL);
+    ASSERT(i == 0x0d0c0b0a09080706);
 
     ASSERT(reader.read_string() == "foobar");
 
@@ -115,8 +115,8 @@ void test_read_bigtest()
 
     ASSERT(comp.at("byteTest") == tag_byte(127));
     ASSERT(comp.at("shortTest") == tag_short(32767));
-    ASSERT(comp.at("intTest") == tag_int(2147483647L));
-    ASSERT(comp.at("longTest") == tag_long(9223372036854775807LL));
+    ASSERT(comp.at("intTest") == tag_int(2147483647));
+    ASSERT(comp.at("longTest") == tag_long(9223372036854775807));
     ASSERT(comp.at("floatTest") == tag_float(std::stof("0xff1832p-25"))); //0.4982315
     ASSERT(comp.at("doubleTest") == tag_double(std::stod("0x1f8f6bbbff6a5ep-54"))); //0.493128713218231
 
