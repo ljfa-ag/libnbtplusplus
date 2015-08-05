@@ -53,6 +53,8 @@ public:
     tag_primitive& operator=(T value);
     void set(T value);
 
+    void read_payload(io::stream_reader& reader) override;
+
 private:
     T value;
 };

@@ -18,6 +18,8 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag_array.h"
+#include "io/stream_reader.h"
+#include <istream>
 
 namespace nbt
 {
@@ -98,6 +100,41 @@ template<class T> auto tag_array<T>::begin() const  -> const_iterator { return d
 template<class T> auto tag_array<T>::end() const    -> const_iterator { return data.end(); }
 template<class T> auto tag_array<T>::cbegin() const -> const_iterator { return data.cbegin(); }
 template<class T> auto tag_array<T>::cend() const   -> const_iterator { return data.cend(); }
+
+//Slightly different between byte_array and int_array
+template<>
+void tag_array<int8_t>::read_payload(io::stream_reader& reader)
+{
+    int32_t length;
+    reader.read_num(length);
+    if(length < 0 || !reader.get_istr())
+        throw io::stream_reader::input_error("Error reading length of tag_byte_array");
+
+    data.resize(length);
+    reader.get_istr().read(reinterpret_cast<char*>(data.data()), length);
+    if(!reader.get_istr())
+        throw io::stream_reader::input_error("Error reading contents of tag_byte_array");
+}
+
+template<>
+void tag_array<int32_t>::read_payload(io::stream_reader& reader)
+{
+    int32_t length;
+    reader.read_num(length);
+    if(length < 0 || !reader.get_istr())
+        throw io::stream_reader::input_error("Error reading length of tag_int_array");
+
+    data.clear();
+    data.reserve(length);
+    for(int32_t i = 0; i < length; ++i)
+    {
+        int32_t val;
+        reader.read_num(val);
+        data.push_back(val);
+    }
+    if(!reader.get_istr())
+        throw io::stream_reader::input_error("Error reading contents of tag_int_array");
+}
 
 template<class T>
 bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)

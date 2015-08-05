@@ -51,6 +51,8 @@ public:
     void set(const std::string& str);
     void set(std::string&& str);
 
+    void read_payload(io::stream_reader& reader) override;
+
 private:
     std::string value;
 };

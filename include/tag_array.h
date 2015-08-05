@@ -104,6 +104,8 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
+    void read_payload(io::stream_reader& reader) override;
+
 private:
     std::vector<T> data;
 };

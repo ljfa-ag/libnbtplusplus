@@ -117,6 +117,8 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
+    void read_payload(io::stream_reader& reader) override;
+
     friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
     friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 

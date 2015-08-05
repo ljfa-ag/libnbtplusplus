@@ -19,6 +19,8 @@
  */
 #include "tag_list.h"
 #include "nbt_tags.h"
+#include "io/stream_reader.h"
+#include <istream>
 
 namespace nbt
 {
@@ -129,6 +131,22 @@ auto tag_list::begin() const  -> const_iterator { return tags.begin(); }
 auto tag_list::end() const    -> const_iterator { return tags.end(); }
 auto tag_list::cbegin() const -> const_iterator { return tags.cbegin(); }
 auto tag_list::cend() const   -> const_iterator { return tags.cend(); }
+
+void tag_list::read_payload(io::stream_reader& reader)
+{
+    tag_type lt = reader.read_type();
+
+    int32_t length;
+    reader.read_num(length);
+    if(length < 0 || !reader.get_istr())
+        throw io::stream_reader::input_error("Error reading length of tag_list");
+
+    reset(lt);
+    tags.reserve(length);
+
+    for(int32_t i = 0; i < length; ++i)
+        tags.emplace_back(reader.read_payload(lt));
+}
 
 bool operator==(const tag_list& lhs, const tag_list& rhs)
 {

@@ -18,7 +18,9 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag_primitive.h"
+#include "io/stream_reader.h"
 #include <limits>
+#include <sstream>
 
 namespace nbt
 {
@@ -60,6 +62,18 @@ template<class T>
 T tag_primitive<T>::get() const
 {
     return value;
+}
+
+template<class T>
+void tag_primitive<T>::read_payload(io::stream_reader& reader)
+{
+    reader.read_num(value);
+    if(!reader.get_istr())
+    {
+        std::ostringstream str;
+        str << "Error reading " << type;
+        throw io::stream_reader::input_error(str.str());
+    }
 }
 
 template<class T>

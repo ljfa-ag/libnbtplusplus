@@ -18,6 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tag_string.h"
+#include "io/stream_reader.h"
 
 namespace nbt
 {
@@ -75,6 +76,11 @@ void tag_string::set(const std::string& str)
 void tag_string::set(std::string&& str)
 {
     value = std::move(str);
+}
+
+void tag_string::read_payload(io::stream_reader& reader)
+{
+    value = reader.read_string();
 }
 
 bool operator==(const tag_string& lhs, const tag_string& rhs)

@@ -158,6 +158,8 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
+    void read_payload(io::stream_reader& reader) override;
+
     /**
      * @brief Equality comparison for lists
      *
