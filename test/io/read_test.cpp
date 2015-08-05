@@ -99,7 +99,8 @@ void test_stream_reader_little()
 
 void test_read_bigtest()
 {
-    std::ifstream file("bigtest_uncompressed", std::ios::binary);
+    //Uses an extended variant of Notch's original bigtest file
+    std::ifstream file("bigtest_uncompr", std::ios::binary);
     ASSERT(file);
     nbt::io::stream_reader reader(file);
 
@@ -110,7 +111,7 @@ void test_read_bigtest()
     ASSERT(tagptr->get_type() == tag_type::Compound);
     const tag_compound& comp = static_cast<const tag_compound&>(*tagptr);
 
-    ASSERT(comp.size() == 11);
+    ASSERT(comp.size() == 13);
 
     ASSERT(comp.at("byteTest") == tag_byte(127));
     ASSERT(comp.at("shortTest") == tag_short(32767));
@@ -131,13 +132,16 @@ void test_read_bigtest()
         {{"created-on", tag_long(1264099775885)}, {"name", "Compound tag #0"}},
         {{"created-on", tag_long(1264099775885)}, {"name", "Compound tag #1"}}
     }));
-
     ASSERT(comp.at("listTest (long)") == tag_list::of<tag_long>({11, 12, 13, 14, 15}));
+    ASSERT(comp.at("listTest (end)") == tag_list());
 
     ASSERT((comp.at("nested compound test") == tag_compound{
         {"egg", tag_compound{{"value", 0.5f},  {"name", "Eggbert"}}},
         {"ham", tag_compound{{"value", 0.75f}, {"name", "Hampus"}}}
     }));
+
+    ASSERT(comp.at("intArrayTest") == tag_int_array(
+        {0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f}));
 }
 
 int main()

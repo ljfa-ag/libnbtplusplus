@@ -14,5 +14,5 @@ add_executable(read_test io/read_test.cpp)
 target_link_libraries(read_test nbt++)
 add_custom_command(TARGET read_test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E
-    copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/io/bigtest_uncompressed ${CMAKE_CURRENT_BINARY_DIR})
+    copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/io/bigtest_uncompr ${CMAKE_CURRENT_BINARY_DIR})
 add_test(read_test read_test)
