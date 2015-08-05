@@ -55,6 +55,12 @@ public:
     endian::endian get_endian() const;
 
     /**
+     * @brief Reads a tag of the given type without name from the stream
+     * @throw input_error on failure
+     */
+    std::unique_ptr<tag> read_payload(tag_type type);
+
+    /**
      * @brief Reads a tag type from the stream
      * @param allow_end whether to consider tag_type::End valid
      * @throw input_error on failure

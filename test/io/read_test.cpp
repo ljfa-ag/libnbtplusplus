@@ -19,6 +19,8 @@
  */
 #include "microtest.h"
 #include "io/stream_reader.h"
+#include "nbt_tags.h"
+#include <fstream>
 #include <sstream>
 
 using namespace nbt;
@@ -95,8 +97,52 @@ void test_stream_reader_little()
     ASSERT(!is);
 }
 
+void test_read_bigtest()
+{
+    std::ifstream file("bigtest_uncompressed", std::ios::binary);
+    ASSERT(file);
+    nbt::io::stream_reader reader(file);
+
+    ASSERT(reader.read_type() == tag_type::Compound);
+    ASSERT(reader.read_string() == "Level");
+    auto tagptr = reader.read_payload(tag_type::Compound);
+
+    ASSERT(tagptr->get_type() == tag_type::Compound);
+    const tag_compound& comp = static_cast<const tag_compound&>(*tagptr);
+
+    ASSERT(comp.size() == 11);
+
+    ASSERT(comp.at("byteTest") == tag_byte(127));
+    ASSERT(comp.at("shortTest") == tag_short(32767));
+    ASSERT(comp.at("intTest") == tag_int(2147483647L));
+    ASSERT(comp.at("longTest") == tag_long(9223372036854775807LL));
+    ASSERT(comp.at("floatTest") == tag_float(std::stof("0xff1832p-25"))); //0.4982315
+    ASSERT(comp.at("doubleTest") == tag_double(std::stod("0x1f8f6bbbff6a5ep-54"))); //0.493128713218231
+
+    //From bigtest.nbt: "the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...)"
+    tag_byte_array byteArrayTest;
+    for(int n = 0; n < 1000; ++n)
+        byteArrayTest.get().push_back((n*n*255 + n*7) % 100);
+    ASSERT(comp.at("byteArrayTest") == byteArrayTest);
+
+    ASSERT(comp.at("stringTest") == tag_string("HELLO WORLD THIS IS A TEST STRING \u00C5\u00C4\u00D6!"));
+
+    ASSERT(comp.at("listTest (compound)") == tag_list::of<tag_compound>({
+        {{"created-on", tag_long(1264099775885)}, {"name", "Compound tag #0"}},
+        {{"created-on", tag_long(1264099775885)}, {"name", "Compound tag #1"}}
+    }));
+
+    ASSERT(comp.at("listTest (long)") == tag_list::of<tag_long>({11, 12, 13, 14, 15}));
+
+    ASSERT((comp.at("nested compound test") == tag_compound{
+        {"egg", tag_compound{{"value", 0.5f},  {"name", "Eggbert"}}},
+        {"ham", tag_compound{{"value", 0.75f}, {"name", "Hampus"}}}
+    }));
+}
+
 int main()
 {
     test_stream_reader_big();
     test_stream_reader_little();
+    test_read_bigtest();
 }
