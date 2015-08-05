@@ -71,6 +71,15 @@ public:
     std::unique_ptr<tag> clone() &&;
 
     /**
+     * @brief Returns a reference to the tag as an instance of T
+     * @throw std::bad_cast if the tag is not of type T
+     */
+    template<class T>
+    T& as();
+    template<class T>
+    const T& as() const;
+
+    /**
      * @brief Move-assigns the given tag if the class is the same
      * @throw std::bad_cast if @c rhs is not the same type as @c *this
      */
@@ -100,6 +109,20 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, tag_type tt);
+
+template<class T>
+T& tag::as()
+{
+    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
+    return dynamic_cast<T&>(*this);
+}
+
+template<class T>
+const T& tag::as() const
+{
+    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
+    return dynamic_cast<const T&>(*this);
+}
 
 }
 

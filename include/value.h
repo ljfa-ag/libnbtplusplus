@@ -93,7 +93,7 @@ public:
     const tag& get() const;
 
     /**
-     * @brief Returns the contained tag as an instance of T
+     * @brief Returns a reference to the contained tag as an instance of T
      * @throw std::bad_cast if the tag is not of type T
      */
     template<class T>
@@ -207,15 +207,13 @@ private:
 template<class T>
 T& value::as()
 {
-    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
-    return dynamic_cast<T&>(get());
+    return tag_->as<T>();
 }
 
 template<class T>
 const T& value::as() const
 {
-    static_assert(std::is_base_of<tag, T>::value, "T must be a subclass of tag");
-    return dynamic_cast<T&>(get());
+    return tag_->as<T>();;
 }
 
 }

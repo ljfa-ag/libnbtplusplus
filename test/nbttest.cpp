@@ -54,6 +54,9 @@ void test_tag()
     tstr.assign(tag_string("bar"));
     EXPECT_EXCEPTION(tstr.assign(tag_int(6)), std::bad_cast);
     ASSERT(tstr.get() == "bar");
+
+    ASSERT(&tstr.as<tag_string>() == &tstr);
+    EXPECT_EXCEPTION(tstr.as<tag_byte_array>(), std::bad_cast);
     std::clog << "test_tag passed" << std::endl;
 }
 

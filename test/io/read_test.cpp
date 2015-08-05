@@ -109,7 +109,7 @@ void test_read_bigtest()
     auto tagptr = reader.read_payload(tag_type::Compound);
 
     ASSERT(tagptr->get_type() == tag_type::Compound);
-    const tag_compound& comp = static_cast<const tag_compound&>(*tagptr);
+    const tag_compound& comp = tagptr->as<tag_compound>();
 
     ASSERT(comp.size() == 13);
 
