@@ -51,6 +51,10 @@ enum class tag_type : int8_t
  */
 bool is_valid_type(int type, bool allow_end = false);
 
+//Forward declaration
+namespace io
+{ class stream_reader; }
+
 ///Base class for all NBT tag classes
 class tag
 {
@@ -71,6 +75,9 @@ public:
      * @throw std::bad_cast if @c rhs is not the same type as @c *this
      */
     virtual tag& assign(tag&& rhs) = 0;
+
+    ///Reads the tag's payload from the stream
+    virtual void read_payload(io::stream_reader& reader) = 0;
 
     /**
      * @brief Default-constructs a new tag of the given type
