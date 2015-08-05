@@ -123,7 +123,7 @@ void test_read_bigtest()
     tag_byte_array byteArrayTest;
     for(int n = 0; n < 1000; ++n)
         byteArrayTest.push_back((n*n*255 + n*7) % 100);
-    ASSERT(comp.at("byteArrayTest") == byteArrayTest);
+    ASSERT(comp.at("byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))") == byteArrayTest);
 
     ASSERT(comp.at("stringTest") == tag_string("HELLO WORLD THIS IS A TEST STRING \u00C5\u00C4\u00D6!"));
 
