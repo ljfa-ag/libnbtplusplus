@@ -158,6 +158,10 @@ public:
     const_iterator cbegin() const;
     const_iterator cend() const;
 
+    /**
+     * @inheritdoc
+     * In case of a list of tag_end, the content type will be undetermined.
+     */
     void read_payload(io::stream_reader& reader) override;
 
     /**

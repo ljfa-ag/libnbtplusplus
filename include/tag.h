@@ -76,7 +76,10 @@ public:
      */
     virtual tag& assign(tag&& rhs) = 0;
 
-    ///Reads the tag's payload from the stream
+    /**
+     * @brief Reads the tag's payload from the stream
+     * @throw io::stream_reader::input_error on failure
+     */
     virtual void read_payload(io::stream_reader& reader) = 0;
 
     /**

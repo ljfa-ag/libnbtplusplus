@@ -134,18 +134,26 @@ auto tag_list::cend() const   -> const_iterator { return tags.cend(); }
 
 void tag_list::read_payload(io::stream_reader& reader)
 {
-    tag_type lt = reader.read_type();
+    tag_type lt = reader.read_type(true);
 
     int32_t length;
     reader.read_num(length);
     if(length < 0 || !reader.get_istr())
         throw io::stream_reader::input_error("Error reading length of tag_list");
 
-    reset(lt);
-    tags.reserve(length);
+    if(lt != tag_type::End)
+    {
+        reset(lt);
+        tags.reserve(length);
 
-    for(int32_t i = 0; i < length; ++i)
-        tags.emplace_back(reader.read_payload(lt));
+        for(int32_t i = 0; i < length; ++i)
+            tags.emplace_back(reader.read_payload(lt));
+    }
+    else
+    {
+        //In case of tag_end, ignore the length and leave the type undetermined
+        reset(tag_type::Null);
+    }
 }
 
 bool operator==(const tag_list& lhs, const tag_list& rhs)
