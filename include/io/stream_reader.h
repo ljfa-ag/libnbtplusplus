@@ -39,9 +39,7 @@ public:
     ///Exception that gets thrown when reading is not successful
     class input_error : public std::runtime_error
     {
-    public:
-        input_error(const std::string& what_arg):
-            std::runtime_error(what_arg) {}
+        using std::runtime_error::runtime_error;
     };
 
     /**
