@@ -153,6 +153,13 @@ void test_read_errors()
     ASSERT(file);
     EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
     ASSERT(!file);
+
+    //EOF within a key in a compound
+    file.close();
+    file.open("errortest_eof2", std::ios::binary);
+    ASSERT(file);
+    EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
+    ASSERT(!file);
 }
 
 int main()
