@@ -13,6 +13,6 @@ add_test(endian_str_test endian_str_test)
 add_executable(read_test io/read_test.cpp)
 target_link_libraries(read_test nbt++)
 add_custom_command(TARGET read_test POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E
-    copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/io/bigtest_uncompr ${CMAKE_CURRENT_BINARY_DIR})
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/io/bigtest_uncompr ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/io/errortest_eof1 ${CMAKE_CURRENT_BINARY_DIR})
 add_test(read_test read_test)

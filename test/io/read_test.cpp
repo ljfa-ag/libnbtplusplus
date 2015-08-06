@@ -143,9 +143,22 @@ void test_read_bigtest()
         {0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f}));
 }
 
+void test_read_errors()
+{
+    std::ifstream file;
+    nbt::io::stream_reader reader(file);
+
+    //EOF within a tag_double payload
+    file.open("errortest_eof1", std::ios::binary);
+    ASSERT(file);
+    EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
+    ASSERT(!file);
+}
+
 int main()
 {
     test_stream_reader_big();
     test_stream_reader_little();
     test_read_bigtest();
+    test_read_errors();
 }
