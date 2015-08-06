@@ -97,19 +97,9 @@ void test_stream_reader_little()
     ASSERT(!is);
 }
 
-void test_read_bigtest()
+//Tests if comp equals an extended variant of Notch's bigtest NBT
+void verify_bigtest_structure(const tag_compound& comp)
 {
-    //Uses an extended variant of Notch's original bigtest file
-    std::ifstream file("bigtest_uncompr", std::ios::binary);
-    ASSERT(file);
-    nbt::io::stream_reader reader(file);
-
-    auto pair = reader.read_tag();
-    ASSERT(pair.first == "Level");
-
-    ASSERT(pair.second->get_type() == tag_type::Compound);
-    const tag_compound& comp = pair.second->as<tag_compound>();
-
     ASSERT(comp.size() == 13);
 
     ASSERT(comp.at("byteTest") == tag_byte(127));
@@ -141,6 +131,19 @@ void test_read_bigtest()
 
     ASSERT(comp.at("intArrayTest") == tag_int_array(
         {0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f}));
+}
+
+void test_read_bigtest()
+{
+    //Uses an extended variant of Notch's original bigtest file
+    std::ifstream file("bigtest_uncompr", std::ios::binary);
+    ASSERT(file);
+    nbt::io::stream_reader reader(file);
+
+    auto pair = reader.read_tag();
+    ASSERT(pair.first == "Level");
+    ASSERT(pair.second->get_type() == tag_type::Compound);
+    verify_bigtest_structure(pair.second->as<tag_compound>());
 }
 
 void test_read_errors()
