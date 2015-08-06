@@ -105,7 +105,7 @@ void tag_compound::read_payload(io::stream_reader& reader)
     {
         std::string key = reader.read_string();
         auto tptr = reader.read_payload(tt);
-        tags.emplace(key, value(std::move(tptr)));
+        tags.emplace(std::move(key), value(std::move(tptr)));
     }
 }
 
