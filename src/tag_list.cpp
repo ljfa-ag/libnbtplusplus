@@ -138,7 +138,9 @@ void tag_list::read_payload(io::stream_reader& reader)
 
     int32_t length;
     reader.read_num(length);
-    if(length < 0 || !reader.get_istr())
+    if(length < 0)
+        reader.get_istr().setstate(std::ios::failbit);
+    if(!reader.get_istr())
         throw io::input_error("Error reading length of tag_list");
 
     if(lt != tag_type::End)

@@ -107,7 +107,9 @@ void tag_array<int8_t>::read_payload(io::stream_reader& reader)
 {
     int32_t length;
     reader.read_num(length);
-    if(length < 0 || !reader.get_istr())
+    if(length < 0)
+        reader.get_istr().setstate(std::ios::failbit);
+    if(!reader.get_istr())
         throw io::input_error("Error reading length of tag_byte_array");
 
     data.resize(length);
@@ -121,7 +123,9 @@ void tag_array<int32_t>::read_payload(io::stream_reader& reader)
 {
     int32_t length;
     reader.read_num(length);
-    if(length < 0 || !reader.get_istr())
+    if(length < 0)
+        reader.get_istr().setstate(std::ios::failbit);
+    if(!reader.get_istr())
         throw io::input_error("Error reading length of tag_int_array");
 
     data.clear();
