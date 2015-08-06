@@ -72,7 +72,7 @@ void tag_primitive<T>::read_payload(io::stream_reader& reader)
     {
         std::ostringstream str;
         str << "Error reading " << type;
-        throw io::stream_reader::input_error(str.str());
+        throw io::input_error(str.str());
     }
 }
 

@@ -55,13 +55,13 @@ void test_stream_reader_big()
 
     ASSERT(reader.read_string() == "foobar");
 
-    EXPECT_EXCEPTION(reader.read_type(false), io::stream_reader::input_error);
+    EXPECT_EXCEPTION(reader.read_type(false), io::input_error);
     ASSERT(!is);
     is.clear();
 
     //Test for invalid tag type 12
     is.str("\x0c");
-    EXPECT_EXCEPTION(reader.read_type(), io::stream_reader::input_error);
+    EXPECT_EXCEPTION(reader.read_type(), io::input_error);
     ASSERT(!is);
     is.clear();
 
@@ -93,7 +93,7 @@ void test_stream_reader_little()
 
     ASSERT(reader.read_string() == "foobar");
 
-    EXPECT_EXCEPTION(reader.read_string(), io::stream_reader::input_error);
+    EXPECT_EXCEPTION(reader.read_string(), io::input_error);
     ASSERT(!is);
 }
 

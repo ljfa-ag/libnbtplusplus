@@ -31,18 +31,18 @@ namespace nbt
 namespace io
 {
 
+///Exception that gets thrown when reading is not successful
+class input_error : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+};
+
 /**
  * @brief Helper class for reading NBT tags from input streams
  */
 class stream_reader
 {
 public:
-    ///Exception that gets thrown when reading is not successful
-    class input_error : public std::runtime_error
-    {
-        using std::runtime_error::runtime_error;
-    };
-
     /**
      * @param is the stream to read from
      * @param e the byte order of the source data. The Java edition

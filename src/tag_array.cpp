@@ -108,12 +108,12 @@ void tag_array<int8_t>::read_payload(io::stream_reader& reader)
     int32_t length;
     reader.read_num(length);
     if(length < 0 || !reader.get_istr())
-        throw io::stream_reader::input_error("Error reading length of tag_byte_array");
+        throw io::input_error("Error reading length of tag_byte_array");
 
     data.resize(length);
     reader.get_istr().read(reinterpret_cast<char*>(data.data()), length);
     if(!reader.get_istr())
-        throw io::stream_reader::input_error("Error reading contents of tag_byte_array");
+        throw io::input_error("Error reading contents of tag_byte_array");
 }
 
 template<>
@@ -122,7 +122,7 @@ void tag_array<int32_t>::read_payload(io::stream_reader& reader)
     int32_t length;
     reader.read_num(length);
     if(length < 0 || !reader.get_istr())
-        throw io::stream_reader::input_error("Error reading length of tag_int_array");
+        throw io::input_error("Error reading length of tag_int_array");
 
     data.clear();
     data.reserve(length);
@@ -133,7 +133,7 @@ void tag_array<int32_t>::read_payload(io::stream_reader& reader)
         data.push_back(val);
     }
     if(!reader.get_istr())
-        throw io::stream_reader::input_error("Error reading contents of tag_int_array");
+        throw io::input_error("Error reading contents of tag_int_array");
 }
 
 template<class T>
