@@ -146,6 +146,19 @@ void test_read_bigtest()
     verify_bigtest_structure(pair.second->as<tag_compound>());
 }
 
+void test_read_littletest()
+{
+    //Same as bigtest, but little endian
+    std::ifstream file("littletest_uncompr", std::ios::binary);
+    ASSERT(file);
+    nbt::io::stream_reader reader(file, endian::little);
+
+    auto pair = reader.read_tag();
+    ASSERT(pair.first == "Level");
+    ASSERT(pair.second->get_type() == tag_type::Compound);
+    verify_bigtest_structure(pair.second->as<tag_compound>());
+}
+
 void test_read_errors()
 {
     std::ifstream file;
@@ -198,6 +211,7 @@ int main()
     test_stream_reader_big();
     test_stream_reader_little();
     test_read_bigtest();
+    test_read_littletest();
     test_read_errors();
     test_read_misc();
 }
