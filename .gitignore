@@ -2,6 +2,7 @@
 *.depend
 *.layout
 *.cbtemp
+*.bak
 /bin
 /lib
 /obj
