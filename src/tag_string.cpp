@@ -80,7 +80,14 @@ void tag_string::set(std::string&& str)
 
 void tag_string::read_payload(io::stream_reader& reader)
 {
-    value = reader.read_string();
+    try
+    {
+        value = reader.read_string();
+    }
+    catch(io::input_error& ex)
+    {
+        throw io::input_error("Error reading tag_string");
+    }
 }
 
 bool operator==(const tag_string& lhs, const tag_string& rhs)

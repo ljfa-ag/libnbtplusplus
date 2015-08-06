@@ -20,6 +20,7 @@
 #include "tag_compound.h"
 #include "io/stream_reader.h"
 #include <istream>
+#include <sstream>
 
 namespace nbt
 {
@@ -103,7 +104,17 @@ void tag_compound::read_payload(io::stream_reader& reader)
     tag_type tt;
     while((tt = reader.read_type(true)) != tag_type::End)
     {
-        std::string key = reader.read_string();
+        std::string key;
+        try
+        {
+            key = reader.read_string();
+        }
+        catch(io::input_error& ex)
+        {
+            std::ostringstream str;
+            str << "Error reading key of tag_" << tt;
+            throw io::input_error(str.str());
+        }
         auto tptr = reader.read_payload(tt);
         tags.emplace(std::move(key), value(std::move(tptr)));
     }
