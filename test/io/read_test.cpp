@@ -104,12 +104,11 @@ void test_read_bigtest()
     ASSERT(file);
     nbt::io::stream_reader reader(file);
 
-    ASSERT(reader.read_type() == tag_type::Compound);
-    ASSERT(reader.read_string() == "Level");
-    auto tagptr = reader.read_payload(tag_type::Compound);
+    auto pair = reader.read_tag();
+    ASSERT(pair.first == "Level");
 
-    ASSERT(tagptr->get_type() == tag_type::Compound);
-    const tag_compound& comp = tagptr->as<tag_compound>();
+    ASSERT(pair.second->get_type() == tag_type::Compound);
+    const tag_compound& comp = pair.second->as<tag_compound>();
 
     ASSERT(comp.size() == 13);
 

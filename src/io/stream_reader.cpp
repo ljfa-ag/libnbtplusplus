@@ -39,6 +39,14 @@ endian::endian stream_reader::get_endian() const
     return endian;
 }
 
+std::pair<std::string, std::unique_ptr<tag>> stream_reader::read_tag()
+{
+    tag_type type = read_type();
+    std::string key = read_string();
+    std::unique_ptr<tag> t = read_payload(type);
+    return {std::move(key), std::move(t)};
+}
+
 std::unique_ptr<tag> stream_reader::read_payload(tag_type type)
 {
     std::unique_ptr<tag> t = tag::create(type);

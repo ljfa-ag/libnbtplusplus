@@ -25,6 +25,7 @@
 #include <iosfwd>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace nbt
 {
@@ -54,6 +55,12 @@ public:
     std::istream& get_istr() const;
     ///Returns the byte order
     endian::endian get_endian() const;
+
+    /**
+     * @brief Reads a named tag from the stream
+     * @throw input_error on failure
+     */
+    std::pair<std::string, std::unique_ptr<tag>> read_tag();
 
     /**
      * @brief Reads a tag of the given type without name from the stream
