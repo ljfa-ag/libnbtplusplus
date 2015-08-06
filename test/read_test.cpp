@@ -176,10 +176,25 @@ void test_read_errors()
     ASSERT(!file);
 }
 
+void test_read_misc()
+{
+    std::ifstream file;
+    nbt::io::stream_reader reader(file);
+
+    file.open("toplevel_string", std::ios::binary);
+    ASSERT(file);
+    auto pair = reader.read_tag();
+    ASSERT(pair.first == "Test (toplevel tag_string)");
+    ASSERT(*pair.second == tag_string(
+        "Even though unprovided for by NBT, the library should also handle "
+        "the case where the file consists of something else than tag_compound"));
+}
+
 int main()
 {
     test_stream_reader_big();
     test_stream_reader_little();
     test_read_bigtest();
     test_read_errors();
+    test_read_misc();
 }
