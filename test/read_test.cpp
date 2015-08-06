@@ -167,6 +167,13 @@ void test_read_errors()
     ASSERT(file);
     EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
     ASSERT(!file);
+
+    //Negative list length
+    file.close();
+    file.open("errortest_neg_length", std::ios::binary);
+    ASSERT(file);
+    EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
+    ASSERT(!file);
 }
 
 int main()
