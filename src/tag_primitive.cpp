@@ -71,7 +71,7 @@ void tag_primitive<T>::read_payload(io::stream_reader& reader)
     if(!reader.get_istr())
     {
         std::ostringstream str;
-        str << "Error reading " << type;
+        str << "Error reading tag_" << type;
         throw io::input_error(str.str());
     }
 }
