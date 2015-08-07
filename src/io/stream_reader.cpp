@@ -18,6 +18,8 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "io/stream_reader.h"
+#include "make_unique.h"
+#include "tag_compound.h"
 #include <istream>
 
 namespace nbt
@@ -37,6 +39,19 @@ std::istream& stream_reader::get_istr() const
 endian::endian stream_reader::get_endian() const
 {
     return endian;
+}
+
+std::pair<std::string, std::unique_ptr<tag_compound>> stream_reader::read_compound()
+{
+    if(read_type() != tag_type::Compound)
+    {
+        is.setstate(std::ios::failbit);
+        throw input_error("Tag is not a compound");
+    }
+    std::string key = read_string();
+    auto comp = make_unique<tag_compound>();
+    comp->read_payload(*this);
+    return {std::move(key), std::move(comp)};
 }
 
 std::pair<std::string, std::unique_ptr<tag>> stream_reader::read_tag()

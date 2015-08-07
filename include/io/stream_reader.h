@@ -22,6 +22,7 @@
 
 #include "endian_str.h"
 #include "tag.h"
+#include "tagfwd.h"
 #include <iosfwd>
 #include <memory>
 #include <stdexcept>
@@ -55,6 +56,12 @@ public:
     std::istream& get_istr() const;
     ///Returns the byte order
     endian::endian get_endian() const;
+
+    /**
+     * @brief Reads a named tag from the stream, making sure that it is a compound
+     * @throw input_error on failure, or if the tag in the stream is not a compound
+     */
+    std::pair<std::string, std::unique_ptr<tag_compound>> read_compound();
 
     /**
      * @brief Reads a named tag from the stream

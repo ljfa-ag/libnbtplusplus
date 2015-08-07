@@ -140,10 +140,9 @@ void test_read_bigtest()
     ASSERT(file);
     nbt::io::stream_reader reader(file);
 
-    auto pair = reader.read_tag();
+    auto pair = reader.read_compound();
     ASSERT(pair.first == "Level");
-    ASSERT(pair.second->get_type() == tag_type::Compound);
-    verify_bigtest_structure(pair.second->as<tag_compound>());
+    verify_bigtest_structure(*pair.second);
 }
 
 void test_read_littletest()
@@ -153,10 +152,10 @@ void test_read_littletest()
     ASSERT(file);
     nbt::io::stream_reader reader(file, endian::little);
 
-    auto pair = reader.read_tag();
+    auto pair = reader.read_compound();
     ASSERT(pair.first == "Level");
     ASSERT(pair.second->get_type() == tag_type::Compound);
-    verify_bigtest_structure(pair.second->as<tag_compound>());
+    verify_bigtest_structure(*pair.second);
 }
 
 void test_read_errors()
@@ -197,8 +196,14 @@ void test_read_misc()
     std::ifstream file;
     nbt::io::stream_reader reader(file);
 
+    //Toplevel tag other than compound
     file.open("toplevel_string", std::ios::binary);
-    ASSERT(file);
+    EXPECT_EXCEPTION(reader.read_compound(), io::input_error);
+    ASSERT(!file);
+
+    //Rewind and try again with read_tag
+    file.clear();
+    ASSERT(file.seekg(0));
     auto pair = reader.read_tag();
     ASSERT(pair.first == "Test (toplevel tag_string)");
     ASSERT(*pair.second == tag_string(
