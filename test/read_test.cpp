@@ -198,6 +198,7 @@ void test_read_misc()
 
     //Toplevel tag other than compound
     file.open("toplevel_string", std::ios::binary);
+    ASSERT(file);
     EXPECT_EXCEPTION(reader.read_compound(), io::input_error);
     ASSERT(!file);
 
