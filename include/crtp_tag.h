@@ -21,6 +21,7 @@
 #define CRTP_TAG_H_INCLUDED
 
 #include "tag.h"
+#include "tag_visitor.h"
 #include "make_unique.h"
 
 namespace nbt
@@ -42,6 +43,8 @@ namespace detail
         std::unique_ptr<tag> move_clone() && override final;
 
         tag& assign(tag&& rhs) override final;
+
+        void accept(tag_visitor& visitor);
 
     private:
         bool equals(const tag& rhs) const override final;
@@ -72,6 +75,12 @@ namespace detail
     tag& crtp_tag<Sub>::assign(tag&& rhs)
     {
         return static_cast<Sub&>(*this) = dynamic_cast<Sub&&>(rhs);
+    }
+
+    template<class Sub>
+    void crtp_tag<Sub>::accept(tag_visitor& visitor)
+    {
+        visitor.visit(static_cast<Sub&>(*this));
     }
 
     template<class Sub>

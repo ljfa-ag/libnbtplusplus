@@ -51,7 +51,8 @@ enum class tag_type : int8_t
  */
 bool is_valid_type(int type, bool allow_end = false);
 
-//Forward declaration
+//Forward declarations
+class tag_visitor;
 namespace io
 { class stream_reader; }
 
@@ -84,6 +85,12 @@ public:
      * @throw std::bad_cast if @c rhs is not the same type as @c *this
      */
     virtual tag& assign(tag&& rhs) = 0;
+
+    /**
+     * @brief Calls the appropriate overload of @c visit() on the visitor with
+     * @c *this as argument
+     */
+    virtual void accept(tag_visitor& visitor) = 0;
 
     /**
      * @brief Reads the tag's payload from the stream
