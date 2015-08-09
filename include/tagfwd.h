@@ -22,6 +22,7 @@
  */
 #ifndef TAGFWD_H_INCLUDED
 #define TAGFWD_H_INCLUDED
+#include <cstdint>
 
 namespace nbt
 {
