@@ -21,7 +21,7 @@
 #define CRTP_TAG_H_INCLUDED
 
 #include "tag.h"
-#include "tag_visitor.h"
+#include "nbt_visitor.h"
 #include "make_unique.h"
 
 namespace nbt
@@ -44,7 +44,7 @@ namespace detail
 
         tag& assign(tag&& rhs) override final;
 
-        void accept(tag_visitor& visitor);
+        void accept(nbt_visitor& visitor) override final;
 
     private:
         bool equals(const tag& rhs) const override final;
@@ -81,7 +81,7 @@ namespace detail
     }
 
     template<class Sub>
-    void crtp_tag<Sub>::accept(tag_visitor& visitor)
+    void crtp_tag<Sub>::accept(nbt_visitor& visitor)
     {
         visitor.visit(sub_this());
     }

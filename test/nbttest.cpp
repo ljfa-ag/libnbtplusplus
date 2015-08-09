@@ -19,7 +19,7 @@
  */
 #include "microtest.h"
 #include "nbt_tags.h"
-#include "tag_visitor.h"
+#include "nbt_visitor.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -428,21 +428,21 @@ void test_tag_int_array()
 
 void test_visitor()
 {
-    struct : public tag_visitor
+    struct : public nbt_visitor
     {
         tag_type visited = tag_type::Null;
 
-        void visit(tag_byte& tag) override       { visited = tag_type::Byte; }
-        void visit(tag_short& tag) override      { visited = tag_type::Short; }
-        void visit(tag_int& tag) override        { visited = tag_type::Int; }
-        void visit(tag_long& tag) override       { visited = tag_type::Long; }
-        void visit(tag_float& tag) override      { visited = tag_type::Float; }
-        void visit(tag_double& tag) override     { visited = tag_type::Double; }
-        void visit(tag_byte_array& tag) override { visited = tag_type::Byte_Array; }
-        void visit(tag_string& tag) override     { visited = tag_type::String; }
-        void visit(tag_list& tag) override       { visited = tag_type::List; }
-        void visit(tag_compound& tag) override   { visited = tag_type::Compound; }
-        void visit(tag_int_array& tag) override  { visited = tag_type::Int_Array; }
+        void visit(tag_byte& tag)       { visited = tag_type::Byte; }
+        void visit(tag_short& tag)      { visited = tag_type::Short; }
+        void visit(tag_int& tag)        { visited = tag_type::Int; }
+        void visit(tag_long& tag)       { visited = tag_type::Long; }
+        void visit(tag_float& tag)      { visited = tag_type::Float; }
+        void visit(tag_double& tag)     { visited = tag_type::Double; }
+        void visit(tag_byte_array& tag) { visited = tag_type::Byte_Array; }
+        void visit(tag_string& tag)     { visited = tag_type::String; }
+        void visit(tag_list& tag)       { visited = tag_type::List; }
+        void visit(tag_compound& tag)   { visited = tag_type::Compound; }
+        void visit(tag_int_array& tag)  { visited = tag_type::Int_Array; }
     } v;
 
     tag_byte().accept(v);

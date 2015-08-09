@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TAG_VISITOR_H_INCLUDED
-#define TAG_VISITOR_H_INCLUDED
+#ifndef NBT_VISITOR_H_INCLUDED
+#define NBT_VISITOR_H_INCLUDED
 
 #include "tagfwd.h"
 
@@ -30,10 +30,10 @@ namespace nbt
  *
  * Implementing the Visitor pattern
  */
-class tag_visitor
+class nbt_visitor
 {
 public:
-    virtual ~tag_visitor() noexcept = 0; //Abstract class
+    virtual ~nbt_visitor() noexcept = 0; //Abstract class
 
     virtual void visit(tag_byte& tag) {}
     virtual void visit(tag_short& tag) {}
@@ -48,8 +48,8 @@ public:
     virtual void visit(tag_int_array& tag) {}
 };
 
-inline tag_visitor::~tag_visitor() noexcept {}
+inline nbt_visitor::~nbt_visitor() noexcept {}
 
 }
 
-#endif // TAG_VISITOR_H_INCLUDED
+#endif // NBT_VISITOR_H_INCLUDED
