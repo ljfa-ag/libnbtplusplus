@@ -48,6 +48,9 @@ namespace detail
 
     private:
         bool equals(const tag& rhs) const override final;
+
+        Sub& sub_this() { return static_cast<Sub&>(*this); }
+        const Sub& sub_this() const { return static_cast<const Sub&>(*this); }
     };
 
     template<class Sub>
@@ -62,31 +65,31 @@ namespace detail
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::clone() const&
     {
-        return make_unique<Sub>(static_cast<const Sub&>(*this));
+        return make_unique<Sub>(sub_this());
     }
 
     template<class Sub>
     std::unique_ptr<tag> crtp_tag<Sub>::move_clone() &&
     {
-        return make_unique<Sub>(static_cast<Sub&&>(*this));
+        return make_unique<Sub>(std::move(sub_this()));
     }
 
     template<class Sub>
     tag& crtp_tag<Sub>::assign(tag&& rhs)
     {
-        return static_cast<Sub&>(*this) = dynamic_cast<Sub&&>(rhs);
+        return sub_this() = dynamic_cast<Sub&&>(rhs);
     }
 
     template<class Sub>
     void crtp_tag<Sub>::accept(tag_visitor& visitor)
     {
-        visitor.visit(static_cast<Sub&>(*this));
+        visitor.visit(sub_this());
     }
 
     template<class Sub>
     bool crtp_tag<Sub>::equals(const tag& rhs) const
     {
-        return static_cast<const Sub&>(*this) == static_cast<const Sub&>(rhs);
+        return sub_this() == static_cast<const Sub&>(rhs);
     }
 
 }
