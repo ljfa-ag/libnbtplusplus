@@ -179,7 +179,7 @@ namespace //anonymous
     };
 }
 
-void json_formatter::write(std::ostream& os, const tag& t)
+void json_formatter::write(std::ostream& os, const tag& t) const
 {
     json_fmt_visitor v(os);
     t.accept(v);
