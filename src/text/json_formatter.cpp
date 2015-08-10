@@ -66,21 +66,42 @@ namespace //anonymous
 
         void visit(const tag_list& l) override
         {
-            os << "[\n";
-            ++indent_lvl;
-            for(unsigned int i = 0; i < l.size(); ++i)
+            //Wrap lines for lists of lists or compounds.
+            //Lists of other types can usually be on one line without problem.
+            const bool break_lines = l.size() > 0 &&
+                (l.el_type() == tag_type::List || l.el_type() == tag_type::Compound);
+
+            os << "[";
+            if(break_lines)
             {
-                indent();
-                if(l[i])
-                    l[i].get().accept(*this);
-                else
-                    write_null();
-                if(i != l.size()-1)
-                    os << ",";
                 os << "\n";
+                ++indent_lvl;
+                for(unsigned int i = 0; i < l.size(); ++i)
+                {
+                    indent();
+                    if(l[i])
+                        l[i].get().accept(*this);
+                    else
+                        write_null();
+                    if(i != l.size()-1)
+                        os << ",";
+                    os << "\n";
+                }
+                --indent_lvl;
+                indent();
             }
-            --indent_lvl;
-            indent();
+            else
+            {
+                for(unsigned int i = 0; i < l.size(); ++i)
+                {
+                    if(l[i])
+                        l[i].get().accept(*this);
+                    else
+                        write_null();
+                    if(i != l.size()-1)
+                        os << ", ";
+                }
+            }
             os << "]";
         }
 
