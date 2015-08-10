@@ -29,6 +29,7 @@ namespace text
 
 namespace //anonymous
 {
+    ///Helper class which uses the Visitor pattern to pretty-print tags
     class json_fmt_visitor : public const_nbt_visitor
     {
     public:

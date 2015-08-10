@@ -18,7 +18,7 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "microtest.h"
-#include "text/json_formatter.h"
+//#include "text/json_formatter.h"
 #include "io/stream_reader.h"
 #include <fstream>
 #include <iostream>
@@ -34,7 +34,7 @@ int main()
     std::unique_ptr<tag_compound> comp;
     std::tie(key, comp) = io::stream_reader(file).read_compound();
 
-    std::cout << "----- json_formatter:\n";
-    text::json_formatter().write(std::cout, *comp);
+    std::cout << "----- default operator<<:\n";
+    std::cout << *comp;
     std::cout << "\n-----" << std::endl;
 }

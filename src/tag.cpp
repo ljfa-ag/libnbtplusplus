@@ -19,6 +19,7 @@
  */
 #include "tag.h"
 #include "nbt_tags.h"
+#include "text/json_formatter.h"
 #include <ostream>
 #include <stdexcept>
 #include <typeinfo>
@@ -88,6 +89,13 @@ std::ostream& operator<<(std::ostream& os, tag_type tt)
 
     default:                    return os << "invalid";
     }
+}
+
+std::ostream& operator<<(std::ostream& os, const tag& t)
+{
+    static const text::json_formatter formatter;
+    formatter.write(os, t);
+    return os;
 }
 
 }

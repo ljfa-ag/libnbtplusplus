@@ -119,7 +119,16 @@ private:
     virtual bool equals(const tag& rhs) const = 0;
 };
 
+///Output operator for tag types
 std::ostream& operator<<(std::ostream& os, tag_type tt);
+
+/**
+ * @brief Output operator for tags
+ *
+ * Uses @ref text::json_formatter
+ * @relates tag
+ */
+std::ostream& operator<<(std::ostream& os, const tag& t);
 
 template<class T>
 T& tag::as()
