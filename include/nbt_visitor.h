@@ -48,7 +48,32 @@ public:
     virtual void visit(tag_int_array& tag) {}
 };
 
+/**
+ * @brief Base class for visitors of constant tags
+ *
+ * Implementing the Visitor pattern
+ */
+class const_nbt_visitor
+{
+public:
+    virtual ~const_nbt_visitor() noexcept = 0; //Abstract class
+
+    virtual void visit(const tag_byte& tag) {}
+    virtual void visit(const tag_short& tag) {}
+    virtual void visit(const tag_int& tag) {}
+    virtual void visit(const tag_long& tag) {}
+    virtual void visit(const tag_float& tag) {}
+    virtual void visit(const tag_double& tag) {}
+    virtual void visit(const tag_byte_array& tag) {}
+    virtual void visit(const tag_string& tag) {}
+    virtual void visit(const tag_list& tag) {}
+    virtual void visit(const tag_compound& tag) {}
+    virtual void visit(const tag_int_array& tag) {}
+};
+
 inline nbt_visitor::~nbt_visitor() noexcept {}
+
+inline const_nbt_visitor::~const_nbt_visitor() noexcept {}
 
 }
 

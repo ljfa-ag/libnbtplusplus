@@ -53,6 +53,7 @@ bool is_valid_type(int type, bool allow_end = false);
 
 //Forward declarations
 class nbt_visitor;
+class const_nbt_visitor;
 namespace io
 { class stream_reader; }
 
@@ -89,8 +90,11 @@ public:
     /**
      * @brief Calls the appropriate overload of @c visit() on the visitor with
      * @c *this as argument
+     *
+     * Implementing the Visitor pattern
      */
     virtual void accept(nbt_visitor& visitor) = 0;
+    virtual void accept(const_nbt_visitor& visitor) const = 0;
 
     /**
      * @brief Reads the tag's payload from the stream

@@ -45,6 +45,7 @@ namespace detail
         tag& assign(tag&& rhs) override final;
 
         void accept(nbt_visitor& visitor) override final;
+        void accept(const_nbt_visitor& visitor) const override final;
 
     private:
         bool equals(const tag& rhs) const override final;
@@ -82,6 +83,12 @@ namespace detail
 
     template<class Sub>
     void crtp_tag<Sub>::accept(nbt_visitor& visitor)
+    {
+        visitor.visit(sub_this());
+    }
+
+    template<class Sub>
+    void crtp_tag<Sub>::accept(const_nbt_visitor& visitor) const
     {
         visitor.visit(sub_this());
     }
