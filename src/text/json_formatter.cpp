@@ -107,6 +107,12 @@ namespace //anonymous
 
         void visit(const tag_compound& c) override
         {
+            if(c.size() == 0) //No line breaks inside empty compounds please
+            {
+                os << "{}";
+                return;
+            }
+
             os << "{\n";
             ++indent_lvl;
             unsigned int i = 0;
