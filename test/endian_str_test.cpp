@@ -20,6 +20,7 @@
 #include "microtest.h"
 #include "endian_str.h"
 #include <cstdlib>
+#include <iostream>
 #include <sstream>
 
 using namespace endian;
@@ -75,6 +76,7 @@ void test_uint()
     ASSERT(u64 == 0x090A0B0C0D0E0F10);
 
     ASSERT(str); //Check if stream has failed
+    std::clog << "test_uint passed" << std::endl;
 }
 
 void test_sint()
@@ -128,6 +130,7 @@ void test_sint()
     ASSERT(i64 == -0x090A0B0C0D0E0F10);
 
     ASSERT(str); //Check if stream has failed
+    std::clog << "test_sint passed" << std::endl;
 }
 
 void test_float()
@@ -167,6 +170,7 @@ void test_float()
     ASSERT(d == dconst);
 
     ASSERT(str); //Check if stream has failed
+    std::clog << "test_float passed" << std::endl;
 }
 
 int main()

@@ -20,6 +20,7 @@
 #include "microtest.h"
 #include "io/stream_reader.h"
 #include "nbt_tags.h"
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -69,6 +70,7 @@ void test_stream_reader_big()
     is.str("\x03\x04");
     reader.read_num(i);
     ASSERT(!is);
+    std::clog << "test_stream_reader_big passed" << std::endl;
 }
 
 void test_stream_reader_little()
@@ -95,6 +97,7 @@ void test_stream_reader_little()
 
     EXPECT_EXCEPTION(reader.read_string(), io::input_error);
     ASSERT(!is);
+    std::clog << "test_stream_reader_little passed" << std::endl;
 }
 
 //Tests if comp equals an extended variant of Notch's bigtest NBT
@@ -143,6 +146,7 @@ void test_read_bigtest()
     auto pair = reader.read_compound();
     ASSERT(pair.first == "Level");
     verify_bigtest_structure(*pair.second);
+    std::clog << "test_read_bigtest passed" << std::endl;
 }
 
 void test_read_littletest()
@@ -156,6 +160,7 @@ void test_read_littletest()
     ASSERT(pair.first == "Level");
     ASSERT(pair.second->get_type() == tag_type::Compound);
     verify_bigtest_structure(*pair.second);
+    std::clog << "test_read_littletest passed" << std::endl;
 }
 
 void test_read_errors()
@@ -189,6 +194,7 @@ void test_read_errors()
     ASSERT(file);
     EXPECT_EXCEPTION(reader.read_tag(), io::input_error);
     ASSERT(!file);
+    std::clog << "test_read_errors passed" << std::endl;
 }
 
 void test_read_misc()
@@ -210,6 +216,7 @@ void test_read_misc()
     ASSERT(*pair.second == tag_string(
         "Even though unprovided for by NBT, the library should also handle "
         "the case where the file consists of something else than tag_compound"));
+    std::clog << "test_read_misc passed" << std::endl;
 }
 
 int main()
