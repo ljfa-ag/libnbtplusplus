@@ -22,7 +22,7 @@
 
 #include "endian_str.h"
 #include "tag.h"
-#include "tagfwd.h"
+#include "tag_compound.h"
 #include <iosfwd>
 #include <memory>
 #include <stdexcept>
