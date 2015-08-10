@@ -17,24 +17,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "microtest.h"
-#include "text/json_formatter.h"
-#include "io/stream_reader.h"
-#include <fstream>
-#include <iostream>
-#include "nbt_tags.h"
+#ifndef JSON_FORMATTER_H_INCLUDED
+#define JSON_FORMATTER_H_INCLUDED
 
-using namespace nbt;
+#include "tagfwd.h"
+#include <ostream>
 
-int main()
+namespace nbt
 {
-    std::ifstream file("bigtest_uncompr", std::ios::binary);
-    ASSERT(file);
-    std::string key;
-    std::unique_ptr<tag_compound> comp;
-    std::tie(key, comp) = io::stream_reader(file).read_compound();
+namespace text
+{
 
-    std::cout << "----- json_formatter:\n";
-    text::json_formatter().write(std::cout, *comp);
-    std::cout << "\n-----" << std::endl;
+/**
+ * @brief Prints tags in a JSON-like syntax into a stream
+ *
+ * @todo Make it configurable and able to produce actual standard-conformant JSON
+ */
+class json_formatter
+{
+public:
+    void write(std::ostream& os, const tag& t);
+};
+
 }
+}
+
+#endif // JSON_FORMATTER_H_INCLUDED

@@ -15,8 +15,10 @@ add_library(nbt++ STATIC
     src/tag_string.cpp
     src/value.cpp
     src/value_initializer.cpp
-    
-    src/io/stream_reader.cpp)
+
+    src/io/stream_reader.cpp
+
+    src/text/json_formatter.cpp)
 
 enable_testing()
 add_subdirectory(test)
