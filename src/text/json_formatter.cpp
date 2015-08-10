@@ -71,7 +71,10 @@ namespace //anonymous
             for(unsigned int i = 0; i < l.size(); ++i)
             {
                 indent();
-                l[i].get().accept(*this);
+                if(l[i])
+                    l[i].get().accept(*this);
+                else
+                    write_null();
                 if(i != l.size()-1)
                     os << ",";
                 os << "\n";
@@ -90,7 +93,10 @@ namespace //anonymous
             {
                 indent();
                 os << kv.first << ": ";
-                kv.second.get().accept(*this);
+                if(kv.second)
+                    kv.second.get().accept(*this);
+                else
+                    write_null();
                 if(i != c.size()-1)
                     os << ",";
                 os << "\n";
@@ -137,6 +143,11 @@ namespace //anonymous
             }
             else
                 os << "NaN";
+        }
+
+        void write_null()
+        {
+            os << "null";
         }
     };
 }
