@@ -11,7 +11,6 @@ add_library(nbt++ STATIC
     src/tag_array.cpp
     src/tag_compound.cpp
     src/tag_list.cpp
-    src/tag_primitive.cpp
     src/tag_string.cpp
     src/value.cpp
     src/value_initializer.cpp

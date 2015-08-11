@@ -37,18 +37,18 @@ namespace detail
         //Pure virtual destructor to make the class abstract
         virtual ~crtp_tag() noexcept = 0;
 
-        tag_type get_type() const noexcept override final;
+        tag_type get_type() const noexcept override final { return Sub::type; };
 
-        std::unique_ptr<tag> clone() const& override final;
-        std::unique_ptr<tag> move_clone() && override final;
+        std::unique_ptr<tag> clone() const& override final { return make_unique<Sub>(sub_this()); }
+        std::unique_ptr<tag> move_clone() && override final { return make_unique<Sub>(std::move(sub_this())); }
 
-        tag& assign(tag&& rhs) override final;
+        tag& assign(tag&& rhs) override final { return sub_this() = dynamic_cast<Sub&&>(rhs); }
 
-        void accept(nbt_visitor& visitor) override final;
-        void accept(const_nbt_visitor& visitor) const override final;
+        void accept(nbt_visitor& visitor) override final { visitor.visit(sub_this()); }
+        void accept(const_nbt_visitor& visitor) const override final { visitor.visit(sub_this()); }
 
     private:
-        bool equals(const tag& rhs) const override final;
+        bool equals(const tag& rhs) const override final { return sub_this() == static_cast<const Sub&>(rhs); }
 
         Sub& sub_this() { return static_cast<Sub&>(*this); }
         const Sub& sub_this() const { return static_cast<const Sub&>(*this); }
@@ -56,48 +56,6 @@ namespace detail
 
     template<class Sub>
     crtp_tag<Sub>::~crtp_tag() noexcept {}
-
-    template<class Sub>
-    tag_type crtp_tag<Sub>::get_type() const noexcept
-    {
-        return Sub::type;
-    }
-
-    template<class Sub>
-    std::unique_ptr<tag> crtp_tag<Sub>::clone() const&
-    {
-        return make_unique<Sub>(sub_this());
-    }
-
-    template<class Sub>
-    std::unique_ptr<tag> crtp_tag<Sub>::move_clone() &&
-    {
-        return make_unique<Sub>(std::move(sub_this()));
-    }
-
-    template<class Sub>
-    tag& crtp_tag<Sub>::assign(tag&& rhs)
-    {
-        return sub_this() = dynamic_cast<Sub&&>(rhs);
-    }
-
-    template<class Sub>
-    void crtp_tag<Sub>::accept(nbt_visitor& visitor)
-    {
-        visitor.visit(sub_this());
-    }
-
-    template<class Sub>
-    void crtp_tag<Sub>::accept(const_nbt_visitor& visitor) const
-    {
-        visitor.visit(sub_this());
-    }
-
-    template<class Sub>
-    bool crtp_tag<Sub>::equals(const tag& rhs) const
-    {
-        return sub_this() == static_cast<const Sub&>(rhs);
-    }
 
 }
 
