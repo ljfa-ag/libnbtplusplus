@@ -35,7 +35,9 @@ namespace //anonymous
     class json_fmt_visitor : public const_nbt_visitor
     {
     public:
-        json_fmt_visitor(std::ostream& os): os(os) {}
+        json_fmt_visitor(std::ostream& os, const json_formatter& fmt):
+            os(os)
+        {}
 
         void visit(const tag_byte& b) override
         { os << static_cast<int>(b.get()) << "b"; } //We don't want to print a character
@@ -185,7 +187,7 @@ namespace //anonymous
 
 void json_formatter::write(std::ostream& os, const tag& t) const
 {
-    json_fmt_visitor v(os);
+    json_fmt_visitor v(os, *this);
     t.accept(v);
 }
 
