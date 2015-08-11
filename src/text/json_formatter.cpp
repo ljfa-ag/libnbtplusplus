@@ -21,6 +21,8 @@
 #include "nbt_tags.h"
 #include "nbt_visitor.h"
 #include <cmath>
+#include <iomanip>
+#include <limits>
 
 namespace nbt
 {
@@ -49,13 +51,13 @@ namespace //anonymous
 
         void visit(const tag_float& f) override
         {
-            write_double(f.get());
+            write_float(f.get());
             os << "f";
         }
 
         void visit(const tag_double& d) override
         {
-            write_double(d.get());
+            write_float(d.get());
             os << "d";
         }
 
@@ -159,13 +161,14 @@ namespace //anonymous
                 os << indent_str;
         }
 
-        void write_double(double d)
+        template<class T>
+        void write_float(T val, int precision = std::numeric_limits<T>::max_digits10)
         {
-            if(std::isfinite(d))
-                os << d;
-            else if(std::isinf(d))
+            if(std::isfinite(val))
+                os << std::setprecision(precision) << val;
+            else if(std::isinf(val))
             {
-                if(std::signbit(d))
+                if(std::signbit(val))
                     os << "-";
                 os << "Infinity";
             }
