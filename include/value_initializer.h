@@ -45,9 +45,9 @@ class value_initializer : public value
 {
 public:
     value_initializer(std::unique_ptr<tag>&& t) noexcept;
+    value_initializer(nullptr_t) noexcept;
     value_initializer(value&& val) noexcept;
     value_initializer(tag&& t);
-    value_initializer(nullptr_t);
 
     value_initializer(int8_t val);
     value_initializer(int16_t val);
