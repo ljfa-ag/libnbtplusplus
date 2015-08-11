@@ -185,7 +185,7 @@ namespace //anonymous
     };
 }
 
-void json_formatter::write(std::ostream& os, const tag& t) const
+void json_formatter::print(std::ostream& os, const tag& t) const
 {
     json_fmt_visitor v(os, *this);
     t.accept(v);

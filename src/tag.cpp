@@ -98,7 +98,7 @@ std::ostream& operator<<(std::ostream& os, tag_type tt)
 std::ostream& operator<<(std::ostream& os, const tag& t)
 {
     static const text::json_formatter formatter;
-    formatter.write(os, t);
+    formatter.print(os, t);
     return os;
 }
 

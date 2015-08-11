@@ -36,7 +36,7 @@ namespace text
 class json_formatter
 {
 public:
-    void write(std::ostream& os, const tag& t) const;
+    void print(std::ostream& os, const tag& t) const;
 };
 
 }
