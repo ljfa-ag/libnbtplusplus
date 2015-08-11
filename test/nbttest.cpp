@@ -21,6 +21,7 @@
 #include "nbt_tags.h"
 #include "nbt_visitor.h"
 #include <algorithm>
+#include <set>
 #include <stdexcept>
 
 using namespace nbt;
@@ -137,6 +138,7 @@ void test_tag_compound()
         {"list", tag_list{16, 17}}
     };
 
+    //Test assignments and conversions, and exceptions on bad conversions
     ASSERT(comp["foo"].get_type() == tag_type::Short);
     ASSERT(static_cast<int32_t>(comp["foo"]) == 12);
     ASSERT(static_cast<int16_t>(comp.at("foo")) == int16_t(12));
@@ -160,6 +162,7 @@ void test_tag_compound()
     ASSERT(static_cast<double>(comp["baz"]) == -2.0);
     EXPECT_EXCEPTION(static_cast<float>(comp["baz"]), std::bad_cast);
 
+    //Test nested access
     comp["quux"] = tag_compound{{"Hello", "World"}, {"zero", 0}};
     ASSERT(comp.at("quux").get_type() == tag_type::Compound);
     ASSERT(std::string(comp["quux"].at("Hello")) == "World");
@@ -168,6 +171,7 @@ void test_tag_compound()
 
     EXPECT_EXCEPTION(comp.at("nothing"), std::out_of_range);
 
+    //Test equality comparisons
     tag_compound comp2{
         {"foo", int16_t(32)},
         {"bar", "barbaz"},
@@ -180,17 +184,21 @@ void test_tag_compound()
     ASSERT(comp != comp2["quux"]);
     ASSERT(dynamic_cast<const tag_compound&>(comp["quux"].get()) == comp2["quux"]);
 
-    ASSERT(comp2.size() == 5);
-    const char* keys[] = {"bar", "baz", "foo", "list", "quux"}; //alphabetic order
+    //Test whether begin() through end() goes through all the keys and their
+    //values.  The order of iteration is irrelevant there.
+    std::set<std::string> keys{"bar", "baz", "foo", "list", "quux"};
+    ASSERT(comp2.size() == keys.size());
     unsigned i = 0;
     for(const std::pair<const std::string, value>& val: comp2)
     {
         ASSERT(i < comp2.size());
-        ASSERT(val.first == keys[i]);
-        ASSERT(val.second == comp2[keys[i]]);
+        ASSERT(keys.count(val.first));
+        ASSERT(val.second == comp2[val.first]);
         ++i;
     }
+    ASSERT(i == comp2.size());
 
+    //Test erasing and has_key
     ASSERT(comp.erase("nothing") == false);
     ASSERT(comp.has_key("quux"));
     ASSERT(comp.has_key("quux", tag_type::Compound));
@@ -205,6 +213,7 @@ void test_tag_compound()
     comp.clear();
     ASSERT(comp == tag_compound{});
 
+    //Test inserting values
     ASSERT(comp.put("abc", tag_double(6.0)).second == true);
     ASSERT(comp.put("abc", tag_long(-28)).second == false);
     ASSERT(comp.insert("ghi", tag_string("world")).second == true);
