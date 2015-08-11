@@ -284,6 +284,7 @@ void test_value()
     val1 = val1;
     val2 = val2;
     ASSERT(!val1);
+    ASSERT(val1 == value_initializer(nullptr));
     ASSERT(val2 == tag_int(21));
 
     val3 = tag_short(2);
