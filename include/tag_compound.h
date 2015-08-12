@@ -31,10 +31,12 @@ namespace nbt
 ///Tag that contains multiple unordered named tags of arbitrary types
 class tag_compound final : public detail::crtp_tag<tag_compound>
 {
+    typedef std::map<std::string, value> map_t_;
+
 public:
     //Iterator types
-    typedef std::map<std::string, value>::iterator iterator;
-    typedef std::map<std::string, value>::const_iterator const_iterator;
+    typedef map_t_::iterator iterator;
+    typedef map_t_::const_iterator const_iterator;
 
     ///The type of the tag
     static constexpr tag_type type = tag_type::Compound;
@@ -123,7 +125,7 @@ public:
     friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
 
 private:
-    std::map<std::string, value> tags;
+    map_t_ tags;
 };
 
 template<class T, class... Args>
