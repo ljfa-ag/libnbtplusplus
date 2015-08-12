@@ -24,7 +24,7 @@ namespace nbt
 {
 
 value_initializer::value_initializer(std::unique_ptr<tag>&& t) noexcept: value(std::move(t)) {}
-value_initializer::value_initializer(nullptr_t) noexcept    : value(nullptr) {}
+value_initializer::value_initializer(std::nullptr_t) noexcept: value(nullptr) {}
 value_initializer::value_initializer(value&& val) noexcept  : value(std::move(val)) {}
 value_initializer::value_initializer(tag&& t)               : value(std::move(t)) {}
 
