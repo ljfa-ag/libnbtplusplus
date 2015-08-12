@@ -42,17 +42,22 @@ class output_error : public std::runtime_error
 class stream_writer
 {
 public:
+    ///Maximum length of an NBT string (65535)
+    static constexpr size_t max_string_len = UINT16_MAX;
+
     /**
      * @param os the stream to write to
      * @param e the byte order of the written data. The Java edition
      * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
      */
-    explicit stream_writer(std::ostream& os, endian::endian e = endian::big) noexcept;
+    explicit stream_writer(std::ostream& os, endian::endian e = endian::big) noexcept:
+        os(os), endian(e)
+    {}
 
     ///Returns the stream
-    std::ostream& get_ostr() const;
+    std::ostream& get_ostr() const { return os; }
     ///Returns the byte order
-    endian::endian get_endian() const;
+    endian::endian get_endian() const { return endian; }
 
     /**
      * @brief Writes a tag type to the stream
@@ -70,6 +75,7 @@ public:
      *
      * An NBT string consists of two bytes indicating the length, followed by
      * the characters encoded in modified UTF-8.
+     * @throw std::length_error if the string is too long for NBT
      */
     void write_string(const std::string& str);
 

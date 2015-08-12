@@ -18,13 +18,29 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "io/stream_writer.h"
+#include <sstream>
 
 namespace nbt
 {
 namespace io
 {
 
+void stream_writer::write_type(tag_type tt)
+{
+    write_num(static_cast<int8_t>(tt));
+}
 
+void stream_writer::write_string(const std::string& str)
+{
+    if(str.size() > max_string_len)
+    {
+        std::ostringstream sstr;
+        sstr << "String is too long for NBT (" << str.size() << " > " << max_string_len << ")";
+        throw std::length_error(sstr.str());
+    }
+    write_num(static_cast<uint16_t>(str.size()));
+    os.write(str.data(), str.size());
+}
 
 }
 }

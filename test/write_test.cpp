@@ -51,6 +51,7 @@ void test_stream_writer_big()
         0x00, 0x06, //string length in Big Endian
         'f', 'o', 'o', 'b', 'a', 'r'
     };
+    std::string s = os.str();
     ASSERT(os.str() == expected);
     std::clog << "test_stream_writer_big passed" << std::endl;
 }
