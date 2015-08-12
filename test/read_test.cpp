@@ -28,7 +28,7 @@ using namespace nbt;
 
 void test_stream_reader_big()
 {
-    const char input[] {
+    std::string input{
         1, //tag_type::Byte
         0, //tag_type::End
         11, //tag_type::Int_Array
@@ -40,7 +40,7 @@ void test_stream_reader_big()
 
         0 //tag_type::End (invalid with allow_end = false)
     };
-    std::istringstream is(std::string(input, sizeof input));
+    std::istringstream is(input);
     nbt::io::stream_reader reader(is);
 
     ASSERT(&reader.get_istr() == &is);
@@ -75,7 +75,7 @@ void test_stream_reader_big()
 
 void test_stream_reader_little()
 {
-    const char input[] {
+    std::string input{
         0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, //0x0d0c0b0a09080706 in Little Endian
 
         0x06, 0x00, //String length in Little Endian
@@ -84,7 +84,7 @@ void test_stream_reader_little()
         0x10, 0x00, //String length (intentionally too large)
         'a', 'b', 'c', 'd' //unexpected EOF
     };
-    std::istringstream is(std::string(input, sizeof input));
+    std::istringstream is(input);
     nbt::io::stream_reader reader(is, endian::little);
 
     ASSERT(reader.get_endian() == endian::little);

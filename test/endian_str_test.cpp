@@ -39,7 +39,7 @@ void test_uint()
     write_big   (str, uint32_t(0x090A0B0C));
     write       (str, uint64_t(0x090A0B0C0D0E0F10), endian::big);
 
-    const char expected[] {
+    std::string expected{
         1,
         2, 1,
         4, 3, 2, 1,
@@ -48,8 +48,8 @@ void test_uint()
         9,
         9, 10,
         9, 10, 11, 12,
-        9, 10, 11, 12, 13, 14, 15, 16,
-        0}; //Null terminator
+        9, 10, 11, 12, 13, 14, 15, 16
+    };
     ASSERT(str.str() == expected);
 
     uint8_t  u8;
@@ -93,7 +93,7 @@ void test_sint()
     write       (str, int32_t(-0x090A0B0C), endian::big);
     write_big   (str, int64_t(-0x090A0B0C0D0E0F10));
 
-    const char expected[] { //meh, stupid narrowing conversions
+    std::string expected{ //meh, stupid narrowing conversions
         '\xFF',
         '\xFE', '\xFE',
         '\xFC', '\xFC', '\xFD', '\xFE',
@@ -102,8 +102,8 @@ void test_sint()
         '\xF7',
         '\xF6', '\xF6',
         '\xF6', '\xF5', '\xF4', '\xF4',
-        '\xF6', '\xF5', '\xF4', '\xF3', '\xF2', '\xF1', '\xF0', '\xF0',
-        0}; //Null terminator
+        '\xF6', '\xF5', '\xF4', '\xF3', '\xF2', '\xF1', '\xF0', '\xF0'
+    };
     ASSERT(str.str() == expected);
 
     int8_t  i8;
@@ -147,13 +147,13 @@ void test_float()
     write_big   (str, fconst);
     write_big   (str, dconst);
 
-    const char expected[] {
+    std::string expected{
         '\x01', '\xEF', '\xCD', '\xAB',
         '\x05', '\x04', '\x03', '\x02', '\x01', '\xEF', '\xCD', '\xAB',
 
         '\xAB', '\xCD', '\xEF', '\x01',
-        '\xAB', '\xCD', '\xEF', '\x01', '\x02', '\x03', '\x04', '\x05',
-        0}; //Null terminator
+        '\xAB', '\xCD', '\xEF', '\x01', '\x02', '\x03', '\x04', '\x05'
+    };
     ASSERT(str.str() == expected);
 
     float f;
