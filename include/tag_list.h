@@ -163,6 +163,11 @@ public:
      * In case of a list of tag_end, the content type will be undetermined.
      */
     void read_payload(io::stream_reader& reader) override;
+    /**
+     * @inheritdoc
+     * In case of a list of undetermined content type, the written type will be tag_end.
+     */
+    void write_payload(io::stream_writer& writer) const override;
 
     /**
      * @brief Equality comparison for lists

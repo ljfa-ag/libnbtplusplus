@@ -23,18 +23,19 @@
 #include "tag.h"
 #include "endian_str.h"
 #include <iosfwd>
-#include <stdexcept>
+//#include <stdexcept>
 
 namespace nbt
 {
 namespace io
 {
 
+/* Not sure if that is even needed
 ///Exception that gets thrown when writing is not successful
 class output_error : public std::runtime_error
 {
     using std::runtime_error::runtime_error;
-};
+};*/
 
 /**
  * @brief Helper class for writing NBT tags to output streams
@@ -58,6 +59,16 @@ public:
     std::ostream& get_ostr() const { return os; }
     ///Returns the byte order
     endian::endian get_endian() const { return endian; }
+
+    /**
+     * @brief Writes a named tag into the stream, including the tag type
+     */
+    void write_tag(const std::string& key, const tag& t);
+
+    /**
+     * @brief Writes the given tag's payload into the stream
+     */
+    void write_payload(const tag& t);
 
     /**
      * @brief Writes a tag type to the stream

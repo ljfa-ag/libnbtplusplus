@@ -55,7 +55,10 @@ bool is_valid_type(int type, bool allow_end = false);
 class nbt_visitor;
 class const_nbt_visitor;
 namespace io
-{ class stream_reader; }
+{
+    class stream_reader;
+    class stream_writer;
+}
 
 ///Base class for all NBT tag classes
 class tag
@@ -101,6 +104,11 @@ public:
      * @throw io::stream_reader::input_error on failure
      */
     virtual void read_payload(io::stream_reader& reader) = 0;
+
+    /**
+     * @brief Writes the tag's payload into the stream
+     */
+    virtual void write_payload(io::stream_writer& writer) const = 0;
 
     /**
      * @brief Default-constructs a new tag of the given type

@@ -52,6 +52,11 @@ public:
     void set(std::string&& str);
 
     void read_payload(io::stream_reader& reader) override;
+    /**
+     * @inheritdoc
+     * @throw std::length_error if the string is too long for NBT
+     */
+    void write_payload(io::stream_writer& writer) const override;
 
 private:
     std::string value;

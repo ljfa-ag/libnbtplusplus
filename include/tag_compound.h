@@ -120,6 +120,7 @@ public:
     const_iterator cend() const;
 
     void read_payload(io::stream_reader& reader) override;
+    void write_payload(io::stream_writer& writer) const override;
 
     friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
     friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);

@@ -23,6 +23,7 @@
 #include "crtp_tag.h"
 #include "primitive_detail.h"
 #include "io/stream_reader.h"
+#include "io/stream_writer.h"
 #include <istream>
 #include <sstream>
 
@@ -57,6 +58,7 @@ public:
     void set(T val) { value = val; }
 
     void read_payload(io::stream_reader& reader) override;
+    void write_payload(io::stream_writer& writer) const override;
 
 private:
     T value;
@@ -85,6 +87,12 @@ void tag_primitive<T>::read_payload(io::stream_reader& reader)
         str << "Error reading tag_" << type;
         throw io::input_error(str.str());
     }
+}
+
+template<class T>
+void tag_primitive<T>::write_payload(io::stream_writer& writer) const
+{
+    writer.write_num(value);
 }
 
 }
