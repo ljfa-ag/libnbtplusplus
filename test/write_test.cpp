@@ -56,7 +56,31 @@ void test_stream_writer_big()
     std::clog << "test_stream_writer_big passed" << std::endl;
 }
 
+void test_stream_writer_little()
+{
+    std::ostringstream os;
+    nbt::io::stream_writer writer(os, endian::little);
+
+    ASSERT(writer.get_endian() == endian::little);
+
+    writer.write_num(int32_t(0x0a0b0c0d));
+
+    writer.write_string("foobar");
+
+    ASSERT(os);
+    std::string expected{
+        0x0d, 0x0c, 0x0b, 0x0a, //0x0a0b0c0d in Little Endian
+
+        0x06, 0x00, //string length in Little Endian
+        'f', 'o', 'o', 'b', 'a', 'r'
+    };
+    std::string s = os.str();
+    ASSERT(os.str() == expected);
+    std::clog << "test_stream_writer_little passed" << std::endl;
+}
+
 int main()
 {
     test_stream_writer_big();
+    test_stream_writer_little();
 }
