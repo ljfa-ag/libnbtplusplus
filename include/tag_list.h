@@ -166,6 +166,7 @@ public:
     /**
      * @inheritdoc
      * In case of a list of undetermined content type, the written type will be tag_end.
+     * @throw std::length_error if the list is too long for NBT
      */
     void write_payload(io::stream_writer& writer) const override;
 

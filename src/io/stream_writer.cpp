@@ -25,9 +25,11 @@ namespace nbt
 namespace io
 {
 
-void stream_writer::write_type(tag_type tt)
+void stream_writer::write_tag(const std::string& key, const tag& t)
 {
-    write_num(static_cast<int8_t>(tt));
+    write_type(t.get_type());
+    write_string(key);
+    write_payload(t);
 }
 
 void stream_writer::write_string(const std::string& str)

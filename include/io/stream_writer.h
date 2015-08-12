@@ -68,12 +68,12 @@ public:
     /**
      * @brief Writes the given tag's payload into the stream
      */
-    void write_payload(const tag& t);
+    void write_payload(const tag& t) { t.write_payload(*this); }
 
     /**
      * @brief Writes a tag type to the stream
      */
-    void write_type(tag_type tt);
+    void write_type(tag_type tt) { write_num(static_cast<int8_t>(tt)); }
 
     /**
      * @brief Writes a binary number to the stream

@@ -19,6 +19,7 @@
  */
 #include "tag_compound.h"
 #include "io/stream_reader.h"
+#include "io/stream_writer.h"
 #include <istream>
 #include <sstream>
 
@@ -118,6 +119,13 @@ void tag_compound::read_payload(io::stream_reader& reader)
         auto tptr = reader.read_payload(tt);
         tags.emplace(std::move(key), value(std::move(tptr)));
     }
+}
+
+void tag_compound::write_payload(io::stream_writer& writer) const
+{
+    for(const auto& pair: tags)
+        writer.write_tag(pair.first, pair.second);
+    writer.write_type(tag_type::End);
 }
 
 bool operator==(const tag_compound& lhs, const tag_compound& rhs)

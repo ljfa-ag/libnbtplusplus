@@ -19,6 +19,7 @@
  */
 #include "tag_array.h"
 #include "io/stream_reader.h"
+#include "io/stream_writer.h"
 #include <istream>
 
 namespace nbt
@@ -102,6 +103,7 @@ template<class T> auto tag_array<T>::cbegin() const -> const_iterator { return d
 template<class T> auto tag_array<T>::cend() const   -> const_iterator { return data.cend(); }
 
 //Slightly different between byte_array and int_array
+//Reading
 template<>
 void tag_array<int8_t>::read_payload(io::stream_reader& reader)
 {
@@ -138,6 +140,26 @@ void tag_array<int32_t>::read_payload(io::stream_reader& reader)
     }
     if(!reader.get_istr())
         throw io::input_error("Error reading contents of tag_int_array");
+}
+
+//Writing
+template<>
+void tag_array<int8_t>::write_payload(io::stream_writer& writer) const
+{
+    if(size() > INT32_MAX)
+        throw std::length_error("Byte array is too large for NBT");
+    writer.write_num(static_cast<int32_t>(size()));
+    writer.get_ostr().write(reinterpret_cast<const char*>(data.data()), data.size());
+}
+
+template<>
+void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
+{
+    if(size() > INT32_MAX)
+        throw std::length_error("Int array is too large for NBT");
+    writer.write_num(static_cast<int32_t>(size()));
+    for(int32_t i: data)
+        writer.write_num(i);
 }
 
 template<class T>

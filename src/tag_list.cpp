@@ -20,6 +20,7 @@
 #include "tag_list.h"
 #include "nbt_tags.h"
 #include "io/stream_reader.h"
+#include "io/stream_writer.h"
 #include <istream>
 
 namespace nbt
@@ -155,6 +156,23 @@ void tag_list::read_payload(io::stream_reader& reader)
     {
         //In case of tag_end, ignore the length and leave the type undetermined
         reset(tag_type::Null);
+    }
+}
+
+void tag_list::write_payload(io::stream_writer& writer) const
+{
+    if(size() > INT32_MAX)
+        throw std::length_error("List is too large for NBT");
+    writer.write_type(el_type_ != tag_type::Null
+                      ? el_type_
+                      : tag_type::End);
+    writer.write_num(static_cast<int32_t>(size()));
+    for(const auto& val: tags)
+    {
+        //check if the value is of the correct type
+        if(val.get_type() != el_type_)
+            throw std::bad_cast();
+        writer.write_payload(val);
     }
 }
 

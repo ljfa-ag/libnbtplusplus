@@ -105,6 +105,10 @@ public:
     const_iterator cend() const;
 
     void read_payload(io::stream_reader& reader) override;
+    /**
+     * @inheritdoc
+     * @throw std::length_error if the array is too large for NBT
+     */
     void write_payload(io::stream_writer& writer) const override;
 
 private:

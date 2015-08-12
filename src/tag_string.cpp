@@ -19,6 +19,7 @@
  */
 #include "tag_string.h"
 #include "io/stream_reader.h"
+#include "io/stream_writer.h"
 
 namespace nbt
 {
@@ -88,6 +89,11 @@ void tag_string::read_payload(io::stream_reader& reader)
     {
         throw io::input_error("Error reading tag_string");
     }
+}
+
+void tag_string::write_payload(io::stream_writer& writer) const
+{
+    writer.write_string(value);
 }
 
 bool operator==(const tag_string& lhs, const tag_string& rhs)
