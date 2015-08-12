@@ -19,6 +19,7 @@
  */
 #include "microtest.h"
 #include "io/stream_writer.h"
+#include "io/stream_reader.h"
 #include "nbt_tags.h"
 #include <iostream>
 #include <fstream>
@@ -81,7 +82,7 @@ void test_stream_writer_little()
     std::clog << "test_stream_writer_little passed" << std::endl;
 }
 
-void test_write_tags_big()
+void test_write_payload_big()
 {
     std::ostringstream os;
     nbt::io::stream_writer writer(os);
@@ -165,9 +166,10 @@ void test_write_tags_big()
     os.str("");
 
     //tag_compound
-    //Testing if writing compounds works properly is problematic because the
-    //order of the tags is not guaranteed. However with only two tags in a
-    //compound we only have two possible orderings.
+    /* Testing if writing compounds works properly is problematic because the
+    order of the tags is not guaranteed. However with only two tags in a
+    compound we only have two possible orderings.
+    See below for a more thorough test that uses writing and re-reading. */
     writer.write_payload(tag_compound{});
     writer.write_payload(tag_compound{
         {"foo", "quux"},
@@ -190,11 +192,49 @@ void test_write_tags_big()
     };
     ASSERT(os.str() == endtag + subtag1 + subtag2 + endtag
         || os.str() == endtag + subtag2 + subtag1 + endtag);
+
+    ASSERT(os);
+    std::clog << "test_write_payload_big passed" << std::endl;
+}
+
+void test_write_bigtest()
+{
+    /* Like already stated above, because no order is guaranteed for
+    tag_compound, we cannot simply test it by writing into a stream and directly
+    comparing the output to a reference value.
+    Instead, we assume that reading already works correctly and re-read the
+    written tag.
+    Smaller-grained tests are already done above. */
+    std::ifstream file("bigtest_uncompr", std::ios::binary);
+    const auto orig_pair = io::stream_reader(file).read_compound();
+    std::stringstream sstr;
+
+    //Write into stream in Big Endian
+    io::stream_writer(sstr).write_tag(orig_pair.first, *orig_pair.second);
+    ASSERT(sstr);
+
+    //Read from stream in Big Endian and compare
+    auto written_pair = io::stream_reader(sstr).read_compound();
+    ASSERT(orig_pair.first == written_pair.first);
+    ASSERT(*orig_pair.second == *written_pair.second);
+
+    sstr.str(""); //Reset and reuse stream
+    //Write into stream in Little Endian
+    io::stream_writer(sstr, endian::little).write_tag(orig_pair.first, *orig_pair.second);
+    ASSERT(sstr);
+
+    //Read from stream in Little Endian and compare
+    written_pair = io::stream_reader(sstr, endian::little).read_compound();
+    ASSERT(orig_pair.first == written_pair.first);
+    ASSERT(*orig_pair.second == *written_pair.second);
+
+    std::clog << "test_write_bigtest passed" << std::endl;
 }
 
 int main()
 {
     test_stream_writer_big();
     test_stream_writer_little();
-    test_write_tags_big();
+    test_write_payload_big();
+    test_write_bigtest();
 }
