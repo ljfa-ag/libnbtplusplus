@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 2.6)
-project(libnbt++)
-set(libnbt++_VERSION_MAJOR 2)
-set(libnbt++_VERSION_MINOR 0)
+cmake_minimum_required(VERSION 3.0)
+project(libnbt++
+    VERSION 2.0.1)
 
 add_definitions(-std=c++11)
 include_directories(include)
