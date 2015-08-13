@@ -141,9 +141,8 @@ void test_read_bigtest()
     //Uses an extended variant of Notch's original bigtest file
     std::ifstream file("bigtest_uncompr", std::ios::binary);
     ASSERT(file);
-    nbt::io::stream_reader reader(file);
 
-    auto pair = reader.read_compound();
+    auto pair = nbt::io::read_compound(file);
     ASSERT(pair.first == "Level");
     verify_bigtest_structure(*pair.second);
     std::clog << "test_read_bigtest passed" << std::endl;
@@ -154,9 +153,8 @@ void test_read_littletest()
     //Same as bigtest, but little endian
     std::ifstream file("littletest_uncompr", std::ios::binary);
     ASSERT(file);
-    nbt::io::stream_reader reader(file, endian::little);
 
-    auto pair = reader.read_compound();
+    auto pair = nbt::io::read_compound(file, endian::little);
     ASSERT(pair.first == "Level");
     ASSERT(pair.second->get_type() == tag_type::Compound);
     verify_bigtest_structure(*pair.second);

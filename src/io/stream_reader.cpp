@@ -27,6 +27,16 @@ namespace nbt
 namespace io
 {
 
+std::pair<std::string, std::unique_ptr<tag_compound>> read_compound(std::istream& is, endian::endian e)
+{
+    return stream_reader(is, e).read_compound();
+}
+
+std::pair<std::string, std::unique_ptr<tag>> read_tag(std::istream& is, endian::endian e)
+{
+    return stream_reader(is, e).read_tag();
+}
+
 stream_reader::stream_reader(std::istream& is, endian::endian e) noexcept:
     is(is), endian(e)
 {}

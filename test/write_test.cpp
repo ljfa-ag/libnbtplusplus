@@ -206,25 +206,25 @@ void test_write_bigtest()
     written tag.
     Smaller-grained tests are already done above. */
     std::ifstream file("bigtest_uncompr", std::ios::binary);
-    const auto orig_pair = io::stream_reader(file).read_compound();
+    const auto orig_pair = io::read_compound(file);
     std::stringstream sstr;
 
     //Write into stream in Big Endian
-    io::stream_writer(sstr).write_tag(orig_pair.first, *orig_pair.second);
+    io::write_tag(orig_pair.first, *orig_pair.second, sstr);
     ASSERT(sstr);
 
     //Read from stream in Big Endian and compare
-    auto written_pair = io::stream_reader(sstr).read_compound();
+    auto written_pair = io::read_compound(sstr);
     ASSERT(orig_pair.first == written_pair.first);
     ASSERT(*orig_pair.second == *written_pair.second);
 
     sstr.str(""); //Reset and reuse stream
     //Write into stream in Little Endian
-    io::stream_writer(sstr, endian::little).write_tag(orig_pair.first, *orig_pair.second);
+    io::write_tag(orig_pair.first, *orig_pair.second, sstr, endian::little);
     ASSERT(sstr);
 
     //Read from stream in Little Endian and compare
-    written_pair = io::stream_reader(sstr, endian::little).read_compound();
+    written_pair = io::read_compound(sstr, endian::little);
     ASSERT(orig_pair.first == written_pair.first);
     ASSERT(*orig_pair.second == *written_pair.second);
 
