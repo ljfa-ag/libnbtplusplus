@@ -54,8 +54,11 @@ void test_stream_writer_big()
         0x00, 0x06, //string length in Big Endian
         'f', 'o', 'o', 'b', 'a', 'r'
     };
-    std::string s = os.str();
     ASSERT(os.str() == expected);
+
+    //too long for NBT
+    EXPECT_EXCEPTION(writer.write_string(std::string(65536, '.')), std::length_error);
+    ASSERT(!os);
     std::clog << "test_stream_writer_big passed" << std::endl;
 }
 
@@ -77,8 +80,10 @@ void test_stream_writer_little()
         0x06, 0x00, //string length in Little Endian
         'f', 'o', 'o', 'b', 'a', 'r'
     };
-    std::string s = os.str();
     ASSERT(os.str() == expected);
+
+    EXPECT_EXCEPTION(writer.write_string(std::string(65536, '.')), std::length_error);
+    ASSERT(!os);
     std::clog << "test_stream_writer_little passed" << std::endl;
 }
 
@@ -114,6 +119,9 @@ void test_write_payload_big()
         0x00, 0x06, //string length in Big Endian
         'b', 'a', 'r', 'b', 'a', 'z'
     }));
+    EXPECT_EXCEPTION(writer.write_payload(tag_string(std::string(65536, '.'))), std::length_error);
+    ASSERT(!os);
+    os.clear();
 
     //tag_byte_array
     os.str("");
@@ -193,7 +201,15 @@ void test_write_payload_big()
     ASSERT(os.str() == endtag + subtag1 + subtag2 + endtag
         || os.str() == endtag + subtag2 + subtag1 + endtag);
 
+    //Now for write_tag:
+    os.str("");
+    writer.write_tag("foo", tag_string("quux"));
+    ASSERT(os.str() == subtag1);
     ASSERT(os);
+
+    //too long key for NBT
+    EXPECT_EXCEPTION(writer.write_tag(std::string(65536, '.'), tag_long(-1)), std::length_error);
+    ASSERT(!os);
     std::clog << "test_write_payload_big passed" << std::endl;
 }
 

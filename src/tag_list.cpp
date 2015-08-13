@@ -162,7 +162,10 @@ void tag_list::read_payload(io::stream_reader& reader)
 void tag_list::write_payload(io::stream_writer& writer) const
 {
     if(size() > INT32_MAX)
+    {
+        writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("List is too large for NBT");
+    }
     writer.write_type(el_type_ != tag_type::Null
                       ? el_type_
                       : tag_type::End);
@@ -171,7 +174,10 @@ void tag_list::write_payload(io::stream_writer& writer) const
     {
         //check if the value is of the correct type
         if(val.get_type() != el_type_)
+        {
+            writer.get_ostr().setstate(std::ios::failbit);
             throw std::bad_cast();
+        }
         writer.write_payload(val);
     }
 }

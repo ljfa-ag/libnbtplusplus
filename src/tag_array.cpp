@@ -147,7 +147,10 @@ template<>
 void tag_array<int8_t>::write_payload(io::stream_writer& writer) const
 {
     if(size() > INT32_MAX)
+    {
+        writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("Byte array is too large for NBT");
+    }
     writer.write_num(static_cast<int32_t>(size()));
     writer.get_ostr().write(reinterpret_cast<const char*>(data.data()), data.size());
 }
@@ -156,7 +159,10 @@ template<>
 void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
 {
     if(size() > INT32_MAX)
+    {
+        writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("Int array is too large for NBT");
+    }
     writer.write_num(static_cast<int32_t>(size()));
     for(int32_t i: data)
         writer.write_num(i);

@@ -41,6 +41,7 @@ void stream_writer::write_string(const std::string& str)
 {
     if(str.size() > max_string_len)
     {
+        os.setstate(std::ios::failbit);
         std::ostringstream sstr;
         sstr << "String is too long for NBT (" << str.size() << " > " << max_string_len << ")";
         throw std::length_error(sstr.str());
