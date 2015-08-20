@@ -5,9 +5,8 @@ include_directories(${CXXTEST_INCLUDE_DIR})
 CXXTEST_ADD_TEST(nbttest nbttest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/nbttest.h)
 target_link_libraries(nbttest nbt++)
 
-add_executable(endian_str_test endian_str_test.cpp)
+CXXTEST_ADD_TEST(endian_str_test endian_str_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/endian_str_test.h)
 target_link_libraries(endian_str_test nbt++)
-add_test(endian_str_test endian_str_test)
 
 add_executable(read_test read_test.cpp)
 target_link_libraries(read_test nbt++)
