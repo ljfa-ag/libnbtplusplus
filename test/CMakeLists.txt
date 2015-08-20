@@ -8,12 +8,11 @@ target_link_libraries(nbttest nbt++)
 CXXTEST_ADD_TEST(endian_str_test endian_str_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/endian_str_test.h)
 target_link_libraries(endian_str_test nbt++)
 
-add_executable(read_test read_test.cpp)
+CXXTEST_ADD_TEST(read_test read_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/read_test.h)
 target_link_libraries(read_test nbt++)
 add_custom_command(TARGET read_test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E
     copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/testfiles ${CMAKE_CURRENT_BINARY_DIR})
-add_test(read_test read_test)
 
 add_executable(write_test write_test.cpp)
 target_link_libraries(write_test nbt++)
