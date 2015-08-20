@@ -14,9 +14,8 @@ add_custom_command(TARGET read_test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E
     copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/testfiles ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(write_test write_test.cpp)
+CXXTEST_ADD_TEST(write_test write_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/write_test.h)
 target_link_libraries(write_test nbt++)
-add_test(write_test write_test)
 
 add_executable(format_test format_test.cpp)
 target_link_libraries(format_test nbt++)
