@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 project(libnbt++
     VERSION 2.1)
 
-option(NBT_BUILD_TESTS "Build the unit tests" ON)
-
 add_definitions(-std=c++11)
 include_directories(include)
 add_library(nbt++ STATIC
@@ -20,6 +18,10 @@ add_library(nbt++ STATIC
     src/io/stream_writer.cpp
 
     src/text/json_formatter.cpp)
+
+find_package(CxxTest)    
+
+option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ${CXXTEST_FOUND})
 
 if(NBT_BUILD_TESTS)
     enable_testing()

@@ -1,10 +1,9 @@
 enable_testing()
-include_directories(.)
 include_directories(${libnbt++_SOURCE_DIR}/include)
+include_directories(${CXXTEST_INCLUDE_DIR})
 
-add_executable(nbttest nbttest.cpp)
+CXXTEST_ADD_TEST(nbttest nbttest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/nbttest.h)
 target_link_libraries(nbttest nbt++)
-add_test(nbttest nbttest)
 
 add_executable(endian_str_test endian_str_test.cpp)
 target_link_libraries(endian_str_test nbt++)
