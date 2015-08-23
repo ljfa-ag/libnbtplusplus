@@ -66,10 +66,10 @@ public:
      *
      * The content type is determined when the first tag is added.
      */
-    tag_list();
+    tag_list(): tag_list(tag_type::Null) {}
 
     ///Constructs an empty list with the given content type
-    explicit tag_list(tag_type type);
+    explicit tag_list(tag_type type): el_type_(type) {}
 
     ///Constructs a list with the given contents
     tag_list(std::initializer_list<int8_t> init);
@@ -106,8 +106,8 @@ public:
      * Returns a value to the tag at the specified index. No bounds checking
      * is performed.
      */
-    value& operator[](size_t i);
-    const value& operator[](size_t i) const;
+    value& operator[](size_t i) { return tags[i]; }
+    const value& operator[](size_t i) const { return tags[i]; }
 
     /**
      * @brief Assigns a value at the given index
@@ -133,16 +133,16 @@ public:
     void emplace_back(Args&&... args);
 
     ///Removes the last element of the list
-    void pop_back();
+    void pop_back() { tags.pop_back(); }
 
     ///Returns the content type of the list, or tag_type::Null if undetermined
-    tag_type el_type() const;
+    tag_type el_type() const { return el_type_; }
 
     ///Returns the number of tags in the list
-    size_t size() const;
+    size_t size() const { return tags.size(); }
 
     ///Erases all tags from the list. Preserves the content type.
-    void clear();
+    void clear() { tags.clear(); }
 
     /**
      * @brief Erases all tags from the list and changes the content type.

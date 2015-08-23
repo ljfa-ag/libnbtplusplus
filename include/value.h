@@ -62,7 +62,7 @@ class value
 public:
     //Constructors
     value() noexcept {}
-    explicit value(std::unique_ptr<tag>&& t) noexcept;
+    explicit value(std::unique_ptr<tag>&& t) noexcept: tag_(std::move(t)) {}
     explicit value(tag&& t);
 
     //Moving
@@ -87,10 +87,10 @@ public:
      *
      * If the value is uninitialized, the behavior is undefined.
      */
-    operator tag&();
-    operator const tag&() const;
-    tag& get();
-    const tag& get() const;
+    operator tag&() { return get(); }
+    operator const tag&() const { return get(); }
+    tag& get() { return *tag_; }
+    const tag& get() const { return *tag_; }
 
     /**
      * @brief Returns a reference to the contained tag as an instance of T
@@ -143,7 +143,7 @@ public:
     explicit operator const std::string&() const;
 
     ///Returns true if the value is not uninitialized
-    explicit operator bool() const;
+    explicit operator bool() const { return tag_ != nullptr; }
 
     /**
      * @brief In case of a tag_compound, accesses a tag by key with bounds checking
@@ -189,10 +189,10 @@ public:
     const value& operator[](size_t i) const;
 
     ///Returns a reference to the underlying std::unique_ptr<tag>
-    std::unique_ptr<tag>& get_ptr();
-    const std::unique_ptr<tag>& get_ptr() const;
+    std::unique_ptr<tag>& get_ptr() { return tag_; }
+    const std::unique_ptr<tag>& get_ptr() const { return tag_; }
     ///Resets the underlying std::unique_ptr<tag> to a different value
-    void set_ptr(std::unique_ptr<tag>&& t);
+    void set_ptr(std::unique_ptr<tag>&& t) { tag_ = std::move(t); }
 
     ///@sa tag::get_type
     tag_type get_type() const;

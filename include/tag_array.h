@@ -62,12 +62,12 @@ public:
     tag_array() {}
 
     ///Constructs an array with the given values
-    tag_array(std::initializer_list<T> init);
-    tag_array(std::vector<T>&& vec) noexcept;
+    tag_array(std::initializer_list<T> init): data(init) {}
+    tag_array(std::vector<T>&& vec) noexcept: data(std::move(vec)) {}
 
     ///Returns a reference to the vector that contains the values
-    std::vector<T>& get();
-    const std::vector<T>& get() const;
+    std::vector<T>& get() { return data; }
+    const std::vector<T>& get() const { return data; }
 
     /**
      * @brief Accesses a value by index with bounds checking
@@ -81,20 +81,20 @@ public:
      *
      * No bounds checking is performed.
      */
-    T& operator[](size_t i);
-    T operator[](size_t i) const;
+    T& operator[](size_t i) { return data[i]; }
+    T operator[](size_t i) const { return data[i]; }
 
     ///Appends a value at the end of the array
-    void push_back(T val);
+    void push_back(T val) { data.push_back(val); }
 
     ///Removes the last element from the array
-    void pop_back();
+    void pop_back() { data.pop_back(); }
 
     ///Returns the number of values in the array
-    size_t size() const;
+    size_t size() const { return data.size(); }
 
     ///Erases all values from the array.
-    void clear();
+    void clear() { data.clear(); }
 
     //Iterators
     iterator begin();
@@ -115,8 +115,10 @@ private:
     std::vector<T> data;
 };
 
-template<class T> bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs);
-template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs);
+template<class T> bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)
+{ return lhs.get() == rhs.get(); }
+template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs)
+{ return !(lhs == rhs); }
 
 //Typedefs that should be used instead of the template tag_array.
 typedef tag_array<int8_t> tag_byte_array;

@@ -35,14 +35,14 @@ public:
 
     //Constructors
     tag_string() {}
-    tag_string(const std::string& str);
-    tag_string(std::string&& str) noexcept;
-    tag_string(const char* str);
+    tag_string(const std::string& str): value(str) {}
+    tag_string(std::string&& str) noexcept: value(std::move(str)) {}
+    tag_string(const char* str): value(str) {}
 
     //Getters
-    operator std::string&();
-    operator const std::string&() const;
-    const std::string& get() const;
+    operator std::string&() { return value; }
+    operator const std::string&() const { return value; }
+    const std::string& get() const { return value; }
 
     //Setters
     tag_string& operator=(const std::string& str);
@@ -62,8 +62,10 @@ private:
     std::string value;
 };
 
-bool operator==(const tag_string& lhs, const tag_string& rhs);
-bool operator!=(const tag_string& lhs, const tag_string& rhs);
+inline bool operator==(const tag_string& lhs, const tag_string& rhs)
+{ return lhs.get() == rhs.get(); }
+inline bool operator!=(const tag_string& lhs, const tag_string& rhs)
+{ return !(lhs == rhs); }
 
 }
 

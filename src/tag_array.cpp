@@ -26,28 +26,6 @@ namespace nbt
 {
 
 template<class T>
-tag_array<T>::tag_array(std::initializer_list<T> init):
-    data(init)
-{}
-
-template<class T>
-tag_array<T>::tag_array(std::vector<T>&& vec) noexcept:
-    data(std::move(vec))
-{}
-
-template<class T>
-std::vector<T>& tag_array<T>::get()
-{
-    return data;
-}
-
-template<class T>
-const std::vector<T>& tag_array<T>::get() const
-{
-    return data;
-}
-
-template<class T>
 T& tag_array<T>::at(size_t i)
 {
     return data.at(i);
@@ -57,42 +35,6 @@ template<class T>
 T tag_array<T>::at(size_t i) const
 {
     return data.at(i);
-}
-
-template<class T>
-T& tag_array<T>::operator[](size_t i)
-{
-    return data[i];
-}
-
-template<class T>
-T tag_array<T>::operator[](size_t i) const
-{
-    return data[i];
-}
-
-template<class T>
-void tag_array<T>::push_back(T val)
-{
-    data.push_back(val);
-}
-
-template<class T>
-void tag_array<T>::pop_back()
-{
-    data.pop_back();
-}
-
-template<class T>
-size_t tag_array<T>::size() const
-{
-    return data.size();
-}
-
-template<class T>
-void tag_array<T>::clear()
-{
-    data.clear();
 }
 
 template<class T> auto tag_array<T>::begin() -> iterator { return data.begin(); }
@@ -168,24 +110,8 @@ void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
         writer.write_num(i);
 }
 
-template<class T>
-bool operator==(const tag_array<T>& lhs, const tag_array<T>& rhs)
-{
-    return lhs.get() == rhs.get();
-}
-
-template<class T>
-bool operator!=(const tag_array<T>& lhs, const tag_array<T>& rhs)
-{
-    return !(lhs == rhs);
-}
-
 //Enforce template instantiations
 template class tag_array<int8_t>;
 template class tag_array<int32_t>;
-template bool operator==<int8_t> (const tag_array<int8_t>& , const tag_array<int8_t>&);
-template bool operator==<int32_t>(const tag_array<int32_t>&, const tag_array<int32_t>&);
-template bool operator!=<int8_t> (const tag_array<int8_t>& , const tag_array<int8_t>&);
-template bool operator!=<int32_t>(const tag_array<int32_t>&, const tag_array<int32_t>&);
 
 }

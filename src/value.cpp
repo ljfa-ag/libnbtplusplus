@@ -24,10 +24,6 @@
 namespace nbt
 {
 
-value::value(std::unique_ptr<tag>&& t) noexcept:
-    tag_(std::move(t))
-{}
-
 value::value(tag&& t):
     tag_(std::move(t).move_clone())
 {}
@@ -57,26 +53,6 @@ void value::set(tag&& t)
         tag_->assign(std::move(t));
     else
         tag_ = std::move(t).move_clone();
-}
-
-value::operator tag&()
-{
-    return get();
-}
-
-value::operator const tag&() const
-{
-    return get();
-}
-
-tag& value::get()
-{
-    return *tag_;
-}
-
-const tag& value::get() const
-{
-    return *tag_;
 }
 
 //Primitive assignment
@@ -325,11 +301,6 @@ value::operator double() const
     }
 }
 
-value& value::operator=(const std::string& str)
-{
-    return *this = std::move(std::string(str));
-}
-
 value& value::operator=(std::string&& str)
 {
     if(!tag_)
@@ -342,11 +313,6 @@ value& value::operator=(std::string&& str)
 value::operator const std::string&() const
 {
     return dynamic_cast<tag_string&>(*tag_).get();
-}
-
-value::operator bool() const
-{
-    return tag_ != nullptr;
 }
 
 value& value::at(const std::string& key)
@@ -387,21 +353,6 @@ value& value::operator[](size_t i)
 const value& value::operator[](size_t i) const
 {
     return dynamic_cast<const tag_list&>(*tag_)[i];
-}
-
-std::unique_ptr<tag>& value::get_ptr()
-{
-    return tag_;
-}
-
-const std::unique_ptr<tag>& value::get_ptr() const
-{
-    return tag_;
-}
-
-void value::set_ptr(std::unique_ptr<tag>&& t)
-{
-    tag_ = std::move(t);
 }
 
 tag_type value::get_type() const

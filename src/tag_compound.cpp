@@ -82,16 +82,6 @@ bool tag_compound::has_key(const std::string& key, tag_type type) const
     return it != tags.end() && it->second.get_type() == type;
 }
 
-size_t tag_compound::size() const
-{
-    return tags.size();
-}
-
-void tag_compound::clear()
-{
-    tags.clear();
-}
-
 auto tag_compound::begin() -> iterator { return tags.begin(); }
 auto tag_compound::end()   -> iterator { return tags.end(); }
 auto tag_compound::begin() const  -> const_iterator { return tags.begin(); }
@@ -126,16 +116,6 @@ void tag_compound::write_payload(io::stream_writer& writer) const
     for(const auto& pair: tags)
         writer.write_tag(pair.first, pair.second);
     writer.write_type(tag_type::End);
-}
-
-bool operator==(const tag_compound& lhs, const tag_compound& rhs)
-{
-    return lhs.tags == rhs.tags;
-}
-
-bool operator!=(const tag_compound& lhs, const tag_compound& rhs)
-{
-    return !(lhs == rhs);
 }
 
 }

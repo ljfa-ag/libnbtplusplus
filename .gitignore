@@ -3,6 +3,7 @@
 *.layout
 *.cbtemp
 *.bak
+*.swp
 /bin
 /lib
 /obj

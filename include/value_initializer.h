@@ -44,10 +44,10 @@ namespace nbt
 class value_initializer : public value
 {
 public:
-    value_initializer(std::unique_ptr<tag>&& t) noexcept;
-    value_initializer(std::nullptr_t) noexcept;
-    value_initializer(value&& val) noexcept;
-    value_initializer(tag&& t);
+    value_initializer(std::unique_ptr<tag>&& t) noexcept: value(std::move(t)) {}
+    value_initializer(std::nullptr_t) noexcept          : value(nullptr) {}
+    value_initializer(value&& val) noexcept             : value(std::move(val)) {}
+    value_initializer(tag&& t)                          : value(std::move(t)) {}
 
     value_initializer(int8_t val);
     value_initializer(int16_t val);

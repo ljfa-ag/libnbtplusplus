@@ -106,10 +106,10 @@ public:
     bool has_key(const std::string& key, tag_type type) const;
 
     ///Returns the number of tags in the compound
-    size_t size() const;
+    size_t size() const { return tags.size(); }
 
     ///Erases all tags from the compound
-    void clear();
+    void clear() { tags.clear(); }
 
     //Iterators
     iterator begin();
@@ -122,8 +122,10 @@ public:
     void read_payload(io::stream_reader& reader) override;
     void write_payload(io::stream_writer& writer) const override;
 
-    friend bool operator==(const tag_compound& lhs, const tag_compound& rhs);
-    friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs);
+    friend bool operator==(const tag_compound& lhs, const tag_compound& rhs)
+    { return lhs.tags == rhs.tags; }
+    friend bool operator!=(const tag_compound& lhs, const tag_compound& rhs)
+    { return !(lhs == rhs); }
 
 private:
     map_t_ tags;

@@ -24,33 +24,6 @@
 namespace nbt
 {
 
-tag_string::tag_string(const std::string& str):
-    value(str)
-{}
-
-tag_string::tag_string(std::string&& str) noexcept:
-    value(std::move(str))
-{}
-
-tag_string::tag_string(const char* str):
-    value(str)
-{}
-
-tag_string::operator std::string&()
-{
-    return value;
-}
-
-tag_string::operator const std::string&() const
-{
-    return value;
-
-}
-const std::string& tag_string::get() const
-{
-    return value;
-}
-
 tag_string& tag_string::operator=(const std::string& str)
 {
     value = str;
@@ -94,16 +67,6 @@ void tag_string::read_payload(io::stream_reader& reader)
 void tag_string::write_payload(io::stream_writer& writer) const
 {
     writer.write_string(value);
-}
-
-bool operator==(const tag_string& lhs, const tag_string& rhs)
-{
-    return lhs.get() == rhs.get();
-}
-
-bool operator!=(const tag_string& lhs, const tag_string& rhs)
-{
-    return !(lhs == rhs);
 }
 
 }

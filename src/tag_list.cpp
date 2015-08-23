@@ -26,14 +26,6 @@
 namespace nbt
 {
 
-tag_list::tag_list():
-    tag_list(tag_type::Null)
-{}
-
-tag_list::tag_list(tag_type type):
-    el_type_(type)
-{}
-
 tag_list::tag_list(std::initializer_list<int8_t>         il) { init<tag_byte>(il); }
 tag_list::tag_list(std::initializer_list<int16_t>        il) { init<tag_short>(il); }
 tag_list::tag_list(std::initializer_list<int32_t>        il) { init<tag_int>(il); }
@@ -72,16 +64,6 @@ const value& tag_list::at(size_t i) const
     return tags.at(i);
 }
 
-value& tag_list::operator[](size_t i)
-{
-    return tags[i];
-}
-
-const value& tag_list::operator[](size_t i) const
-{
-    return tags[i];
-}
-
 void tag_list::set(size_t i, value&& val)
 {
     if(val.get_type() != el_type_)
@@ -98,26 +80,6 @@ void tag_list::push_back(value_initializer&& val)
     else if(el_type_ != val.get_type())
         throw std::bad_cast();
     tags.push_back(std::move(val));
-}
-
-void tag_list::pop_back()
-{
-    tags.pop_back();
-}
-
-tag_type tag_list::el_type() const
-{
-    return el_type_;
-}
-
-size_t tag_list::size() const
-{
-    return tags.size();
-}
-
-void tag_list::clear()
-{
-    tags.clear();
 }
 
 void tag_list::reset(tag_type type)
