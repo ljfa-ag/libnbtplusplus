@@ -213,7 +213,7 @@ T& value::as()
 template<class T>
 const T& value::as() const
 {
-    return tag_->as<T>();;
+    return tag_->as<T>();
 }
 
 }
