@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "microtest.h"
 //#include "text/json_formatter.h"
 //#include "io/stream_reader.h"
 #include <fstream>
