@@ -88,13 +88,6 @@ void tag_list::reset(tag_type type)
     el_type_ = type;
 }
 
-auto tag_list::begin() -> iterator { return tags.begin(); }
-auto tag_list::end()   -> iterator { return tags.end(); }
-auto tag_list::begin() const  -> const_iterator { return tags.begin(); }
-auto tag_list::end() const    -> const_iterator { return tags.end(); }
-auto tag_list::cbegin() const -> const_iterator { return tags.cbegin(); }
-auto tag_list::cend() const   -> const_iterator { return tags.cend(); }
-
 void tag_list::read_payload(io::stream_reader& reader)
 {
     tag_type lt = reader.read_type(true);

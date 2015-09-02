@@ -37,13 +37,6 @@ T tag_array<T>::at(size_t i) const
     return data.at(i);
 }
 
-template<class T> auto tag_array<T>::begin() -> iterator { return data.begin(); }
-template<class T> auto tag_array<T>::end()   -> iterator { return data.end(); }
-template<class T> auto tag_array<T>::begin() const  -> const_iterator { return data.begin(); }
-template<class T> auto tag_array<T>::end() const    -> const_iterator { return data.end(); }
-template<class T> auto tag_array<T>::cbegin() const -> const_iterator { return data.cbegin(); }
-template<class T> auto tag_array<T>::cend() const   -> const_iterator { return data.cend(); }
-
 //Slightly different between byte_array and int_array
 //Reading
 template<>

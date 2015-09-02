@@ -63,7 +63,7 @@ public:
      * Returns a value to the tag with the specified key. If it does not exist,
      * creates a new uninitialized entry under the key.
      */
-    value& operator[](const std::string& key);
+    value& operator[](const std::string& key) { return tags[key]; }
 
     /**
      * @brief Inserts or assigns a tag
@@ -112,12 +112,12 @@ public:
     void clear() { tags.clear(); }
 
     //Iterators
-    iterator begin();
-    iterator end();
-    const_iterator begin() const;
-    const_iterator end() const;
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    iterator begin() { return tags.begin(); }
+    iterator end()   { return tags.end(); }
+    const_iterator begin() const  { return tags.begin(); }
+    const_iterator end() const    { return tags.end(); }
+    const_iterator cbegin() const { return tags.cbegin(); }
+    const_iterator cend() const   { return tags.cend(); }
 
     void read_payload(io::stream_reader& reader) override;
     void write_payload(io::stream_writer& writer) const override;

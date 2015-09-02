@@ -97,12 +97,12 @@ public:
     void clear() { data.clear(); }
 
     //Iterators
-    iterator begin();
-    iterator end();
-    const_iterator begin() const;
-    const_iterator end() const;
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    iterator begin() { return data.begin(); }
+    iterator end()   { return data.end(); }
+    const_iterator begin() const  { return data.begin(); }
+    const_iterator end() const    { return data.end(); }
+    const_iterator cbegin() const { return data.cbegin(); }
+    const_iterator cend() const   { return data.cend(); }
 
     void read_payload(io::stream_reader& reader) override;
     /**

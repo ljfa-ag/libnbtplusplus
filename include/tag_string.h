@@ -45,11 +45,11 @@ public:
     const std::string& get() const { return value; }
 
     //Setters
-    tag_string& operator=(const std::string& str);
-    tag_string& operator=(std::string&& str);
-    tag_string& operator=(const char* str);
-    void set(const std::string& str);
-    void set(std::string&& str);
+    tag_string& operator=(const std::string& str) { value = str; return *this; }
+    tag_string& operator=(std::string&& str)      { value = std::move(str); return *this; }
+    tag_string& operator=(const char* str)        { value = str; return *this; }
+    void set(const std::string& str)              { value = str; }
+    void set(std::string&& str)                   { value = std::move(str); }
 
     void read_payload(io::stream_reader& reader) override;
     /**

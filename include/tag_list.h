@@ -151,12 +151,12 @@ public:
     void reset(tag_type type = tag_type::Null);
 
     //Iterators
-    iterator begin();
-    iterator end();
-    const_iterator begin() const;
-    const_iterator end() const;
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    iterator begin() { return tags.begin(); }
+    iterator end()   { return tags.end(); }
+    const_iterator begin() const  { return tags.begin(); }
+    const_iterator end() const    { return tags.end(); }
+    const_iterator cbegin() const { return tags.cbegin(); }
+    const_iterator cend() const   { return tags.cend(); }
 
     /**
      * @inheritdoc

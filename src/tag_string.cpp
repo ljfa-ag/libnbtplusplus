@@ -24,34 +24,6 @@
 namespace nbt
 {
 
-tag_string& tag_string::operator=(const std::string& str)
-{
-    value = str;
-    return *this;
-}
-
-tag_string& tag_string::operator=(std::string&& str)
-{
-    value = std::move(str);
-    return *this;
-}
-
-tag_string& tag_string::operator=(const char* str)
-{
-    value = std::string(str);
-    return *this;
-}
-
-void tag_string::set(const std::string& str)
-{
-    value = str;
-}
-
-void tag_string::set(std::string&& str)
-{
-    value = std::move(str);
-}
-
 void tag_string::read_payload(io::stream_reader& reader)
 {
     try

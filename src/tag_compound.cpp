@@ -42,11 +42,6 @@ const value& tag_compound::at(const std::string& key) const
     return tags.at(key);
 }
 
-value& tag_compound::operator[](const std::string& key)
-{
-    return tags[key];
-}
-
 std::pair<tag_compound::iterator, bool> tag_compound::put(const std::string& key, value_initializer&& val)
 {
     auto it = tags.find(key);
@@ -81,13 +76,6 @@ bool tag_compound::has_key(const std::string& key, tag_type type) const
     auto it = tags.find(key);
     return it != tags.end() && it->second.get_type() == type;
 }
-
-auto tag_compound::begin() -> iterator { return tags.begin(); }
-auto tag_compound::end()   -> iterator { return tags.end(); }
-auto tag_compound::begin() const  -> const_iterator { return tags.begin(); }
-auto tag_compound::end() const    -> const_iterator { return tags.end(); }
-auto tag_compound::cbegin() const -> const_iterator { return tags.cbegin(); }
-auto tag_compound::cend() const   -> const_iterator { return tags.cend(); }
 
 void tag_compound::read_payload(io::stream_reader& reader)
 {
