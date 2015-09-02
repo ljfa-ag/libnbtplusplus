@@ -318,7 +318,7 @@ public:
         TS_ASSERT(list[0] == tag_string("foo"));
         TS_ASSERT_EQUALS(static_cast<std::string>(list.at(1)), "bar");
 
-        TS_ASSERT_EQUALS(list.size(), 2);
+        TS_ASSERT_EQUALS(list.size(), 2u);
         TS_ASSERT_THROWS(list.at(2), std::out_of_range);
         TS_ASSERT_THROWS(list.at(-1), std::out_of_range);
 
@@ -327,7 +327,7 @@ public:
         TS_ASSERT_THROWS(list.set(1, value(tag_int(-42))), std::bad_cast);
         TS_ASSERT_EQUALS(static_cast<std::string>(list[1]), "baz");
 
-        TS_ASSERT_EQUALS(list.size(), 2);
+        TS_ASSERT_EQUALS(list.size(), 2u);
         tag_string values[] = {"foo", "baz"};
         TS_ASSERT_EQUALS(list.end() - list.begin(), int(list.size()));
         TS_ASSERT(std::equal(list.begin(), list.end(), values));
@@ -339,7 +339,7 @@ public:
         TS_ASSERT((list != tag_list{2, 3, 5, 7}));
 
         list.clear();
-        TS_ASSERT_EQUALS(list.size(), 0);
+        TS_ASSERT_EQUALS(list.size(), 0u);
         TS_ASSERT_EQUALS(list.el_type(), tag_type::String)
         TS_ASSERT_THROWS(list.push_back(tag_short(25)), std::bad_cast);
         TS_ASSERT_THROWS(list.push_back(value(nullptr)), std::bad_cast);
@@ -376,7 +376,7 @@ public:
     {
         std::vector<int8_t> vec{1, 2, 127, -128};
         tag_byte_array arr{1, 2, 127, -128};
-        TS_ASSERT_EQUALS(arr.size(), 4);
+        TS_ASSERT_EQUALS(arr.size(), 4u);
         TS_ASSERT(arr.at(0) == 1 && arr[1] == 2 && arr[2] == 127 && arr.at(3) == -128);
         TS_ASSERT_THROWS(arr.at(-1), std::out_of_range);
         TS_ASSERT_THROWS(arr.at(4), std::out_of_range);
@@ -387,13 +387,13 @@ public:
         arr.push_back(42);
         vec.push_back(42);
 
-        TS_ASSERT_EQUALS(arr.size(), 5);
+        TS_ASSERT_EQUALS(arr.size(), 5u);
         TS_ASSERT_EQUALS(arr.end() - arr.begin(), int(arr.size()));
         TS_ASSERT(std::equal(arr.begin(), arr.end(), vec.begin()));
 
         arr.pop_back();
         arr.pop_back();
-        TS_ASSERT_EQUALS(arr.size(), 3);
+        TS_ASSERT_EQUALS(arr.size(), 3u);
         TS_ASSERT((arr == tag_byte_array{1, 2, 127}));
         TS_ASSERT((arr != tag_int_array{1, 2, 127}));
         TS_ASSERT((arr != tag_byte_array{1, 2, -1}));
@@ -406,7 +406,7 @@ public:
     {
         std::vector<int32_t> vec{100, 200, INT32_MAX, INT32_MIN};
         tag_int_array arr{100, 200, INT32_MAX, INT32_MIN};
-        TS_ASSERT_EQUALS(arr.size(), 4);
+        TS_ASSERT_EQUALS(arr.size(), 4u);
         TS_ASSERT(arr.at(0) == 100 && arr[1] == 200 && arr[2] == INT32_MAX && arr.at(3) == INT32_MIN);
         TS_ASSERT_THROWS(arr.at(-1), std::out_of_range);
         TS_ASSERT_THROWS(arr.at(4), std::out_of_range);
@@ -417,13 +417,13 @@ public:
         arr.push_back(42);
         vec.push_back(42);
 
-        TS_ASSERT_EQUALS(arr.size(), 5);
+        TS_ASSERT_EQUALS(arr.size(), 5u);
         TS_ASSERT_EQUALS(arr.end() - arr.begin(), int(arr.size()));
         TS_ASSERT(std::equal(arr.begin(), arr.end(), vec.begin()));
 
         arr.pop_back();
         arr.pop_back();
-        TS_ASSERT_EQUALS(arr.size(), 3);
+        TS_ASSERT_EQUALS(arr.size(), 3u);
         TS_ASSERT((arr == tag_int_array{100, 200, INT32_MAX}));
         TS_ASSERT((arr != tag_int_array{100, -56, -1}));
 

@@ -104,7 +104,7 @@ public:
     //Tests if comp equals an extended variant of Notch's bigtest NBT
     void verify_bigtest_structure(const tag_compound& comp)
     {
-        TS_ASSERT_EQUALS(comp.size(), 13);
+        TS_ASSERT_EQUALS(comp.size(), 13u);
 
         TS_ASSERT(comp.at("byteTest") == tag_byte(127));
         TS_ASSERT(comp.at("shortTest") == tag_short(32767));

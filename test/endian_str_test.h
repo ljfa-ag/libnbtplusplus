@@ -65,18 +65,18 @@ public:
         read_little(str, u16);
         TS_ASSERT_EQUALS(u16, 0x0102);
         read_little(str, u32);
-        TS_ASSERT_EQUALS(u32, 0x01020304);
+        TS_ASSERT_EQUALS(u32, 0x01020304u);
         read(str, u64, endian::little);
-        TS_ASSERT_EQUALS(u64, 0x0102030405060708);
+        TS_ASSERT_EQUALS(u64, 0x0102030405060708u);
 
         read_big(str, u8);
         TS_ASSERT_EQUALS(u8, 0x09);
         read_big(str, u16);
         TS_ASSERT_EQUALS(u16, 0x090A);
         read(str, u32, endian::big);
-        TS_ASSERT_EQUALS(u32, 0x090A0B0C);
+        TS_ASSERT_EQUALS(u32, 0x090A0B0Cu);
         read_big(str, u64);
-        TS_ASSERT_EQUALS(u64, 0x090A0B0C0D0E0F10);
+        TS_ASSERT_EQUALS(u64, 0x090A0B0C0D0E0F10u);
 
         TS_ASSERT(str); //Check if stream has failed
     }
