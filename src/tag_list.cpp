@@ -48,7 +48,7 @@ tag_list::tag_list(std::initializer_list<value> init)
         for(const value& val: init)
         {
             if(!val || val.get_type() != el_type_)
-                throw std::bad_cast();
+                throw std::invalid_argument("The values are not all the same type");
         }
         tags.assign(init.begin(), init.end());
     }
@@ -67,18 +67,18 @@ const value& tag_list::at(size_t i) const
 void tag_list::set(size_t i, value&& val)
 {
     if(val.get_type() != el_type_)
-        throw std::bad_cast();
+        throw std::invalid_argument("The tag type does not match the list's content type");
     tags.at(i) = std::move(val);
 }
 
 void tag_list::push_back(value_initializer&& val)
 {
     if(!val) //don't allow null values
-        throw std::bad_cast();
+        throw std::invalid_argument("The value must not be null");
     if(el_type_ == tag_type::Null) //set content type if undetermined
         el_type_ = val.get_type();
     else if(el_type_ != val.get_type())
-        throw std::bad_cast();
+        throw std::invalid_argument("The tag type does not match the list's content type");
     tags.push_back(std::move(val));
 }
 
@@ -131,7 +131,7 @@ void tag_list::write_payload(io::stream_writer& writer) const
         if(val.get_type() != el_type_)
         {
             writer.get_ostr().setstate(std::ios::failbit);
-            throw std::bad_cast();
+            throw std::logic_error("The tags in the list do not all match the content type");
         }
         writer.write_payload(val);
     }

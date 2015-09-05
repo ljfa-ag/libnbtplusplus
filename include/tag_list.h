@@ -23,7 +23,7 @@
 #include "crtp_tag.h"
 #include "tagfwd.h"
 #include "value_initializer.h"
-#include <typeinfo>
+#include <stdexcept>
 #include <vector>
 
 namespace nbt
@@ -33,14 +33,12 @@ namespace nbt
  * @brief Tag that contains multiple unnamed tags of the same type
  *
  * All the tags contained in the list have the same type, which can be queried
- * with el_type().
+ * with el_type(). The types of the values contained in the list should not
+ * be changed to mismatch the element type.
  *
  * If the list is empty, the type can be undetermined, in which case el_type()
  * will return tag_type::Null. The type will then be set when the first tag
  * is added to the list.
- *
- * The list's behavior is undefined if the contained values are changed in a
- * way that their type differs from the list's content type.
  */
 class tag_list final : public detail::crtp_tag<tag_list>
 {
@@ -86,7 +84,7 @@ public:
 
     /**
      * @brief Constructs a list with the given contents
-     * @throw std::bad_cast if the tags are not all of the same type
+     * @throw std::invalid_argument if the tags are not all of the same type
      */
     tag_list(std::initializer_list<value> init);
 
@@ -111,7 +109,7 @@ public:
 
     /**
      * @brief Assigns a value at the given index
-     * @throw std::bad_cast if the type of the value does not match the list's
+     * @throw std::invalid_argument if the type of the value does not match the list's
      * content type
      * @throw std::out_of_range if the index is out of range
      */
@@ -119,14 +117,14 @@ public:
 
     /**
      * @brief Appends the tag to the end of the list
-     * @throw std::bad_cast if the type of the tag does not match the list's
+     * @throw std::invalid_argument if the type of the tag does not match the list's
      * content type
      */
     void push_back(value_initializer&& val);
 
     /**
      * @brief Constructs and appends a tag to the end of the list
-     * @throw std::bad_cast if the type of the tag does not match the list's
+     * @throw std::invalid_argument if the type of the tag does not match the list's
      * content type
      */
     template<class T, class... Args>
@@ -206,7 +204,7 @@ void tag_list::emplace_back(Args&&... args)
     if(el_type_ == tag_type::Null) //set content type if undetermined
         el_type_ = T::type;
     else if(el_type_ != T::type)
-        throw std::bad_cast();
+        throw std::invalid_argument("The tag type does not match the list's content type");
     tags.emplace_back(make_unique<T>(std::forward<Args>(args)...));
 }
 

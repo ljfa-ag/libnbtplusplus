@@ -306,13 +306,13 @@ public:
     {
         tag_list list;
         TS_ASSERT_EQUALS(list.el_type(), tag_type::Null);
-        TS_ASSERT_THROWS(list.push_back(value(nullptr)), std::bad_cast);
+        TS_ASSERT_THROWS(list.push_back(value(nullptr)), std::invalid_argument);
 
         list.emplace_back<tag_string>("foo");
         TS_ASSERT_EQUALS(list.el_type(), tag_type::String);
         list.push_back(tag_string("bar"));
-        TS_ASSERT_THROWS(list.push_back(tag_int(42)), std::bad_cast);
-        TS_ASSERT_THROWS(list.emplace_back<tag_compound>(), std::bad_cast);
+        TS_ASSERT_THROWS(list.push_back(tag_int(42)), std::invalid_argument);
+        TS_ASSERT_THROWS(list.emplace_back<tag_compound>(), std::invalid_argument);
 
         TS_ASSERT((list == tag_list{"foo", "bar"}));
         TS_ASSERT(list[0] == tag_string("foo"));
@@ -323,8 +323,8 @@ public:
         TS_ASSERT_THROWS(list.at(-1), std::out_of_range);
 
         list.set(1, value(tag_string("baz")));
-        TS_ASSERT_THROWS(list.set(1, value(nullptr)), std::bad_cast);
-        TS_ASSERT_THROWS(list.set(1, value(tag_int(-42))), std::bad_cast);
+        TS_ASSERT_THROWS(list.set(1, value(nullptr)), std::invalid_argument);
+        TS_ASSERT_THROWS(list.set(1, value(tag_int(-42))), std::invalid_argument);
         TS_ASSERT_EQUALS(static_cast<std::string>(list[1]), "baz");
 
         TS_ASSERT_EQUALS(list.size(), 2u);
@@ -341,8 +341,8 @@ public:
         list.clear();
         TS_ASSERT_EQUALS(list.size(), 0u);
         TS_ASSERT_EQUALS(list.el_type(), tag_type::String)
-        TS_ASSERT_THROWS(list.push_back(tag_short(25)), std::bad_cast);
-        TS_ASSERT_THROWS(list.push_back(value(nullptr)), std::bad_cast);
+        TS_ASSERT_THROWS(list.push_back(tag_short(25)), std::invalid_argument);
+        TS_ASSERT_THROWS(list.push_back(value(nullptr)), std::invalid_argument);
 
         list.reset();
         TS_ASSERT_EQUALS(list.el_type(), tag_type::Null);
@@ -365,9 +365,9 @@ public:
         TS_ASSERT((short_list != tag_list{25, 36}));
         TS_ASSERT((short_list == tag_list{value(tag_short(25)), value(tag_short(36))}));
 
-        TS_ASSERT_THROWS((tag_list{value(tag_byte(4)), value(tag_int(5))}), std::bad_cast);
-        TS_ASSERT_THROWS((tag_list{value(nullptr), value(tag_int(6))}), std::bad_cast);
-        TS_ASSERT_THROWS((tag_list{value(tag_int(7)), value(tag_int(8)), value(nullptr)}), std::bad_cast);
+        TS_ASSERT_THROWS((tag_list{value(tag_byte(4)), value(tag_int(5))}), std::invalid_argument);
+        TS_ASSERT_THROWS((tag_list{value(nullptr), value(tag_int(6))}), std::invalid_argument);
+        TS_ASSERT_THROWS((tag_list{value(tag_int(7)), value(tag_int(8)), value(nullptr)}), std::invalid_argument);
         TS_ASSERT_EQUALS((tag_list(std::initializer_list<value>{})).el_type(), tag_type::Null);
         TS_ASSERT_EQUALS((tag_list{2, 3, 5, 7}).el_type(), tag_type::Int);
     }
