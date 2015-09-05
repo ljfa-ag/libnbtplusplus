@@ -81,7 +81,7 @@ void tag_array<int32_t>::read_payload(io::stream_reader& reader)
 template<>
 void tag_array<int8_t>::write_payload(io::stream_writer& writer) const
 {
-    if(size() > INT32_MAX)
+    if(size() > io::stream_writer::max_array_len)
     {
         writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("Byte array is too large for NBT");
@@ -93,7 +93,7 @@ void tag_array<int8_t>::write_payload(io::stream_writer& writer) const
 template<>
 void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
 {
-    if(size() > INT32_MAX)
+    if(size() > io::stream_writer::max_array_len)
     {
         writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("Int array is too large for NBT");

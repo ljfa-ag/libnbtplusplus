@@ -54,8 +54,10 @@ void write_tag(const std::string& key, const tag& t, std::ostream& os, endian::e
 class stream_writer
 {
 public:
-    ///Maximum length of an NBT string (65535)
+    ///Maximum length of an NBT string (16 bit unsigned)
     static constexpr size_t max_string_len = UINT16_MAX;
+    ///Maximum length of an NBT list or array (32 bit signed)
+    static constexpr uint32_t max_array_len = INT32_MAX;
 
     /**
      * @param os the stream to write to

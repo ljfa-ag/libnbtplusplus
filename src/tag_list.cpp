@@ -116,7 +116,7 @@ void tag_list::read_payload(io::stream_reader& reader)
 
 void tag_list::write_payload(io::stream_writer& writer) const
 {
-    if(size() > INT32_MAX)
+    if(size() > io::stream_writer::max_array_len)
     {
         writer.get_ostr().setstate(std::ios::failbit);
         throw std::length_error("List is too large for NBT");
