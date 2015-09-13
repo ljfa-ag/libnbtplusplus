@@ -34,13 +34,13 @@ public:
 
         write_little(str, uint8_t (0x01));
         write_little(str, uint16_t(0x0102));
-        write       (str, uint32_t(0x01020304), endian::little);
+        write       (str, uint32_t(0x01020304), little);
         write_little(str, uint64_t(0x0102030405060708));
 
         write_big   (str, uint8_t (0x09));
         write_big   (str, uint16_t(0x090A));
         write_big   (str, uint32_t(0x090A0B0C));
-        write       (str, uint64_t(0x090A0B0C0D0E0F10), endian::big);
+        write       (str, uint64_t(0x090A0B0C0D0E0F10), big);
 
         std::string expected{
             1,
@@ -66,14 +66,14 @@ public:
         TS_ASSERT_EQUALS(u16, 0x0102);
         read_little(str, u32);
         TS_ASSERT_EQUALS(u32, 0x01020304u);
-        read(str, u64, endian::little);
+        read(str, u64, little);
         TS_ASSERT_EQUALS(u64, 0x0102030405060708u);
 
         read_big(str, u8);
         TS_ASSERT_EQUALS(u8, 0x09);
         read_big(str, u16);
         TS_ASSERT_EQUALS(u16, 0x090A);
-        read(str, u32, endian::big);
+        read(str, u32, big);
         TS_ASSERT_EQUALS(u32, 0x090A0B0Cu);
         read_big(str, u64);
         TS_ASSERT_EQUALS(u64, 0x090A0B0C0D0E0F10u);
@@ -88,11 +88,11 @@ public:
         write_little(str, int8_t (-0x01));
         write_little(str, int16_t(-0x0102));
         write_little(str, int32_t(-0x01020304));
-        write       (str, int64_t(-0x0102030405060708), endian::little);
+        write       (str, int64_t(-0x0102030405060708), little);
 
         write_big   (str, int8_t (-0x09));
         write_big   (str, int16_t(-0x090A));
-        write       (str, int32_t(-0x090A0B0C), endian::big);
+        write       (str, int32_t(-0x090A0B0C), big);
         write_big   (str, int64_t(-0x090A0B0C0D0E0F10));
 
         std::string expected{ //meh, stupid narrowing conversions
@@ -117,7 +117,7 @@ public:
         TS_ASSERT_EQUALS(i8, -0x01);
         read_little(str, i16);
         TS_ASSERT_EQUALS(i16, -0x0102);
-        read(str, i32, endian::little);
+        read(str, i32, little);
         TS_ASSERT_EQUALS(i32, -0x01020304);
         read_little(str, i64);
         TS_ASSERT_EQUALS(i64, -0x0102030405060708);
@@ -128,7 +128,7 @@ public:
         TS_ASSERT_EQUALS(i16, -0x090A);
         read_big(str, i32);
         TS_ASSERT_EQUALS(i32, -0x090A0B0C);
-        read(str, i64, endian::big);
+        read(str, i64, big);
         TS_ASSERT_EQUALS(i64, -0x090A0B0C0D0E0F10);
 
         TS_ASSERT(str); //Check if stream has failed
