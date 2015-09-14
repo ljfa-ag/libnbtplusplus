@@ -20,23 +20,13 @@
 #ifndef OZLIBSTREAM_H_INCLUDED
 #define OZLIBSTREAM_H_INCLUDED
 
+#include "io/zlib_error.h"
 #include <ostream>
 #include <vector>
 #include <zlib.h>
 
 namespace zlib
 {
-
-///Exception thrown in case zlib encounters a problem
-class zlib_error : public std::runtime_error
-{
-public:
-    const int errcode;
-
-    explicit zlib_error(const char* what_arg, int errcode = Z_ERRNO):
-        std::runtime_error(what_arg), errcode(errcode)
-    {}
-};
 
 /**
  * @brief Stream buffer used by zlib::ozlibstream
