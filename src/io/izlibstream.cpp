@@ -1,0 +1,86 @@
+/*
+ * libnbt++ - A library for the Minecraft Named Binary Tag format.
+ * Copyright (C) 2013, 2015  ljfa-ag
+ *
+ * This file is part of libnbt++.
+ *
+ * libnbt++ is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * libnbt++ is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#include "io/izlibstream.h"
+#include "io/zlib_error.h"
+
+namespace zlib
+{
+
+inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int window_bits):
+    is(input), in(bufsize), out(bufsize)
+{
+    zstr.zalloc = Z_NULL;
+    zstr.zfree = Z_NULL;
+    zstr.opaque = Z_NULL;
+    zstr.next_in = Z_NULL;
+    zstr.avail_in = 0;
+    int ret = inflateInit2(&zstr, window_bits);
+    if(ret != Z_OK)
+        throw zlib_error("inflateInit failed", ret);
+
+    char* end = out.data() + out.size();
+    setg(end, end, end);
+}
+
+inflate_streambuf::~inflate_streambuf()
+{
+    inflateEnd(&zstr);
+}
+
+inflate_streambuf::int_type inflate_streambuf::underflow()
+{
+    if(gptr() < egptr())
+        return traits_type::to_int_type(*gptr());
+
+    size_t have;
+    do
+    {
+        //Read if input buffer is empty
+        if(zstr.avail_in <= 0)
+        {
+            is.read(in.data(), in.size());
+            size_t count = is.gcount();
+            zstr.next_in = reinterpret_cast<Bytef*>(in.data());
+            zstr.avail_in = count;
+        }
+
+        zstr.next_out = reinterpret_cast<Bytef*>(out.data());
+        zstr.avail_out = out.size();
+
+        int ret = inflate(&zstr, Z_NO_FLUSH);
+        switch(ret)
+        {
+        case Z_NEED_DICT:
+        case Z_DATA_ERROR:
+            throw zlib_error("Error decompressing data", ret);
+        case Z_MEM_ERROR:
+            throw std::bad_alloc();
+        case Z_STREAM_END:
+            return traits_type::eof();
+        }
+
+        have = out.size() - zstr.avail_out;
+    } while(have == 0);
+
+    setg(out.data(), out.data(), out.data() + have);
+    return traits_type::to_int_type(*gptr());
+}
+
+}

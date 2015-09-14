@@ -48,6 +48,8 @@ private:
     std::vector<char> in;
     std::vector<char> out;
     z_stream zstr;
+
+    int_type underflow() override;
 };
 
 /**
