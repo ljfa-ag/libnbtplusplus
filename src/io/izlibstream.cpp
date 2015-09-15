@@ -33,7 +33,7 @@ inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int wi
     zstr.avail_in = 0;
     int ret = inflateInit2(&zstr, window_bits);
     if(ret != Z_OK)
-        throw zlib_error("inflateInit failed", ret);
+        throw zlib_error(zstr.msg, ret);
 
     char* end = out.data() + out.size();
     setg(end, end, end);
@@ -70,15 +70,16 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
         {
         case Z_NEED_DICT:
         case Z_DATA_ERROR:
-            throw zlib_error("Error decompressing data", ret);
+            throw zlib_error(zstr.msg, ret);
+
         case Z_MEM_ERROR:
             throw std::bad_alloc();
+
         case Z_STREAM_END:
             if(have == 0)
                 return traits_type::eof();
             break;
         }
-
     } while(have == 0);
 
     setg(out.data(), out.data(), out.data() + have);
