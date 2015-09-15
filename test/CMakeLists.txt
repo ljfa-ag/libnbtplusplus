@@ -17,6 +17,9 @@ add_custom_command(TARGET read_test POST_BUILD
 CXXTEST_ADD_TEST(write_test write_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/write_test.h)
 target_link_libraries(write_test nbt++)
 
+CXXTEST_ADD_TEST(zlibstream_test zlibstream_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/zlibstream_test.h)
+target_link_libraries(zlibstream_test nbt++ z)
+
 add_executable(format_test format_test.cpp)
 target_link_libraries(format_test nbt++)
 add_test(format_test format_test)
