@@ -76,10 +76,8 @@ public:
      * @param bufsize the size of the internal buffers
      */
     explicit izlibstream(std::istream& input, size_t bufsize = 32768):
-        buf(input, bufsize)
-    {
-        init(&buf);
-    }
+        std::istream(&buf), buf(input, bufsize)
+    {}
     ///@return the wrapped istream
     std::istream& get_istr() const { return buf.get_istr(); }
 

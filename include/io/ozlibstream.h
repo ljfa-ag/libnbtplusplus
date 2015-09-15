@@ -85,10 +85,8 @@ public:
      * Refer to the zlib documentation of deflateInit2 for a detailed explanation of the arguments.
      */
     explicit ozlibstream(std::ostream& output, int level = -1, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY):
-        buf(output, level, window_bits, mem_level, strategy)
-    {
-        init(&buf);
-    }
+        std::ostream(&buf), buf(output, level, window_bits, mem_level, strategy)
+    {}
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 
