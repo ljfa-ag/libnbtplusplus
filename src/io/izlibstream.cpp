@@ -39,7 +39,7 @@ inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int wi
     setg(end, end, end);
 }
 
-inflate_streambuf::~inflate_streambuf()
+inflate_streambuf::~inflate_streambuf() noexcept
 {
     inflateEnd(&zstr);
 }

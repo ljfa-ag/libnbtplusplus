@@ -20,7 +20,6 @@
 #ifndef OZLIBSTREAM_H_INCLUDED
 #define OZLIBSTREAM_H_INCLUDED
 
-#include "io/zlib_error.h"
 #include <ostream>
 #include <vector>
 #include <zlib.h>
@@ -37,14 +36,6 @@ class deflate_streambuf : public std::streambuf
 public:
     explicit deflate_streambuf(std::ostream& output, int level = -1, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY);
     ~deflate_streambuf() noexcept;
-
-    //Moving
-    deflate_streambuf(deflate_streambuf&&) noexcept = default;
-    deflate_streambuf& operator=(deflate_streambuf&&) noexcept = default;
-
-    //No copying
-    deflate_streambuf(const deflate_streambuf&) = delete;
-    deflate_streambuf& operator=(const deflate_streambuf&) = delete;
 
     std::ostream& get_ostr() const { return os; }
 
@@ -85,10 +76,8 @@ public:
      * Refer to the zlib documentation of deflateInit2 for a detailed explanation of the arguments.
      */
     explicit ozlibstream(std::ostream& output, int level = -1, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY):
-        buf(output, level, window_bits, mem_level, strategy)
-    {
-        init(&buf);
-    }
+        std::ostream(&buf), buf(output, level, window_bits, mem_level, strategy)
+    {}
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 

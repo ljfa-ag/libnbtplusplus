@@ -11,7 +11,9 @@ public:
     const int errcode;
 
     explicit zlib_error(const char* msg, int errcode):
-        std::runtime_error(std::string(zError(errcode)) + ": " + msg),
+        std::runtime_error(msg
+                         ? std::string(zError(errcode)) + ": " + msg
+                         : zError(errcode)),
         errcode(errcode)
     {}
 };

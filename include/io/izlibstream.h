@@ -47,10 +47,6 @@ public:
     explicit inflate_streambuf(std::istream& input, size_t bufsize = 32768, int window_bits = 32 + 15);
     ~inflate_streambuf() noexcept;
 
-    //No copying or moving
-    inflate_streambuf(const inflate_streambuf&) = delete;
-    inflate_streambuf& operator=(const inflate_streambuf&) = delete;
-
     ///@return the wrapped istream
     std::istream& get_istr() const { return is; }
 
@@ -80,10 +76,8 @@ public:
      * @param bufsize the size of the internal buffers
      */
     explicit izlibstream(std::istream& input, size_t bufsize = 32768):
-        buf(input, bufsize)
-    {
-        init(&buf);
-    }
+        std::istream(&buf), buf(input, bufsize)
+    {}
     ///@return the wrapped istream
     std::istream& get_istr() const { return buf.get_istr(); }
 

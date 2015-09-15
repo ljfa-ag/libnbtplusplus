@@ -20,6 +20,7 @@
 #include <cxxtest/TestSuite.h>
 #include "io/izlibstream.h"
 #include "io/ozlibstream.h"
+#include "io/zlib_error.h"
 #include <fstream>
 #include <sstream>
 
@@ -87,6 +88,22 @@ public:
             TS_ASSERT(igzs.eof());
             TS_ASSERT_EQUALS(data.str(), bigtest.str());
         }
+    }
+
+    void test_inflate_zlib()
+    {
+        std::ifstream zlib_in("bigtest.zlib", std::ios::binary);
+        TS_ASSERT(zlib_in);
+
+        std::stringbuf data;
+        izlibstream izls(zlib_in, 256);
+        izls.exceptions(std::ios::failbit);
+        TS_ASSERT(izls.good());
+
+        TS_ASSERT_THROWS_NOTHING(izls >> &data);
+        TS_ASSERT(izls);
+        TS_ASSERT(izls.eof());
+        TS_ASSERT_EQUALS(data.str(), bigtest.str());
     }
 
     void test_inflate_corrupt()
