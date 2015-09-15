@@ -89,6 +89,22 @@ public:
         }
     }
 
+    void test_inflate_zlib()
+    {
+        std::ifstream zlib_in("bigtest.zlib", std::ios::binary);
+        TS_ASSERT(zlib_in);
+
+        std::stringbuf data;
+        izlibstream izls(zlib_in, 256);
+        izls.exceptions(std::ios::failbit);
+        TS_ASSERT(izls.good());
+
+        TS_ASSERT_THROWS_NOTHING(izls >> &data);
+        TS_ASSERT(izls);
+        TS_ASSERT(izls.eof());
+        TS_ASSERT_EQUALS(data.str(), bigtest.str());
+    }
+
     void test_inflate_corrupt()
     {
         std::ifstream gzip_in("bigtest_corrupt.nbt", std::ios::binary);
