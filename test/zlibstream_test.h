@@ -39,7 +39,7 @@ public:
             throw std::runtime_error("Could not read bigtest_uncompr file");
     }
 
-    void test_izlibstream_gzip()
+    void test_inflate_gzip()
     {
         std::ifstream gzip_in("bigtest.nbt", std::ios::binary);
         TS_ASSERT(gzip_in);
@@ -50,7 +50,6 @@ public:
             izlibstream igzs(gzip_in, 256);
             igzs.exceptions(std::ios::failbit);
             TS_ASSERT(igzs.good());
-            TS_ASSERT(!igzs.eof());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
@@ -67,7 +66,6 @@ public:
             izlibstream igzs(gzip_in, 1000);
             igzs.exceptions(std::ios::failbit);
             TS_ASSERT(igzs.good());
-            TS_ASSERT(!igzs.eof());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
@@ -83,12 +81,35 @@ public:
             izlibstream igzs(gzip_in, 4000);
             igzs.exceptions(std::ios::failbit);
             TS_ASSERT(igzs.good());
-            TS_ASSERT(!igzs.eof());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
             TS_ASSERT(igzs.eof());
             TS_ASSERT_EQUALS(data.str(), bigtest.str());
+        }
+    }
+
+    void test_inflate_corrupt()
+    {
+        std::ifstream gzip_in("bigtest_corrupt.nbt", std::ios::binary);
+        TS_ASSERT(gzip_in);
+
+        std::stringbuf data;
+        {
+            izlibstream igzs(gzip_in);
+            igzs.exceptions(std::ios::failbit);
+            TS_ASSERT_THROWS(igzs >> &data, zlib_error);
+        }
+
+        gzip_in.close();
+        gzip_in.open("bigtest_eof.nbt", std::ios::binary);
+        TS_ASSERT(gzip_in);
+
+        data.str("");
+        {
+            izlibstream igzs(gzip_in);
+            igzs.exceptions(std::ios::failbit);
+            TS_ASSERT_THROWS(igzs >> &data, zlib_error);
         }
     }
 };
