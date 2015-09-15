@@ -435,42 +435,31 @@ public:
     {
         struct : public nbt_visitor
         {
-            tag_type visited = tag_type::Null;
+            tag* visited = nullptr;
 
-            void visit(tag_byte& tag)       { visited = tag_type::Byte; }
-            void visit(tag_short& tag)      { visited = tag_type::Short; }
-            void visit(tag_int& tag)        { visited = tag_type::Int; }
-            void visit(tag_long& tag)       { visited = tag_type::Long; }
-            void visit(tag_float& tag)      { visited = tag_type::Float; }
-            void visit(tag_double& tag)     { visited = tag_type::Double; }
-            void visit(tag_byte_array& tag) { visited = tag_type::Byte_Array; }
-            void visit(tag_string& tag)     { visited = tag_type::String; }
-            void visit(tag_list& tag)       { visited = tag_type::List; }
-            void visit(tag_compound& tag)   { visited = tag_type::Compound; }
-            void visit(tag_int_array& tag)  { visited = tag_type::Int_Array; }
+            void visit(tag_byte& tag)       { visited = &tag; }
+            void visit(tag_short& tag)      { visited = &tag; }
+            void visit(tag_int& tag)        { visited = &tag; }
+            void visit(tag_long& tag)       { visited = &tag; }
+            void visit(tag_float& tag)      { visited = &tag; }
+            void visit(tag_double& tag)     { visited = &tag; }
+            void visit(tag_byte_array& tag) { visited = &tag; }
+            void visit(tag_string& tag)     { visited = &tag; }
+            void visit(tag_list& tag)       { visited = &tag; }
+            void visit(tag_compound& tag)   { visited = &tag; }
+            void visit(tag_int_array& tag)  { visited = &tag; }
         } v;
 
-        tag_byte().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Byte);
-        tag_short().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Short);
-        tag_int().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Int);
-        tag_long().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Long);
-        tag_float().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Float);
-        tag_double().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Double);
-        tag_byte_array().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Byte_Array);
-        tag_string().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::String);
-        tag_list().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::List);
-        tag_compound().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Compound);
-        tag_int_array().accept(v);
-        TS_ASSERT_EQUALS(v.visited, tag_type::Int_Array);
+        tag_byte       b;   b.accept(v); TS_ASSERT_EQUALS(v.visited, &b);
+        tag_short      s;   s.accept(v); TS_ASSERT_EQUALS(v.visited, &s);
+        tag_int        i;   i.accept(v); TS_ASSERT_EQUALS(v.visited, &i);
+        tag_long       l;   l.accept(v); TS_ASSERT_EQUALS(v.visited, &l);
+        tag_float      f;   f.accept(v); TS_ASSERT_EQUALS(v.visited, &f);
+        tag_double     d;   d.accept(v); TS_ASSERT_EQUALS(v.visited, &d);
+        tag_byte_array ba; ba.accept(v); TS_ASSERT_EQUALS(v.visited, &ba);
+        tag_string     st; st.accept(v); TS_ASSERT_EQUALS(v.visited, &st);
+        tag_list       ls; ls.accept(v); TS_ASSERT_EQUALS(v.visited, &ls);
+        tag_compound   c;   c.accept(v); TS_ASSERT_EQUALS(v.visited, &c);
+        tag_int_array  ia; ia.accept(v); TS_ASSERT_EQUALS(v.visited, &ia);
     }
 };
