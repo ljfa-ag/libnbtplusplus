@@ -34,7 +34,7 @@ namespace zlib
 class inflate_streambuf : public std::streambuf
 {
 public:
-    explicit inflate_streambuf(std::istream& input, size_t bufsize = 32768, int window_bits = 32);
+    explicit inflate_streambuf(std::istream& input, size_t bufsize = 32768, int window_bits = 32 + 15);
     ~inflate_streambuf() noexcept;
 
     //No copying or moving
