@@ -65,6 +65,7 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
         zstr.avail_out = out.size();
 
         int ret = inflate(&zstr, Z_NO_FLUSH);
+        have = out.size() - zstr.avail_out;
         switch(ret)
         {
         case Z_NEED_DICT:
@@ -73,10 +74,11 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
         case Z_MEM_ERROR:
             throw std::bad_alloc();
         case Z_STREAM_END:
-            return traits_type::eof();
+            if(have == 0)
+                return traits_type::eof();
+            break;
         }
 
-        have = out.size() - zstr.avail_out;
     } while(have == 0);
 
     setg(out.data(), out.data(), out.data() + have);
