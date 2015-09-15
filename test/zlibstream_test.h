@@ -39,11 +39,12 @@ public:
         expected_in.close();
 
         izlibstream igzs(gzip_in, 256); //Small buffer so not all fits at once (the compressed file is 561 bytes)
+        igzs.exceptions(std::ios::failbit);
         TS_ASSERT(igzs.good());
         TS_ASSERT(!igzs.eof());
 
         std::stringbuf data;
-        igzs >> &data;
+        TS_ASSERT_THROWS_NOTHING(igzs >> &data);
         TS_ASSERT(igzs);
         TS_ASSERT(igzs.eof());
         TS_ASSERT_EQUALS(data.str(), expected.str());
