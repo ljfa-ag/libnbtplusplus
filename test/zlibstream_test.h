@@ -27,26 +27,68 @@ using namespace zlib;
 
 class zlibstream_test : public CxxTest::TestSuite
 {
+private:
+    std::stringbuf bigtest;
+
 public:
-    void test_izlibstream()
+    zlibstream_test()
+    {
+        std::ifstream bigtest_f("bigtest_uncompr", std::ios::binary);
+        bigtest_f >> &bigtest;
+        if(!bigtest_f || bigtest.str().size() == 0)
+            throw std::runtime_error("Could not read bigtest_uncompr file");
+    }
+
+    void test_izlibstream_gzip()
     {
         std::ifstream gzip_in("bigtest.nbt", std::ios::binary);
-        std::ifstream expected_in("bigtest_uncompr", std::ios::binary);
-        std::stringbuf expected;
-        expected_in >> &expected; //Dump uncompressed file contents into streambuf
-        TS_ASSERT(gzip_in && expected_in);
-        TS_ASSERT_DIFFERS(expected.str().size(), 0u);
-        expected_in.close();
-
-        izlibstream igzs(gzip_in, 256); //Small buffer so not all fits at once (the compressed file is 561 bytes)
-        igzs.exceptions(std::ios::failbit);
-        TS_ASSERT(igzs.good());
-        TS_ASSERT(!igzs.eof());
+        TS_ASSERT(gzip_in);
 
         std::stringbuf data;
-        TS_ASSERT_THROWS_NOTHING(igzs >> &data);
-        TS_ASSERT(igzs);
-        TS_ASSERT(igzs.eof());
-        TS_ASSERT_EQUALS(data.str(), expected.str());
+        //Small buffer so not all fits at once (the compressed file is 561 bytes)
+        {
+            izlibstream igzs(gzip_in, 256);
+            igzs.exceptions(std::ios::failbit);
+            TS_ASSERT(igzs.good());
+            TS_ASSERT(!igzs.eof());
+
+            TS_ASSERT_THROWS_NOTHING(igzs >> &data);
+            TS_ASSERT(igzs);
+            TS_ASSERT(igzs.eof());
+            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+        }
+
+        //Clear and reuse buffers
+        data.str("");
+        gzip_in.clear();
+        gzip_in.seekg(0);
+        //Now try the same with larger buffer (but not large enough for all output, uncompressed size 1561 bytes)
+        {
+            izlibstream igzs(gzip_in, 1000);
+            igzs.exceptions(std::ios::failbit);
+            TS_ASSERT(igzs.good());
+            TS_ASSERT(!igzs.eof());
+
+            TS_ASSERT_THROWS_NOTHING(igzs >> &data);
+            TS_ASSERT(igzs);
+            TS_ASSERT(igzs.eof());
+            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+        }
+
+        data.str("");
+        gzip_in.clear();
+        gzip_in.seekg(0);
+        //Now with large buffer
+        {
+            izlibstream igzs(gzip_in, 4000);
+            igzs.exceptions(std::ios::failbit);
+            TS_ASSERT(igzs.good());
+            TS_ASSERT(!igzs.eof());
+
+            TS_ASSERT_THROWS_NOTHING(igzs >> &data);
+            TS_ASSERT(igzs);
+            TS_ASSERT(igzs.eof());
+            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+        }
     }
 };
