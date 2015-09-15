@@ -24,7 +24,7 @@ namespace zlib
 {
 
 inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int window_bits):
-    is(input), in(bufsize), out(bufsize)
+    is(input), in(bufsize), out(bufsize), stream_end(false)
 {
     zstr.zalloc = Z_NULL;
     zstr.zfree = Z_NULL;
@@ -56,7 +56,12 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
         if(zstr.avail_in <= 0)
         {
             is.read(in.data(), in.size());
+            if(is.bad())
+                throw std::ios_base::failure("Input stream is bad");
             size_t count = is.gcount();
+            if(count == 0 && !stream_end)
+                throw zlib_error("Unexpected end of stream", Z_DATA_ERROR);
+
             zstr.next_in = reinterpret_cast<Bytef*>(in.data());
             zstr.avail_in = count;
         }
@@ -76,6 +81,7 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
             throw std::bad_alloc();
 
         case Z_STREAM_END:
+            stream_end = true;
             if(have == 0)
                 return traits_type::eof();
             break;
