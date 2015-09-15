@@ -29,11 +29,21 @@ namespace zlib
 
 /**
  * @brief Stream buffer used by zlib::izlibstream
- * @see izlibstream
+ * @sa izlibstream
  */
 class inflate_streambuf : public std::streambuf
 {
 public:
+    /**
+     * @param input the istream to wrap
+     * @param bufsize the size of the internal buffers
+     * @param window_bits the base two logarithm of the maximum window size that
+     * zlib will use. This parameter also determines which type of input to expect.
+     * The default argument will autodetect between zlib and gzip data.
+     * Refer to the zlib documentation of inflateInit2 for more details.
+     *
+     * @throw zlib_error if zlib encounters a problem during initialization
+     */
     explicit inflate_streambuf(std::istream& input, size_t bufsize = 32768, int window_bits = 32 + 15);
     ~inflate_streambuf() noexcept;
 
@@ -41,6 +51,7 @@ public:
     inflate_streambuf(const inflate_streambuf&) = delete;
     inflate_streambuf& operator=(const inflate_streambuf&) = delete;
 
+    ///@return the wrapped istream
     std::istream& get_istr() const { return is; }
 
 private:
@@ -58,13 +69,15 @@ private:
  *
  * This istream wraps another istream. The izlibstream will read compressed
  * data from the wrapped istream and inflate (decompress) it with zlib.
+ *
+ * @sa inflate_streambuf
  */
 class izlibstream : public std::istream
 {
 public:
     /**
      * @param input the istream to wrap
-     * @param bufsize the size of the internal buffer
+     * @param bufsize the size of the internal buffers
      */
     explicit izlibstream(std::istream& input, size_t bufsize = 32768):
         buf(input, bufsize)
