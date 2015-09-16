@@ -113,22 +113,24 @@ public:
         std::ifstream gzip_in("bigtest_corrupt.nbt", std::ios::binary);
         TS_ASSERT(gzip_in);
 
-        std::stringbuf data;
+        std::vector<char> buf(bigtest.size());
         {
             izlibstream igzs(gzip_in);
             igzs.exceptions(std::ios::failbit | std::ios::badbit);
-            TS_ASSERT_THROWS(igzs >> &data, zlib_error);
+            TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
+            TS_ASSERT(igzs.bad());
         }
 
         gzip_in.close();
+        gzip_in.clear();
         gzip_in.open("bigtest_eof.nbt", std::ios::binary);
         TS_ASSERT(gzip_in);
 
-        data.str("");
         {
             izlibstream igzs(gzip_in);
             igzs.exceptions(std::ios::failbit | std::ios::badbit);
-            TS_ASSERT_THROWS(igzs >> &data, zlib_error);
+            TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
+            TS_ASSERT(igzs.bad());
         }
     }
 };
