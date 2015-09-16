@@ -20,7 +20,7 @@ add_library(nbt++ STATIC
 
     src/text/json_formatter.cpp)
 
-find_package(zlib REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(CxxTest)
 
 option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ${CXXTEST_FOUND})
