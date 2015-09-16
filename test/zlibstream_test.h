@@ -29,14 +29,16 @@ using namespace zlib;
 class zlibstream_test : public CxxTest::TestSuite
 {
 private:
-    std::stringbuf bigtest;
+    std::string bigtest;
 
 public:
     zlibstream_test()
     {
         std::ifstream bigtest_f("bigtest_uncompr", std::ios::binary);
-        bigtest_f >> &bigtest;
-        if(!bigtest_f || bigtest.str().size() == 0)
+        std::stringbuf bigtest_b;
+        bigtest_f >> &bigtest_b;
+        bigtest = bigtest_b.str();
+        if(!bigtest_f || bigtest.size() == 0)
             throw std::runtime_error("Could not read bigtest_uncompr file");
     }
 
@@ -49,13 +51,13 @@ public:
         //Small buffer so not all fits at once (the compressed file is 561 bytes)
         {
             izlibstream igzs(gzip_in, 256);
-            igzs.exceptions(std::ios::failbit);
+            igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT(igzs.good());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
             TS_ASSERT(igzs.eof());
-            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+            TS_ASSERT_EQUALS(data.str(), bigtest);
         }
 
         //Clear and reuse buffers
@@ -65,13 +67,13 @@ public:
         //Now try the same with larger buffer (but not large enough for all output, uncompressed size 1561 bytes)
         {
             izlibstream igzs(gzip_in, 1000);
-            igzs.exceptions(std::ios::failbit);
+            igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT(igzs.good());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
             TS_ASSERT(igzs.eof());
-            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+            TS_ASSERT_EQUALS(data.str(), bigtest);
         }
 
         data.str("");
@@ -80,13 +82,13 @@ public:
         //Now with large buffer
         {
             izlibstream igzs(gzip_in, 4000);
-            igzs.exceptions(std::ios::failbit);
+            igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT(igzs.good());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
             TS_ASSERT(igzs.eof());
-            TS_ASSERT_EQUALS(data.str(), bigtest.str());
+            TS_ASSERT_EQUALS(data.str(), bigtest);
         }
     }
 
@@ -97,13 +99,13 @@ public:
 
         std::stringbuf data;
         izlibstream izls(zlib_in, 256);
-        izls.exceptions(std::ios::failbit);
+        izls.exceptions(std::ios::failbit | std::ios::badbit);
         TS_ASSERT(izls.good());
 
         TS_ASSERT_THROWS_NOTHING(izls >> &data);
         TS_ASSERT(izls);
         TS_ASSERT(izls.eof());
-        TS_ASSERT_EQUALS(data.str(), bigtest.str());
+        TS_ASSERT_EQUALS(data.str(), bigtest);
     }
 
     void test_inflate_corrupt()
@@ -114,7 +116,7 @@ public:
         std::stringbuf data;
         {
             izlibstream igzs(gzip_in);
-            igzs.exceptions(std::ios::failbit);
+            igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS(igzs >> &data, zlib_error);
         }
 
@@ -125,7 +127,7 @@ public:
         data.str("");
         {
             izlibstream igzs(gzip_in);
-            igzs.exceptions(std::ios::failbit);
+            igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS(igzs >> &data, zlib_error);
         }
     }
