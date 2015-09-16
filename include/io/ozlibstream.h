@@ -29,12 +29,21 @@ namespace zlib
 
 /**
  * @brief Stream buffer used by zlib::ozlibstream
- * @see ozlibstream
+ * @sa ozlibstream
  */
 class deflate_streambuf : public std::streambuf
 {
 public:
-    explicit deflate_streambuf(std::ostream& output, int level = -1, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY);
+    /**
+     * @param output the ostream to wrap
+     * @param bufsize the size of the internal buffers
+     * @param level the compression level, ranges from 0 to 9
+     *
+     * Refer to the zlib documentation of deflateInit2 for details about the arguments.
+     *
+     * @throw zlib_error if zlib encounters a problem during initialization
+     */
+    explicit deflate_streambuf(std::ostream& output, size_t bufsize = 32768, int level = Z_DEFAULT_COMPRESSION, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY);
     ~deflate_streambuf() noexcept;
 
     std::ostream& get_ostr() const { return os; }
@@ -56,28 +65,22 @@ private:
  *
  * This ostream wraps another ostream. Data written to an ozlibstream will be
  * deflated (compressed) with zlib and written to the wrapped ostream.
+ *
+ * @sa deflate_streambuf
  */
 class ozlibstream : public std::ostream
 {
 public:
     /**
      * @param output the ostream to wrap
-     * @param level the compression level. Ranges from 0 to 9, or -1 for the default
-     * @param gzip_header whether to write a gzip header rather than a zlib header
+     * @param level the compression level, ranges from 0 to 9
+     * @param gzip if true, the output will be in gzip format rather than zlib
+     * @param bufsize the size of the internal buffers
      */
-    explicit ozlibstream(std::ostream& output, int level, bool gzip):
-        ozlibstream(output, level, 15 + (gzip ? 16 : 0))
+    explicit ozlibstream(std::ostream& output, int level = Z_DEFAULT_COMPRESSION, bool gzip = false, size_t bufsize = 32768):
+        std::ostream(&buf), buf(output, level, bufsize, 15 + (gzip ? 16 : 0))
     {}
 
-    /**
-     * @param output the ostream to wrap
-     * @param level the compression level. Ranges from 0 to 9, or -1 for the default
-     *
-     * Refer to the zlib documentation of deflateInit2 for a detailed explanation of the arguments.
-     */
-    explicit ozlibstream(std::ostream& output, int level = -1, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY):
-        std::ostream(&buf), buf(output, level, window_bits, mem_level, strategy)
-    {}
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 

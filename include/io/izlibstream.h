@@ -38,7 +38,8 @@ public:
      * @param input the istream to wrap
      * @param bufsize the size of the internal buffers
      * @param window_bits the base two logarithm of the maximum window size that
-     * zlib will use. This parameter also determines which type of input to expect.
+     * zlib will use.
+     * This parameter also determines which type of input to expect.
      * The default argument will autodetect between zlib and gzip data.
      * Refer to the zlib documentation of inflateInit2 for more details.
      *
