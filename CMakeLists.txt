@@ -15,12 +15,13 @@ add_library(nbt++ STATIC
     src/value_initializer.cpp
 
     src/io/izlibstream.cpp
+    src/io/ozlibstream.cpp
     src/io/stream_reader.cpp
     src/io/stream_writer.cpp
 
     src/text/json_formatter.cpp)
 
-find_package(zlib REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(CxxTest)
 
 option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ${CXXTEST_FOUND})
