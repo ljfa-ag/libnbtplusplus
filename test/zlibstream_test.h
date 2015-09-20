@@ -146,6 +146,64 @@ public:
             ozls << bigtest;
             TS_ASSERT(ozls.good());
         }
+        TS_ASSERT(str.good());
+        {
+            izlibstream izls(str);
+            TS_ASSERT_THROWS_NOTHING(izls >> &output);
+            TS_ASSERT(izls);
+        }
+        TS_ASSERT_EQUALS(output.str(), bigtest);
+
+        str.clear(); str.str("");
+        output.str("");
+        //Medium sized buffer
+        //Write first half, then flush and write second half
+        {
+            ozlibstream ozls(str, 9, false, 512);
+            ozls.exceptions(std::ios::failbit | std::ios::badbit);
+
+            std::string half1 = bigtest.substr(0, bigtest.size()/2);
+            std::string half2 = bigtest.substr(bigtest.size()/2);
+            TS_ASSERT_THROWS_NOTHING(ozls << half1 << std::flush << half2);
+            TS_ASSERT(ozls.good());
+        }
+        TS_ASSERT(str.good());
+        {
+            izlibstream izls(str);
+            izls >> &output;
+            TS_ASSERT(izls);
+        }
+        TS_ASSERT_EQUALS(output.str(), bigtest);
+
+        str.clear(); str.str("");
+        output.str("");
+        //Large buffer
+        {
+            ozlibstream ozls(str, 1, false, 4000);
+            ozls.exceptions(std::ios::failbit | std::ios::badbit);
+            TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+            TS_ASSERT(ozls.good());
+        }
+        TS_ASSERT(str.good());
+        {
+            izlibstream izls(str);
+            izls >> &output;
+            TS_ASSERT(izls);
+        }
+        TS_ASSERT_EQUALS(output.str(), bigtest);
+    }
+
+    void test_deflate_gzip()
+    {
+        std::stringstream str;
+        std::stringbuf output;
+        {
+            ozlibstream ozls(str, -1, true);
+            ozls.exceptions(std::ios::failbit | std::ios::badbit);
+            TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+            TS_ASSERT(ozls.good());
+        }
+        TS_ASSERT(str.good());
         {
             izlibstream izls(str);
             izls >> &output;
