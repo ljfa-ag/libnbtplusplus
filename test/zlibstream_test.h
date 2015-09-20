@@ -133,4 +133,24 @@ public:
             TS_ASSERT(igzs.bad());
         }
     }
+
+    void test_deflate_zlib()
+    {
+        //Here we assume that inflating works and has already been tested
+        std::stringstream str;
+        std::stringbuf output;
+        //Small buffer
+        {
+            ozlibstream ozls(str, -1, false, 256);
+            ozls.exceptions(std::ios::failbit | std::ios::badbit);
+            ozls << bigtest;
+            TS_ASSERT(ozls.good());
+        }
+        {
+            izlibstream izls(str);
+            izls >> &output;
+            TS_ASSERT(izls);
+        }
+        TS_ASSERT_EQUALS(output.str(), bigtest);
+    }
 };

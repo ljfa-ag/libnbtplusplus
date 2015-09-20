@@ -15,6 +15,7 @@ add_library(nbt++ STATIC
     src/value_initializer.cpp
 
     src/io/izlibstream.cpp
+    src/io/ozlibstream.cpp
     src/io/stream_reader.cpp
     src/io/stream_writer.cpp
 

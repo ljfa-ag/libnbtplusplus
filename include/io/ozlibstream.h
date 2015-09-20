@@ -78,7 +78,7 @@ public:
      * @param bufsize the size of the internal buffers
      */
     explicit ozlibstream(std::ostream& output, int level = Z_DEFAULT_COMPRESSION, bool gzip = false, size_t bufsize = 32768):
-        std::ostream(&buf), buf(output, level, bufsize, 15 + (gzip ? 16 : 0))
+        std::ostream(&buf), buf(output, bufsize, level, 15 + (gzip ? 16 : 0))
     {}
 
     ///@return the wrapped ostream
