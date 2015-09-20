@@ -37,14 +37,13 @@ class output_error : public std::runtime_error
 };*/
 
 /**
-* @brief Writes a named tag into the stream, including the tag type
-* @param key the name of the tag
-* @param t the tag
-* @param os the stream to write to
-* @param e the byte order of the written data. The Java edition
-* of Minecraft uses Big Endian, the Pocket edition uses Little Endian
-*/
-void write_tag(const std::string& key, const tag& t, std::ostream& os, endian::endian e = endian::big);
+ * @brief Writes a named tag into the stream, including the tag type
+ * @param key the name of the tag
+ * @param t the tag
+ * @param os the stream to write to
+ * @param e the byte order of the written data. The Java edition
+ * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
+ */
 
 /**
  * @brief Helper class for writing NBT tags to output streams

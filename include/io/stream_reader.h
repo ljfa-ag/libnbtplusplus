@@ -40,21 +40,21 @@ class input_error : public std::runtime_error
 };
 
 /**
-* @brief Reads a named tag from the stream, making sure that it is a compound
-* @param is the stream to read from
-* @param e the byte order of the source data. The Java edition
-* of Minecraft uses Big Endian, the Pocket edition uses Little Endian
-* @throw input_error on failure, or if the tag in the stream is not a compound
-*/
+ * @brief Reads a named tag from the stream, making sure that it is a compound
+ * @param is the stream to read from
+ * @param e the byte order of the source data. The Java edition
+ * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
+ * @throw input_error on failure, or if the tag in the stream is not a compound
+ */
 std::pair<std::string, std::unique_ptr<tag_compound>> read_compound(std::istream& is, endian::endian e = endian::big);
 
 /**
-* @brief Reads a named tag from the stream
-* @param is the stream to read from
-* @param e the byte order of the source data. The Java edition
-* of Minecraft uses Big Endian, the Pocket edition uses Little Endian
-* @throw input_error on failure
-*/
+ * @brief Reads a named tag from the stream
+ * @param is the stream to read from
+ * @param e the byte order of the source data. The Java edition
+ * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
+ * @throw input_error on failure
+ */
 std::pair<std::string, std::unique_ptr<tag>> read_tag(std::istream& is, endian::endian e = endian::big);
 
 /**
