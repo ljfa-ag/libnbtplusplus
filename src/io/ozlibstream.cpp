@@ -40,13 +40,18 @@ deflate_streambuf::~deflate_streambuf() noexcept
 {
     try
     {
-        deflate_chunk(Z_FINISH);
+        close();
     }
     catch(...)
     {
         //ignore as we can't do anything about it
     }
     deflateEnd(&zstr);
+}
+
+void deflate_streambuf::close()
+{
+    deflate_chunk(Z_FINISH);
 }
 
 void deflate_streambuf::deflate_chunk(int flush)
@@ -59,7 +64,10 @@ void deflate_streambuf::deflate_chunk(int flush)
         zstr.avail_out = out.size();
         int ret = deflate(&zstr, flush);
         if(ret != Z_OK && ret != Z_STREAM_END)
+        {
+            os.setstate(std::ios_base::failbit);
             throw zlib_error(zstr.msg, ret);
+        }
         int have = out.size() - zstr.avail_out;
         if(!os.write(out.data(), have))
             throw std::ios_base::failure("Could not write to the output stream");

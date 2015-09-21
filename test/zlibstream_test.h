@@ -143,8 +143,9 @@ public:
         {
             ozlibstream ozls(str, -1, false, 256);
             ozls.exceptions(std::ios::failbit | std::ios::badbit);
-            ozls << bigtest;
+            TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
         }
         TS_ASSERT(str.good());
         {
@@ -166,6 +167,7 @@ public:
             std::string half2 = bigtest.substr(bigtest.size()/2);
             TS_ASSERT_THROWS_NOTHING(ozls << half1 << std::flush << half2);
             TS_ASSERT(ozls.good());
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
         }
         TS_ASSERT(str.good());
         {
@@ -183,6 +185,8 @@ public:
             ozls.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT_THROWS_NOTHING(ozls.close()); //closing twice shouldn't be a problem
         }
         TS_ASSERT(str.good());
         {
@@ -202,6 +206,7 @@ public:
             ozls.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
         }
         TS_ASSERT(str.good());
         {

@@ -48,6 +48,8 @@ public:
 
     std::ostream& get_ostr() const { return os; }
 
+    ///Finishes compression and writes all pending data to the output
+    void close();
 private:
     std::ostream& os;
     std::vector<char> in;
@@ -84,6 +86,8 @@ public:
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 
+    ///Finishes compression and writes all pending data to the output
+    void close() { buf.close(); }
 private:
     deflate_streambuf buf;
 };
