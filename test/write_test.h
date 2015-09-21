@@ -20,6 +20,8 @@
 #include <cxxtest/TestSuite.h>
 #include "io/stream_writer.h"
 #include "io/stream_reader.h"
+#include "io/ozlibstream.h"
+#include "io/izlibstream.h"
 #include "nbt_tags.h"
 #include <iostream>
 #include <fstream>
@@ -242,6 +244,20 @@ public:
 
         //Read from stream in Little Endian and compare
         written_pair = io::read_compound(sstr, endian::little);
+        TS_ASSERT_EQUALS(orig_pair.first, written_pair.first);
+        TS_ASSERT(*orig_pair.second == *written_pair.second);
+
+        //Now with gzip compression
+        sstr.str("");
+        zlib::ozlibstream ogzs(sstr, -1, true);
+        io::write_tag(orig_pair.first, *orig_pair.second, ogzs);
+        ogzs.close();
+        TS_ASSERT(ogzs);
+        TS_ASSERT(sstr);
+        //Read and compare
+        zlib::izlibstream igzs(sstr);
+        written_pair = io::read_compound(igzs);
+        TS_ASSERT(igzs);
         TS_ASSERT_EQUALS(orig_pair.first, written_pair.first);
         TS_ASSERT(*orig_pair.second == *written_pair.second);
     }
