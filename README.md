@@ -1,4 +1,4 @@
-# libnbt++ 2 (WIP)
+# libnbt++ 2
 
 libnbt++ is a free C++ library for Minecraft's file format Named Binary Tag
 (NBT). It can read and write compressed and uncompressed NBT files and
