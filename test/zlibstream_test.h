@@ -146,6 +146,7 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT(ozls.good());
         }
         TS_ASSERT(str.good());
         {
@@ -168,6 +169,7 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls << half1 << std::flush << half2);
             TS_ASSERT(ozls.good());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT(ozls.good());
         }
         TS_ASSERT(str.good());
         {
@@ -187,6 +189,7 @@ public:
             TS_ASSERT(ozls.good());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
             TS_ASSERT_THROWS_NOTHING(ozls.close()); //closing twice shouldn't be a problem
+            TS_ASSERT(ozls.good());
         }
         TS_ASSERT(str.good());
         {
@@ -207,6 +210,7 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT(ozls.good());
         }
         TS_ASSERT(str.good());
         {
