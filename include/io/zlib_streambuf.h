@@ -15,7 +15,7 @@ class zlib_error : public std::runtime_error
 public:
     const int errcode;
 
-    explicit zlib_error(const char* msg, int errcode):
+    zlib_error(const char* msg, int errcode):
         std::runtime_error(msg
                          ? std::string(zError(errcode)) + ": " + msg
                          : zError(errcode)),
