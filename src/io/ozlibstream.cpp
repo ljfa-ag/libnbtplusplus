@@ -92,4 +92,18 @@ int deflate_streambuf::sync()
     return 0;
 }
 
+void ozlibstream::close()
+{
+    try
+    {
+        buf.close();
+    }
+    catch(...)
+    {
+        setstate(badbit); //FIXME: This will throw the wrong type of exception
+                          //but there's no good way of setting the badbit
+                          //without causing an exception when exceptions is set
+    }
+}
+
 }

@@ -224,12 +224,28 @@ public:
     void test_deflate_closed()
     {
         std::stringstream str;
-        ozlibstream ozls(str);
-        ozls.exceptions(std::ios::failbit | std::ios::badbit);
-        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
-        TS_ASSERT_THROWS_NOTHING(ozls.close());
-        TS_ASSERT_THROWS(ozls << "foo" << std::flush, zlib_error);
-        TS_ASSERT(ozls.bad());
-        TS_ASSERT(!str);
+        {
+            ozlibstream ozls(str);
+            ozls.exceptions(std::ios::failbit | std::ios::badbit);
+            TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT_THROWS_NOTHING(ozls << "foo");
+            TS_ASSERT_THROWS_ANYTHING(ozls.close());
+            TS_ASSERT(ozls.bad());
+            TS_ASSERT(!str);
+        }
+        str.clear();
+        str.seekp(0);
+        {
+            ozlibstream ozls(str);
+            //this time without exceptions
+            TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT_THROWS_NOTHING(ozls << "foo" << std::flush);
+            TS_ASSERT(ozls.bad());
+            TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT(ozls.bad());
+            TS_ASSERT(!str);
+        }
     }
 };

@@ -87,7 +87,7 @@ public:
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 
     ///Finishes compression and writes all pending data to the output
-    void close() { buf.close(); }
+    void close();
 private:
     deflate_streambuf buf;
 };
