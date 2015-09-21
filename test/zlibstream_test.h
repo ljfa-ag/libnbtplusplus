@@ -220,4 +220,16 @@ public:
         }
         TS_ASSERT_EQUALS(output.str(), bigtest);
     }
+
+    void test_deflate_closed()
+    {
+        std::stringstream str;
+        ozlibstream ozls(str);
+        ozls.exceptions(std::ios::failbit | std::ios::badbit);
+        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        TS_ASSERT_THROWS_NOTHING(ozls.close());
+        TS_ASSERT_THROWS(ozls << "foo" << std::flush, zlib_error);
+        TS_ASSERT(ozls.bad());
+        TS_ASSERT(!str);
+    }
 };
