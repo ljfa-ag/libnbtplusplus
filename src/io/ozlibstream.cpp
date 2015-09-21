@@ -18,17 +18,14 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "io/ozlibstream.h"
-#include "io/zlib_error.h"
+#include "io/zlib_streambuf.h"
 
 namespace zlib
 {
 
 deflate_streambuf::deflate_streambuf(std::ostream& output, size_t bufsize, int level, int window_bits, int mem_level, int strategy):
-    os(output), in(bufsize), out(bufsize)
+    zlib_streambuf(bufsize), os(output)
 {
-    zstr.zalloc = Z_NULL;
-    zstr.zfree = Z_NULL;
-    zstr.opaque = Z_NULL;
     int ret = deflateInit2(&zstr, level, Z_DEFLATED, window_bits, mem_level, strategy);
     if(ret != Z_OK)
         throw zlib_error(zstr.msg, ret);

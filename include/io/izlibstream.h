@@ -20,8 +20,8 @@
 #ifndef IZLIBSTREAM_H_INCLUDED
 #define IZLIBSTREAM_H_INCLUDED
 
+#include "io/zlib_streambuf.h"
 #include <istream>
-#include <vector>
 #include <zlib.h>
 
 namespace zlib
@@ -31,7 +31,7 @@ namespace zlib
  * @brief Stream buffer used by zlib::izlibstream
  * @sa izlibstream
  */
-class inflate_streambuf : public std::streambuf
+class inflate_streambuf : public zlib_streambuf
 {
 public:
     /**
@@ -53,9 +53,6 @@ public:
 
 private:
     std::istream& is;
-    std::vector<char> in;
-    std::vector<char> out;
-    z_stream zstr;
     bool stream_end;
 
     int_type underflow() override;

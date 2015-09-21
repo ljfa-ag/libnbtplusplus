@@ -20,8 +20,8 @@
 #ifndef OZLIBSTREAM_H_INCLUDED
 #define OZLIBSTREAM_H_INCLUDED
 
+#include "io/zlib_streambuf.h"
 #include <ostream>
-#include <vector>
 #include <zlib.h>
 
 namespace zlib
@@ -31,7 +31,7 @@ namespace zlib
  * @brief Stream buffer used by zlib::ozlibstream
  * @sa ozlibstream
  */
-class deflate_streambuf : public std::streambuf
+class deflate_streambuf : public zlib_streambuf
 {
 public:
     /**
@@ -46,15 +46,13 @@ public:
     explicit deflate_streambuf(std::ostream& output, size_t bufsize = 32768, int level = Z_DEFAULT_COMPRESSION, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY);
     ~deflate_streambuf() noexcept;
 
+    ///@return the wrapped ostream
     std::ostream& get_ostr() const { return os; }
 
     ///Finishes compression and writes all pending data to the output
     void close();
 private:
     std::ostream& os;
-    std::vector<char> in;
-    std::vector<char> out;
-    z_stream zstr;
 
     void deflate_chunk(int flush = Z_NO_FLUSH);
 

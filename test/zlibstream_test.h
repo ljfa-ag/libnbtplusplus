@@ -20,7 +20,6 @@
 #include <cxxtest/TestSuite.h>
 #include "io/izlibstream.h"
 #include "io/ozlibstream.h"
-#include "io/zlib_error.h"
 #include <fstream>
 #include <sstream>
 

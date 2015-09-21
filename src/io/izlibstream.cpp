@@ -18,17 +18,14 @@
  * along with libnbt++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "io/izlibstream.h"
-#include "io/zlib_error.h"
+#include "io/zlib_streambuf.h"
 
 namespace zlib
 {
 
 inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int window_bits):
-    is(input), in(bufsize), out(bufsize), stream_end(false)
+    zlib_streambuf(bufsize), is(input), stream_end(false)
 {
-    zstr.zalloc = Z_NULL;
-    zstr.zfree = Z_NULL;
-    zstr.opaque = Z_NULL;
     zstr.next_in = Z_NULL;
     zstr.avail_in = 0;
     int ret = inflateInit2(&zstr, window_bits);
