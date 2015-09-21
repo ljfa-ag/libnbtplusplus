@@ -37,7 +37,7 @@ public:
     /**
      * @param output the ostream to wrap
      * @param bufsize the size of the internal buffers
-     * @param level the compression level, ranges from 0 to 9
+     * @param level the compression level, ranges from 0 to 9, or -1 for default
      *
      * Refer to the zlib documentation of deflateInit2 for details about the arguments.
      *
@@ -73,7 +73,7 @@ class ozlibstream : public std::ostream
 public:
     /**
      * @param output the ostream to wrap
-     * @param level the compression level, ranges from 0 to 9
+     * @param level the compression level, ranges from 0 to 9, or -1 for default
      * @param gzip if true, the output will be in gzip format rather than zlib
      * @param bufsize the size of the internal buffers
      */
