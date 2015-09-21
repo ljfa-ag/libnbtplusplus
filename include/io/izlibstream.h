@@ -64,6 +64,11 @@ private:
  * This istream wraps another istream. The izlibstream will read compressed
  * data from the wrapped istream and inflate (decompress) it with zlib.
  *
+ * @note If you want to read more data from the wrapped istream after the end
+ * of the compressed data, then it must allow seeking. It is unavoidable for
+ * the izlibstream to consume more data after the compressed data.
+ * It will automatically attempt to seek the wrapped istream back to the point
+ * after the end of the compressed data.
  * @sa inflate_streambuf
  */
 class izlibstream : public std::istream

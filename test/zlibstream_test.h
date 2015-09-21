@@ -133,6 +133,27 @@ public:
         }
     }
 
+    void test_inflate_trailing()
+    {
+        //This file contains additional uncompressed data after the zlib-compressed data
+        std::ifstream file("trailing_data.zlib", std::ios::binary);
+        izlibstream izls(file, 32);
+        TS_ASSERT(file && izls);
+
+        std::string str;
+        izls >> str;
+        TS_ASSERT(izls);
+        TS_ASSERT(izls.eof());
+        TS_ASSERT_EQUALS(str, "foobar");
+
+        //Now read the uncompressed data
+        TS_ASSERT(file);
+        TS_ASSERT(!file.eof());
+        file >> str;
+        TS_ASSERT(!file.bad());
+        TS_ASSERT_EQUALS(str, "barbaz");
+    }
+
     void test_deflate_zlib()
     {
         //Here we assume that inflating works and has already been tested

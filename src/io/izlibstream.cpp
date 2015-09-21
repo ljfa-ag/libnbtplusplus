@@ -78,7 +78,13 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
             throw std::bad_alloc();
 
         case Z_STREAM_END:
-            stream_end = true;
+            if(!stream_end)
+            {
+                stream_end = true;
+                //In case we consumed too much, we have to rewind the input stream
+                is.clear();
+                is.seekg(-static_cast<std::streamoff>(zstr.avail_in), std::ios_base::cur);
+            }
             if(have == 0)
                 return traits_type::eof();
             break;
