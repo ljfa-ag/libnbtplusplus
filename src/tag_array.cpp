@@ -25,18 +25,6 @@
 namespace nbt
 {
 
-template<class T>
-T& tag_array<T>::at(size_t i)
-{
-    return data.at(i);
-}
-
-template<class T>
-T tag_array<T>::at(size_t i) const
-{
-    return data.at(i);
-}
-
 //Slightly different between byte_array and int_array
 //Reading
 template<>
@@ -102,9 +90,5 @@ void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
     for(int32_t i: data)
         writer.write_num(i);
 }
-
-//Enforce template instantiations
-template class NBT_EXPORT tag_array<int8_t>;
-template class NBT_EXPORT tag_array<int32_t>;
 
 }

@@ -32,7 +32,7 @@ namespace detail
 {
     ///Meta-struct that holds the tag_type value for a specific array type
     template<class T> struct get_array_type
-    { static_assert(sizeof(T) != sizeof(T), "Invalid type paramter for tag_primitive, can only use byte or int"); };
+    { static_assert(sizeof(T) != sizeof(T), "Invalid type paramter for tag_array, can only use byte or int"); };
 
     template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
     template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
@@ -73,8 +73,8 @@ public:
      * @brief Accesses a value by index with bounds checking
      * @throw std::out_of_range if the index is out of range
      */
-    T& at(size_t i);
-    T at(size_t i) const;
+    T& at(size_t i) { return data.at(i); }
+    T at(size_t i) const { return data.at(i); }
 
     /**
      * @brief Accesses a value by index
@@ -123,6 +123,10 @@ template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& r
 //Typedefs that should be used instead of the template tag_array.
 typedef tag_array<int8_t> tag_byte_array;
 typedef tag_array<int32_t> tag_int_array;
+
+//Explicit instantiations
+template class NBT_EXPORT tag_array<int8_t>;
+template class NBT_EXPORT tag_array<int32_t>;
 
 }
 
