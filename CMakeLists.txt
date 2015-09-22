@@ -31,10 +31,9 @@ target_link_libraries(nbt++ z)
 generate_export_header(nbt++ BASE_NAME nbt)
 
 find_package(ZLIB REQUIRED)
-find_package(CxxTest)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ${CXXTEST_FOUND})
+option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ON)
 
 if(NBT_BUILD_TESTS)
     enable_testing()

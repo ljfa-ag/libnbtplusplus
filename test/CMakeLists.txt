@@ -1,4 +1,6 @@
 enable_testing()
+find_package(CxxTest REQUIRED)
+
 include_directories(${libnbt++_SOURCE_DIR}/include)
 include_directories(${CXXTEST_INCLUDE_DIR})
 
