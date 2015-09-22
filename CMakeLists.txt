@@ -6,8 +6,7 @@ include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_definitions(-std=c++11)
-include_directories(include ${CMAKE_CURRENT_BINARY_DIR})
+find_package(ZLIB REQUIRED)
 
 set(NBT_SOURCES
     src/endian_str.cpp
@@ -27,10 +26,10 @@ set(NBT_SOURCES
     src/text/json_formatter.cpp)
 
 add_library(nbt++ ${NBT_SOURCES})
+target_include_directories(nbt++ PUBLIC include ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(nbt++ z)
+target_compile_options(nbt++ PUBLIC -std=c++11)
 generate_export_header(nbt++ BASE_NAME nbt)
-
-find_package(ZLIB REQUIRED)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ON)
