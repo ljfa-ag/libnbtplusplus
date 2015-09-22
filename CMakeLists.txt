@@ -45,9 +45,12 @@ if(NBT_USE_ZLIB)
 endif()
 target_compile_options(nbt++ PUBLIC -std=c++11)
 generate_export_header(nbt++ BASE_NAME nbt)
-set_target_properties(nbt++ PROPERTIES
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN 1)
+
+if(${BUILD_SHARED_LIBS})
+    set_target_properties(nbt++ PROPERTIES
+        CXX_VISIBILITY_PRESET hidden
+        VISIBILITY_INLINES_HIDDEN 1)
+endif()
 
 if(NBT_BUILD_TESTS)
     enable_testing()
