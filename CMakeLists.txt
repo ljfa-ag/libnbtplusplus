@@ -4,7 +4,8 @@ project(libnbt++
 
 add_definitions(-std=c++11)
 include_directories(include)
-add_library(nbt++ STATIC
+
+set(NBT_SOURCES
     src/endian_str.cpp
     src/tag.cpp
     src/tag_array.cpp
@@ -21,9 +22,13 @@ add_library(nbt++ STATIC
 
     src/text/json_formatter.cpp)
 
+add_library(nbt++ ${NBT_SOURCES})
+target_link_libraries(nbt++ z)
+
 find_package(ZLIB REQUIRED)
 find_package(CxxTest)
 
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(NBT_BUILD_TESTS "Build the unit tests. Requires CxxTest." ${CXXTEST_FOUND})
 
 if(NBT_BUILD_TESTS)
