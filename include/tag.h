@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <iosfwd>
 #include <memory>
+#include "nbt_export.h"
 
 namespace nbt
 {
@@ -49,7 +50,7 @@ enum class tag_type : int8_t
  * @brief Returns whether the given number falls within the range of valid tag types
  * @param allow_end whether to consider tag_type::End (0) valid
  */
-bool is_valid_type(int type, bool allow_end = false);
+NBT_EXPORT bool is_valid_type(int type, bool allow_end = false);
 
 //Forward declarations
 class nbt_visitor;
@@ -61,7 +62,7 @@ namespace io
 }
 
 ///Base class for all NBT tag classes
-class tag
+class NBT_EXPORT tag
 {
 public:
     //Virtual destructor
@@ -116,8 +117,8 @@ public:
      */
     static std::unique_ptr<tag> create(tag_type type);
 
-    friend bool operator==(const tag& lhs, const tag& rhs);
-    friend bool operator!=(const tag& lhs, const tag& rhs);
+    friend NBT_EXPORT bool operator==(const tag& lhs, const tag& rhs);
+    friend NBT_EXPORT bool operator!=(const tag& lhs, const tag& rhs);
 
 private:
     /**
@@ -128,7 +129,7 @@ private:
 };
 
 ///Output operator for tag types
-std::ostream& operator<<(std::ostream& os, tag_type tt);
+NBT_EXPORT std::ostream& operator<<(std::ostream& os, tag_type tt);
 
 /**
  * @brief Output operator for tags
@@ -136,7 +137,7 @@ std::ostream& operator<<(std::ostream& os, tag_type tt);
  * Uses @ref text::json_formatter
  * @relates tag
  */
-std::ostream& operator<<(std::ostream& os, const tag& t);
+NBT_EXPORT std::ostream& operator<<(std::ostream& os, const tag& t);
 
 template<class T>
 T& tag::as()

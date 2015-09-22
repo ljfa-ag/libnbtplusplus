@@ -29,7 +29,7 @@ namespace nbt
 {
 
 ///Tag that contains multiple unordered named tags of arbitrary types
-class tag_compound final : public detail::crtp_tag<tag_compound>
+class NBT_EXPORT tag_compound final : public detail::crtp_tag<tag_compound>
 {
     typedef std::map<std::string, value> map_t_;
 

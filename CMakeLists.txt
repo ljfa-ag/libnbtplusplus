@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.0)
 project(libnbt++
     VERSION 2.3)
 
+include(GenerateExportHeader)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+
 add_definitions(-std=c++11)
-include_directories(include)
+include_directories(include ${CMAKE_CURRENT_BINARY_DIR})
 
 set(NBT_SOURCES
     src/endian_str.cpp
@@ -24,6 +28,7 @@ set(NBT_SOURCES
 
 add_library(nbt++ ${NBT_SOURCES})
 target_link_libraries(nbt++ z)
+generate_export_header(nbt++ BASE_NAME nbt)
 
 find_package(ZLIB REQUIRED)
 find_package(CxxTest)

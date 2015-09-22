@@ -22,6 +22,7 @@
 
 #include "tagfwd.h"
 #include <ostream>
+#include "nbt_export.h"
 
 namespace nbt
 {
@@ -33,7 +34,7 @@ namespace text
  *
  * @todo Make it configurable and able to produce actual standard-conformant JSON
  */
-class json_formatter
+class NBT_EXPORT json_formatter
 {
 public:
     json_formatter() {}

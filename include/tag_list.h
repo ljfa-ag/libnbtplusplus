@@ -40,7 +40,7 @@ namespace nbt
  * will return tag_type::Null. The type will then be set when the first tag
  * is added to the list.
  */
-class tag_list final : public detail::crtp_tag<tag_list>
+class NBT_EXPORT tag_list final : public detail::crtp_tag<tag_list>
 {
 public:
     //Iterator types
@@ -174,8 +174,8 @@ public:
      * Lists are considered equal if their content types and the contained tags
      * are equal.
      */
-    friend bool operator==(const tag_list& lhs, const tag_list& rhs);
-    friend bool operator!=(const tag_list& lhs, const tag_list& rhs);
+    friend NBT_EXPORT bool operator==(const tag_list& lhs, const tag_list& rhs);
+    friend NBT_EXPORT bool operator!=(const tag_list& lhs, const tag_list& rhs);
 
 private:
     std::vector<value> tags;

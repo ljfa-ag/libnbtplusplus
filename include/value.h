@@ -57,7 +57,7 @@ namespace nbt
  * This is why all the syntactic sugar for tags is contained in the value class
  * while the tag class only contains common operations for all tag types.
  */
-class value
+class NBT_EXPORT value
 {
 public:
     //Constructors
@@ -197,8 +197,8 @@ public:
     ///@sa tag::get_type
     tag_type get_type() const;
 
-    friend bool operator==(const value& lhs, const value& rhs);
-    friend bool operator!=(const value& lhs, const value& rhs);
+    friend NBT_EXPORT bool operator==(const value& lhs, const value& rhs);
+    friend NBT_EXPORT bool operator!=(const value& lhs, const value& rhs);
 
 private:
     std::unique_ptr<tag> tag_;

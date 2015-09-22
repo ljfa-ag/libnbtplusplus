@@ -41,7 +41,7 @@ namespace nbt
  * As value_initializer objects are in no way different than value objects,
  * they can just be converted to value after construction.
  */
-class value_initializer : public value
+class NBT_EXPORT value_initializer : public value
 {
 public:
     value_initializer(std::unique_ptr<tag>&& t) noexcept: value(std::move(t)) {}

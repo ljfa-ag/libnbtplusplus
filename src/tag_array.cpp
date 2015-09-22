@@ -104,7 +104,7 @@ void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
 }
 
 //Enforce template instantiations
-template class tag_array<int8_t>;
-template class tag_array<int32_t>;
+template class NBT_EXPORT tag_array<int8_t>;
+template class NBT_EXPORT tag_array<int32_t>;
 
 }

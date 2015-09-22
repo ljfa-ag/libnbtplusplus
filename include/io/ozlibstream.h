@@ -31,7 +31,7 @@ namespace zlib
  * @brief Stream buffer used by zlib::ozlibstream
  * @sa ozlibstream
  */
-class deflate_streambuf : public zlib_streambuf
+class NBT_EXPORT deflate_streambuf : public zlib_streambuf
 {
 public:
     /**
@@ -68,7 +68,7 @@ private:
  *
  * @sa deflate_streambuf
  */
-class ozlibstream : public std::ostream
+class NBT_EXPORT ozlibstream : public std::ostream
 {
 public:
     /**

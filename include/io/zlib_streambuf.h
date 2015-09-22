@@ -5,12 +5,13 @@
 #include <streambuf>
 #include <vector>
 #include <zlib.h>
+#include "nbt_export.h"
 
 namespace zlib
 {
 
 ///Exception thrown in case zlib encounters a problem
-class zlib_error : public std::runtime_error
+class NBT_EXPORT zlib_error : public std::runtime_error
 {
 public:
     const int errcode;

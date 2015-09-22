@@ -27,7 +27,7 @@ namespace nbt
 {
 
 ///Tag that contains a UTF-8 string
-class tag_string final : public detail::crtp_tag<tag_string>
+class NBT_EXPORT tag_string final : public detail::crtp_tag<tag_string>
 {
 public:
     ///The type of the tag

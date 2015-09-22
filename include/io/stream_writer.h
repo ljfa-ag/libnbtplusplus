@@ -44,14 +44,14 @@ class output_error : public std::runtime_error
  * @param e the byte order of the written data. The Java edition
  * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
  */
-void write_tag(const std::string& key, const tag& t, std::ostream& os, endian::endian e = endian::big);
+NBT_EXPORT void write_tag(const std::string& key, const tag& t, std::ostream& os, endian::endian e = endian::big);
 
 /**
  * @brief Helper class for writing NBT tags to output streams
  *
  * Can be reused to write multiple tags
  */
-class stream_writer
+class NBT_EXPORT stream_writer
 {
 public:
     ///Maximum length of an NBT string (16 bit unsigned)

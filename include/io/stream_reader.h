@@ -34,7 +34,7 @@ namespace io
 {
 
 ///Exception that gets thrown when reading is not successful
-class input_error : public std::runtime_error
+class NBT_EXPORT input_error : public std::runtime_error
 {
     using std::runtime_error::runtime_error;
 };
@@ -46,7 +46,7 @@ class input_error : public std::runtime_error
  * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
  * @throw input_error on failure, or if the tag in the stream is not a compound
  */
-std::pair<std::string, std::unique_ptr<tag_compound>> read_compound(std::istream& is, endian::endian e = endian::big);
+NBT_EXPORT std::pair<std::string, std::unique_ptr<tag_compound>> read_compound(std::istream& is, endian::endian e = endian::big);
 
 /**
  * @brief Reads a named tag from the stream
@@ -55,14 +55,14 @@ std::pair<std::string, std::unique_ptr<tag_compound>> read_compound(std::istream
  * of Minecraft uses Big Endian, the Pocket edition uses Little Endian
  * @throw input_error on failure
  */
-std::pair<std::string, std::unique_ptr<tag>> read_tag(std::istream& is, endian::endian e = endian::big);
+NBT_EXPORT std::pair<std::string, std::unique_ptr<tag>> read_tag(std::istream& is, endian::endian e = endian::big);
 
 /**
  * @brief Helper class for reading NBT tags from input streams
  *
  * Can be reused to read multiple tags
  */
-class stream_reader
+class NBT_EXPORT stream_reader
 {
 public:
     /**

@@ -31,7 +31,7 @@ namespace zlib
  * @brief Stream buffer used by zlib::izlibstream
  * @sa izlibstream
  */
-class inflate_streambuf : public zlib_streambuf
+class NBT_EXPORT inflate_streambuf : public zlib_streambuf
 {
 public:
     /**
@@ -71,7 +71,7 @@ private:
  * after the end of the compressed data.
  * @sa inflate_streambuf
  */
-class izlibstream : public std::istream
+class NBT_EXPORT izlibstream : public std::istream
 {
 public:
     /**
