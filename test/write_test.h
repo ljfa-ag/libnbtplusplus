@@ -20,8 +20,10 @@
 #include <cxxtest/TestSuite.h>
 #include "io/stream_writer.h"
 #include "io/stream_reader.h"
+#ifdef NBT_HAVE_ZLIB
 #include "io/ozlibstream.h"
 #include "io/izlibstream.h"
+#endif
 #include "nbt_tags.h"
 #include <iostream>
 #include <fstream>
@@ -247,6 +249,7 @@ public:
         TS_ASSERT_EQUALS(orig_pair.first, written_pair.first);
         TS_ASSERT(*orig_pair.second == *written_pair.second);
 
+#ifdef NBT_HAVE_ZLIB
         //Now with gzip compression
         sstr.str("");
         zlib::ozlibstream ogzs(sstr, -1, true);
@@ -260,5 +263,6 @@ public:
         TS_ASSERT(igzs);
         TS_ASSERT_EQUALS(orig_pair.first, written_pair.first);
         TS_ASSERT(*orig_pair.second == *written_pair.second);
+#endif
     }
 };
