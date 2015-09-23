@@ -19,7 +19,9 @@
  */
 #include <cxxtest/TestSuite.h>
 #include "io/stream_reader.h"
+#ifdef NBT_HAVE_ZLIB
 #include "io/izlibstream.h"
+#endif
 #include "nbt_tags.h"
 #include <iostream>
 #include <fstream>
@@ -214,9 +216,9 @@ public:
             "Even though unprovided for by NBT, the library should also handle "
             "the case where the file consists of something else than tag_compound"));
     }
-
     void test_read_gzip()
     {
+#ifdef NBT_HAVE_ZLIB
         std::ifstream file("bigtest.nbt", std::ios::binary);
         zlib::izlibstream igzs(file);
         TS_ASSERT(file && igzs);
@@ -225,5 +227,6 @@ public:
         TS_ASSERT(igzs);
         TS_ASSERT_EQUALS(pair.first, "Level");
         verify_bigtest_structure(*pair.second);
+#endif
     }
 };
