@@ -34,7 +34,6 @@ set(NBT_SOURCES_Z
 if(NBT_USE_ZLIB)
     find_package(ZLIB REQUIRED)
     list(APPEND NBT_SOURCES ${NBT_SOURCES_Z})
-    add_definitions("-DNBT_HAVE_ZLIB")
 endif()
 
 add_library(nbt++ ${NBT_SOURCES})
@@ -42,6 +41,7 @@ target_include_directories(nbt++ PUBLIC include ${CMAKE_CURRENT_BINARY_DIR})
 
 if(NBT_USE_ZLIB)
     target_link_libraries(nbt++ z)
+    target_compile_definitions(nbt++ PUBLIC "-DNBT_HAVE_ZLIB")
 endif()
 target_compile_options(nbt++ PUBLIC -std=c++11)
 generate_export_header(nbt++ BASE_NAME nbt)
