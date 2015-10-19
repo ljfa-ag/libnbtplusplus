@@ -37,7 +37,7 @@ namespace detail
     template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
     template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
 }
-///@cond
+///@endcond
 
 /**
  * @brief Tag that contains an array of byte or int values
