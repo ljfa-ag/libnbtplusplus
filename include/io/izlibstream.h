@@ -81,8 +81,12 @@ public:
     explicit izlibstream(std::istream& input, size_t bufsize = 32768):
         std::istream(&buf), buf(input, bufsize)
     {}
+
     ///@return the wrapped istream
     std::istream& get_istr() const { return buf.get_istr(); }
+
+    ///@return true if the stream's internal zlib data structure is initialized for decompression
+    bool is_open() const { return buf.is_open(); }
 
 private:
     inflate_streambuf buf;

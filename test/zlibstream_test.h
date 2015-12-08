@@ -51,12 +51,15 @@ public:
         {
             izlibstream igzs(gzip_in, 256);
             igzs.exceptions(std::ios::failbit | std::ios::badbit);
+            TS_ASSERT(igzs.is_open());
             TS_ASSERT(igzs.good());
 
             TS_ASSERT_THROWS_NOTHING(igzs >> &data);
             TS_ASSERT(igzs);
             TS_ASSERT(igzs.eof());
             TS_ASSERT_EQUALS(data.str(), bigtest);
+
+            TS_ASSERT(igzs.is_open());
         }
 
         //Clear and reuse buffers
@@ -100,11 +103,14 @@ public:
         izlibstream izls(zlib_in, 256);
         izls.exceptions(std::ios::failbit | std::ios::badbit);
         TS_ASSERT(izls.good());
+        TS_ASSERT(izls.is_open());
 
         TS_ASSERT_THROWS_NOTHING(izls >> &data);
         TS_ASSERT(izls);
         TS_ASSERT(izls.eof());
         TS_ASSERT_EQUALS(data.str(), bigtest);
+
+        TS_ASSERT(izls.is_open());
     }
 
     void test_inflate_corrupt()
@@ -118,6 +124,7 @@ public:
             igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
             TS_ASSERT(igzs.bad());
+            TS_ASSERT(igzs.is_open());
         }
 
         gzip_in.close();
@@ -130,6 +137,7 @@ public:
             igzs.exceptions(std::ios::failbit | std::ios::badbit);
             TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
             TS_ASSERT(igzs.bad());
+            TS_ASSERT(igzs.is_open());
         }
     }
 
@@ -144,6 +152,7 @@ public:
         izls >> str;
         TS_ASSERT(izls);
         TS_ASSERT(izls.eof());
+        TS_ASSERT(izls.is_open());
         TS_ASSERT_EQUALS(str, "foobar");
 
         //Now read the uncompressed data
@@ -163,10 +172,13 @@ public:
         {
             ozlibstream ozls(str, -1, false, 256);
             ozls.exceptions(std::ios::failbit | std::ios::badbit);
+            TS_ASSERT(ozls.is_open());
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
+            TS_ASSERT(ozls.is_open());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
             TS_ASSERT(ozls.good());
+            TS_ASSERT(!ozls.is_open());
         }
         TS_ASSERT(str.good());
         {
@@ -208,8 +220,10 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT(ozls.good());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
+            TS_ASSERT(!ozls.is_open());
             TS_ASSERT_THROWS_NOTHING(ozls.close()); //closing twice shouldn't be a problem
             TS_ASSERT(ozls.good());
+            TS_ASSERT(!ozls.is_open());
         }
         TS_ASSERT(str.good());
         {
@@ -250,10 +264,13 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
             TS_ASSERT_THROWS_NOTHING(ozls.close());
             TS_ASSERT_THROWS_NOTHING(ozls << "foo");
-            TS_ASSERT_THROWS_ANYTHING(ozls.close());
+            TS_ASSERT(!ozls.is_open());
+            TS_ASSERT_THROWS_ANYTHING(ozls.flush());
             TS_ASSERT(ozls.bad());
+            TS_ASSERT(!ozls.is_open());
             TS_ASSERT(!str);
         }
+        TS_ASSERT(!str);
         str.clear();
         str.seekp(0);
         {
@@ -263,8 +280,10 @@ public:
             TS_ASSERT_THROWS_NOTHING(ozls.close());
             TS_ASSERT_THROWS_NOTHING(ozls << "foo" << std::flush);
             TS_ASSERT(ozls.bad());
+            TS_ASSERT(!ozls.is_open());
             TS_ASSERT_THROWS_NOTHING(ozls.close());
             TS_ASSERT(ozls.bad());
+            TS_ASSERT(!ozls.is_open());
             TS_ASSERT(!str);
         }
     }

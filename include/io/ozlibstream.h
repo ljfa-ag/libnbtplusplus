@@ -84,6 +84,9 @@ public:
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 
+    ///@return true if the stream's internal zlib data structure is initialized for compression
+    bool is_open() const { return buf.is_open(); }
+
     ///Finishes compression and writes all pending data to the output
     void close();
 private:

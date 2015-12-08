@@ -48,7 +48,10 @@ deflate_streambuf::~deflate_streambuf() noexcept
 
 void deflate_streambuf::close()
 {
-    deflate_chunk(Z_FINISH);
+    if(is_open_)
+        deflate_chunk(Z_FINISH);
+    deflateEnd(&zstr);
+    is_open_ = false;
 }
 
 void deflate_streambuf::deflate_chunk(int flush)
