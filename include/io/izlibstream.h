@@ -36,7 +36,7 @@ class NBT_EXPORT inflate_streambuf : public zlib_streambuf
 public:
     /**
      * @param input the istream to wrap
-     * @param bufsize the size of the internal buffers
+     * @param bufsize the size of the input and output buffers
      * @param window_bits the base two logarithm of the maximum window size that
      * zlib will use.
      * This parameter also determines which type of input to expect.

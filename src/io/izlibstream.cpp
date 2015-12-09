@@ -31,6 +31,7 @@ inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int wi
     int ret = inflateInit2(&zstr, window_bits);
     if(ret != Z_OK)
         throw zlib_error(zstr.msg, ret);
+    is_open_ = true;
 
     char* end = out.data() + out.size();
     setg(end, end, end);

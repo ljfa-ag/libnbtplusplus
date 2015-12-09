@@ -255,6 +255,44 @@ public:
         TS_ASSERT_EQUALS(output.str(), bigtest);
     }
 
+    void test_deflate_open()
+    {
+        std::stringstream str;
+
+        ozlibstream ozls(str);
+        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+
+        TS_ASSERT_THROWS_NOTHING(ozls.close());
+        std::string compr_bigtest = str.str();
+        str.str("");
+
+        TS_ASSERT_THROWS_NOTHING(ozls.open());
+        TS_ASSERT(ozls.is_open());
+
+        TS_ASSERT_THROWS_NOTHING(ozls.open());
+        TS_ASSERT(!ozls);
+        TS_ASSERT(ozls.is_open());
+        ozls.clear();
+
+        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        TS_ASSERT(ozls.good());
+
+        TS_ASSERT_THROWS_NOTHING(ozls.reset());
+        TS_ASSERT(ozls.good());
+        TS_ASSERT(ozls.is_open());
+        TS_ASSERT_EQUALS(str.str(), compr_bigtest);
+        str.str("");
+
+        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        TS_ASSERT_THROWS_NOTHING(ozls.close());
+        TS_ASSERT(ozls.good());
+        TS_ASSERT_EQUALS(str.str(), compr_bigtest);
+
+        TS_ASSERT_THROWS_NOTHING(ozls.reset());
+        TS_ASSERT(!ozls);
+        TS_ASSERT(!ozls.is_open());
+    }
+
     void test_deflate_closed()
     {
         std::stringstream str;

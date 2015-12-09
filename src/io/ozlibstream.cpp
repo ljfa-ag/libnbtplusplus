@@ -26,11 +26,7 @@ namespace zlib
 deflate_streambuf::deflate_streambuf(std::ostream& output, size_t bufsize, int level, int window_bits, int mem_level, int strategy):
     zlib_streambuf(bufsize), os(output)
 {
-    int ret = deflateInit2(&zstr, level, Z_DEFLATED, window_bits, mem_level, strategy);
-    if(ret != Z_OK)
-        throw zlib_error(zstr.msg, ret);
-
-    setp(in.data(), in.data() + in.size());
+    open(level, window_bits, mem_level, strategy);
 }
 
 deflate_streambuf::~deflate_streambuf() noexcept
@@ -46,12 +42,36 @@ deflate_streambuf::~deflate_streambuf() noexcept
     deflateEnd(&zstr);
 }
 
+void deflate_streambuf::open(int level, int window_bits, int mem_level, int strategy)
+{
+    if(is_open_)
+        return;
+
+    int ret = deflateInit2(&zstr, level, Z_DEFLATED, window_bits, mem_level, strategy);
+    if(ret != Z_OK)
+        throw zlib_error(zstr.msg, ret);
+    is_open_ = true;
+    setp(in.data(), in.data() + in.size());
+}
+
 void deflate_streambuf::close()
 {
     if(is_open_)
         deflate_chunk(Z_FINISH);
     deflateEnd(&zstr);
     is_open_ = false;
+}
+
+void deflate_streambuf::reset()
+{
+    if(is_open_)
+    {
+        deflate_chunk(Z_FINISH);
+        int ret = deflateReset(&zstr);
+        if(ret != Z_OK)
+            throw zlib_error(zstr.msg, ret);
+        setp(in.data(), in.data() + in.size());
+    }
 }
 
 void deflate_streambuf::deflate_chunk(int flush)
@@ -92,6 +112,23 @@ int deflate_streambuf::sync()
     return 0;
 }
 
+void ozlibstream::open(int level, bool gzip)
+{
+    if(!is_open())
+    {
+        try
+        {
+            buf.open(level, 15 + (gzip ? 16 : 0));
+        }
+        catch(...)
+        {
+            setstate(badbit);
+        }
+    }
+    else
+        setstate(failbit);
+}
+
 void ozlibstream::close()
 {
     try
@@ -104,6 +141,23 @@ void ozlibstream::close()
                           //but there's no good way of setting the badbit
                           //without causing an exception when exceptions is set
     }
+}
+
+void ozlibstream::reset()
+{
+    if(is_open())
+    {
+        try
+        {
+            buf.reset();
+        }
+        catch(...)
+        {
+            setstate(badbit);
+        }
+    }
+    else
+        setstate(failbit);
 }
 
 }

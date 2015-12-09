@@ -38,7 +38,7 @@ protected:
     bool is_open_;
 
     explicit zlib_streambuf(size_t bufsize):
-        in(bufsize), out(bufsize), is_open_(true)
+        in(bufsize), out(bufsize), is_open_(false)
     {
         zstr.zalloc = Z_NULL;
         zstr.zfree = Z_NULL;

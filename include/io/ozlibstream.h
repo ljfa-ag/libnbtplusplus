@@ -36,7 +36,7 @@ class NBT_EXPORT deflate_streambuf : public zlib_streambuf
 public:
     /**
      * @param output the ostream to wrap
-     * @param bufsize the size of the internal buffers
+     * @param bufsize the size of the input and output buffers
      * @param level the compression level, ranges from 0 to 9, or -1 for default
      *
      * Refer to the zlib documentation of deflateInit2 for details about the arguments.
@@ -49,8 +49,30 @@ public:
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return os; }
 
-    ///Finishes compression and writes all pending data to the output
+    /**
+     * @brief Initializes zlib's internal data structures for compression.
+     *
+     * Refer to the zlib documentation of deflateInit2 for details about the arguments.
+     *
+     * @throw zlib_error if zlib encounters a problem during initialization
+     */
+    void open(int level = Z_DEFAULT_COMPRESSION, int window_bits = 15, int mem_level = 8, int strategy = Z_DEFAULT_STRATEGY);
+
+    ///Finishes compression, writes all pending data to the output and deallocates zlib's internal buffers
     void close();
+
+    /**
+     * @brief Equivalent to close() followed by open()
+     *
+     * Resets the internal structures so that the deflate_streambuf can be reused.
+     * This is equivalent to close() followed by open() with the same parameters
+     * as last call (or construction), but does not reallocate all the internal
+     * compression state.
+     *
+     * @throw zlib_error if zlib encounters a problem during resetting
+     */
+    void reset();
+
 private:
     std::ostream& os;
 
@@ -84,11 +106,29 @@ public:
     ///@return the wrapped ostream
     std::ostream& get_ostr() const { return buf.get_ostr(); }
 
+    /**
+     * @brief Initializes zlib's internal data structures for compression.
+     * @param level the compression level, ranges from 0 to 9, or -1 for default
+     * @param gzip if true, the output will be in gzip format rather than zlib
+     */
+    void open(int level = Z_DEFAULT_COMPRESSION, bool gzip = false);
+
     ///@return true if the stream's internal zlib data structure is initialized for compression
     bool is_open() const { return buf.is_open(); }
 
-    ///Finishes compression and writes all pending data to the output
+    ///Finishes compression, writes all pending data to the output and deallocates zlib's internal buffers
     void close();
+
+    /**
+     * @brief Equivalent to close() followed by open()
+     *
+     * Resets the internal structures so that the deflate_streambuf can be reused.
+     * This is equivalent to close() followed by open() with the same parameters
+     * as last call (or construction), but does not reallocate all the internal
+     * compression state.
+     */
+    void reset();
+
 private:
     deflate_streambuf buf;
 };
