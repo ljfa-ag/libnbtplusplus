@@ -260,7 +260,7 @@ public:
         std::stringstream str;
 
         ozlibstream ozls(str);
-        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        ozls << bigtest;
 
         TS_ASSERT_THROWS_NOTHING(ozls.close());
         std::string compr_bigtest = str.str();
@@ -274,7 +274,7 @@ public:
         TS_ASSERT(ozls.is_open());
         ozls.clear();
 
-        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        ozls << bigtest;
         TS_ASSERT(ozls.good());
 
         TS_ASSERT_THROWS_NOTHING(ozls.reset());
@@ -283,7 +283,7 @@ public:
         TS_ASSERT_EQUALS(str.str(), compr_bigtest);
         str.str("");
 
-        TS_ASSERT_THROWS_NOTHING(ozls << bigtest);
+        ozls << bigtest;
         TS_ASSERT_THROWS_NOTHING(ozls.close());
         TS_ASSERT(ozls.good());
         TS_ASSERT_EQUALS(str.str(), compr_bigtest);

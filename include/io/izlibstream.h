@@ -51,6 +51,28 @@ public:
     ///@return the wrapped istream
     std::istream& get_istr() const { return is; }
 
+    /**
+     * @brief Initializes zlib's internal data structures for decompression.
+     * @throw zlib_error if zlib encounters a problem during initialization
+     * @sa inflate_streambuf::inflate_streambuf
+     */
+    void open(int window_bits = 32 + 15);
+
+    ///Finishes decompression and deallocates zlib's internal buffers
+    void close();
+
+    /**
+     * @brief Equivalent to close() followed by open()
+     *
+     * Resets the internal structures so that the inflate_streambuf can be reused.
+     * This is equivalent to close() followed by open() with the same parameters
+     * as last call (or construction), but does not reallocate all the internal
+     * decompression state.
+     *
+     * @throw zlib_error if zlib encounters a problem during resetting
+     */
+    void reset();
+
 private:
     std::istream& is;
     bool stream_end;
@@ -85,8 +107,23 @@ public:
     ///@return the wrapped istream
     std::istream& get_istr() const { return buf.get_istr(); }
 
+    ///Initializes zlib's internal data structures for decompression
+    void open();
+
     ///@return true if the stream's internal zlib data structure is initialized for decompression
     bool is_open() const { return buf.is_open(); }
+
+    ///Finishes decompression and deallocates zlib's internal buffers
+    void close();
+
+    /**
+     * @brief Equivalent to close() followed by open()
+     *
+     * Resets the internal structures so that the izlibstream can be reused.
+     * This is equivalent to close() followed by open(), but does not
+     * reallocate all the internal compression state.
+     */
+    void reset();
 
 private:
     inflate_streambuf buf;

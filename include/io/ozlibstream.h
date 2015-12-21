@@ -122,7 +122,7 @@ public:
     /**
      * @brief Equivalent to close() followed by open()
      *
-     * Resets the internal structures so that the deflate_streambuf can be reused.
+     * Resets the internal structures so that the ozlibstream can be reused.
      * This is equivalent to close() followed by open() with the same parameters
      * as last call (or construction), but does not reallocate all the internal
      * compression state.

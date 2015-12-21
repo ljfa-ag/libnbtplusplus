@@ -28,6 +28,19 @@ inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int wi
 {
     zstr.next_in = Z_NULL;
     zstr.avail_in = 0;
+    open(window_bits);
+}
+
+inflate_streambuf::~inflate_streambuf() noexcept
+{
+    inflateEnd(&zstr);
+}
+
+void inflate_streambuf::open(int window_bits)
+{
+    if(is_open_)
+        return;
+
     int ret = inflateInit2(&zstr, window_bits);
     if(ret != Z_OK)
         throw zlib_error(zstr.msg, ret);
@@ -37,9 +50,23 @@ inflate_streambuf::inflate_streambuf(std::istream& input, size_t bufsize, int wi
     setg(end, end, end);
 }
 
-inflate_streambuf::~inflate_streambuf() noexcept
+void inflate_streambuf::close()
 {
-    inflateEnd(&zstr);
+    if(is_open_)
+        inflateEnd(&zstr);
+    is_open_ = false;
+}
+
+void inflate_streambuf::reset()
+{
+    if(is_open_)
+    {
+        int ret = inflateReset(&zstr);
+        if(ret != Z_OK)
+            throw zlib_error(zstr.msg, ret);
+        char* end = out.data() + out.size();
+        setg(end, end, end);
+    }
 }
 
 inflate_streambuf::int_type inflate_streambuf::underflow()
@@ -94,6 +121,50 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
 
     setg(out.data(), out.data(), out.data() + have);
     return traits_type::to_int_type(*gptr());
+}
+
+void izlibstream::open()
+{
+    if(!is_open())
+    {
+        try
+        {
+            buf.open();
+        }
+        catch(...)
+        {
+            setstate(badbit);
+        }
+    }
+    else
+        setstate(failbit);
+}
+
+void izlibstream::close()
+{
+    if(is_open())
+    {
+        buf.close();
+    }
+    else
+        setstate(failbit);
+}
+
+void izlibstream::reset()
+{
+    if(is_open())
+    {
+        try
+        {
+            buf.reset();
+        }
+        catch(...)
+        {
+            setstate(badbit);
+        }
+    }
+    else
+        setstate(failbit);
 }
 
 }
