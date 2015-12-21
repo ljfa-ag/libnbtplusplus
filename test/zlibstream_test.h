@@ -119,26 +119,26 @@ public:
         TS_ASSERT(gzip_in);
 
         std::vector<char> buf(bigtest.size());
-        {
-            izlibstream igzs(gzip_in);
-            igzs.exceptions(std::ios::failbit | std::ios::badbit);
-            TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
-            TS_ASSERT(igzs.bad());
-            TS_ASSERT(igzs.is_open());
-        }
 
+        izlibstream igzs(gzip_in);
+        igzs.exceptions(std::ios::failbit | std::ios::badbit);
+        TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
+        TS_ASSERT(igzs.bad());
+        TS_ASSERT(igzs.is_open());
+
+        //Close and reopen the streams
         gzip_in.close();
         gzip_in.clear();
         gzip_in.open("bigtest_eof.nbt", std::ios::binary);
         TS_ASSERT(gzip_in);
 
-        {
-            izlibstream igzs(gzip_in);
-            igzs.exceptions(std::ios::failbit | std::ios::badbit);
-            TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
-            TS_ASSERT(igzs.bad());
-            TS_ASSERT(igzs.is_open());
-        }
+        TS_ASSERT_THROWS_NOTHING(igzs.reset());
+        TS_ASSERT(igzs.good());
+        TS_ASSERT(igzs.is_open());
+
+        TS_ASSERT_THROWS(igzs.read(buf.data(), buf.size()), zlib_error);
+        TS_ASSERT(igzs.bad());
+        TS_ASSERT(igzs.is_open());
     }
 
     void test_inflate_trailing()
@@ -161,6 +161,59 @@ public:
         file >> str;
         TS_ASSERT(!file.bad());
         TS_ASSERT_EQUALS(str, "barbaz");
+    }
+
+    void test_inflate_open()
+    {
+        std::ifstream zlib_in("bigtest.zlib", std::ios::binary);
+        std::stringbuf data;
+
+        izlibstream izls(zlib_in);
+        izls.exceptions(std::ios::failbit | std::ios::badbit);
+        TS_ASSERT(izls.good());
+        TS_ASSERT(izls.is_open());
+        izls >> &data;
+
+        TS_ASSERT_THROWS_NOTHING(izls.close());
+        TS_ASSERT(izls);
+        TS_ASSERT(izls.eof());
+        TS_ASSERT(!izls.is_open());
+
+        data.str("");
+        zlib_in.clear();
+        zlib_in.seekg(0);
+
+        TS_ASSERT_THROWS_NOTHING(izls.open());
+        TS_ASSERT(izls.good());
+        TS_ASSERT(!izls.eof());
+        TS_ASSERT(izls.is_open());
+
+        TS_ASSERT_THROWS_NOTHING(izls >> &data);
+        TS_ASSERT(izls);
+        TS_ASSERT_EQUALS(data.str(), bigtest);
+        TS_ASSERT(izls.is_open());
+
+        data.str("");
+        zlib_in.clear();
+        zlib_in.seekg(0);
+
+        TS_ASSERT(izls.eof());
+        TS_ASSERT_THROWS_NOTHING(izls.reset());
+        TS_ASSERT(izls.good());
+        TS_ASSERT(!izls.eof());
+        TS_ASSERT(izls.is_open());
+
+        TS_ASSERT_THROWS_NOTHING(izls >> &data);
+        TS_ASSERT(izls);
+        TS_ASSERT_EQUALS(data.str(), bigtest);
+        TS_ASSERT(izls.is_open());
+
+        TS_ASSERT_THROWS_NOTHING(izls.close());
+        TS_ASSERT(izls);
+        TS_ASSERT(!izls.is_open());
+
+        TS_ASSERT_THROWS_ANYTHING(izls >> &data);
+        TS_ASSERT(!izls);
     }
 
     void test_deflate_zlib()

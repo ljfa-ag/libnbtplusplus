@@ -45,6 +45,7 @@ void inflate_streambuf::open(int window_bits)
     if(ret != Z_OK)
         throw zlib_error(zstr.msg, ret);
     is_open_ = true;
+    stream_end = false;
 
     char* end = out.data() + out.size();
     setg(end, end, end);
@@ -73,6 +74,8 @@ inflate_streambuf::int_type inflate_streambuf::underflow()
 {
     if(gptr() < egptr())
         return traits_type::to_int_type(*gptr());
+    else if(!is_open())
+        return traits_type::eof();
 
     size_t have;
     do
@@ -130,6 +133,7 @@ void izlibstream::open()
         try
         {
             buf.open();
+            clear();
         }
         catch(...)
         {
@@ -157,6 +161,7 @@ void izlibstream::reset()
         try
         {
             buf.reset();
+            clear();
         }
         catch(...)
         {
