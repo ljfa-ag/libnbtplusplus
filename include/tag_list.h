@@ -214,7 +214,7 @@ void tag_list::init(std::initializer_list<Arg> init)
     el_type_ = T::type;
     tags.reserve(init.size());
     for(const Arg& arg: init)
-        tags.emplace_back(make_unique<T>(arg));
+        tags.emplace_back(nbt::make_unique<T>(arg));
 }
 
 }
