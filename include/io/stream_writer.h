@@ -23,6 +23,7 @@
 #include "tag.h"
 #include "endian_str.h"
 #include <iosfwd>
+#include <string>
 
 namespace nbt
 {
