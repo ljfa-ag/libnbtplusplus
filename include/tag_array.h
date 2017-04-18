@@ -32,7 +32,7 @@ namespace detail
 {
     ///Meta-struct that holds the tag_type value for a specific array type
     template<class T> struct get_array_type
-    { static_assert(sizeof(T) != sizeof(T), "Invalid type paramter for tag_array, can only use byte or int"); };
+    { static_assert(sizeof(T) != sizeof(T), "Invalid type parameter for tag_array, can only use byte or int"); };
 
     template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
     template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
