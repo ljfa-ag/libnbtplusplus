@@ -41,7 +41,7 @@ namespace detail
 ///@endcond
 
 /**
- * @brief Tag that contains an array of byte or int values
+ * @brief Tag that contains an array of byte, int or long values
  *
  * Common class for tag_byte_array, tag_int_array and tag_long_array.
  */

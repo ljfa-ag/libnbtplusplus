@@ -33,7 +33,7 @@ static_assert(std::numeric_limits<float>::is_iec559 && std::numeric_limits<doubl
 
 bool is_valid_type(int type, bool allow_end)
 {
-    return (allow_end ? 0 : 1) <= type && type <= 11;
+    return (allow_end ? 0 : 1) <= type && type <= 12;
 }
 
 std::unique_ptr<tag> tag::clone() &&

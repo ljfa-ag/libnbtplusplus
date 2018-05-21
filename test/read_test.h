@@ -66,8 +66,8 @@ public:
         TS_ASSERT(!is);
         is.clear();
 
-        //Test for invalid tag type 12
-        is.str("\x0c");
+        //Test for invalid tag type 13
+        is.str("\x0d");
         TS_ASSERT_THROWS(reader.read_type(), io::input_error);
         TS_ASSERT(!is);
         is.clear();

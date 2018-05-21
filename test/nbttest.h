@@ -37,8 +37,8 @@ public:
         TS_ASSERT(is_valid_type(1));
         TS_ASSERT(is_valid_type(5, false));
         TS_ASSERT(is_valid_type(7, true));
-        TS_ASSERT(is_valid_type(11));
-        TS_ASSERT(!is_valid_type(12));
+        TS_ASSERT(is_valid_type(12));
+        TS_ASSERT(!is_valid_type(13));
 
         //looks like TS_ASSERT_EQUALS can't handle abstract classes...
         TS_ASSERT(*tag::create(tag_type::Byte) == tag_byte());
