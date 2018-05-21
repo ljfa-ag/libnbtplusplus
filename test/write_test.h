@@ -44,7 +44,7 @@ public:
 
         writer.write_type(tag_type::End);
         writer.write_type(tag_type::Long);
-        writer.write_type(tag_type::Int_Array);
+        writer.write_type(tag_type::Long_Array);
 
         writer.write_num(int64_t(0x0102030405060708));
 
@@ -54,7 +54,7 @@ public:
         std::string expected{
             0, //tag_type::End
             4, //tag_type::Long
-            11, //tag_type::Int_Array
+            12, //tag_type::Long_Array
 
             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, //0x0102030405060708 in Big Endian
 
@@ -144,6 +144,15 @@ public:
             0x01, 0x02, 0x03, 0x04,
             0x05, 0x06, 0x07, 0x08,
             0x09, 0x0a, 0x0b, 0x0c
+        }));
+        os.str("");
+
+        //tag_long_array
+        writer.write_payload(tag_long_array{0x0102030405060708, 0x090a0b0c0d0e0f10});
+        TS_ASSERT_EQUALS(os.str(), (std::string{
+            0x00, 0x00, 0x00, 0x02, //length in Big Endian
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+            0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10
         }));
         os.str("");
 

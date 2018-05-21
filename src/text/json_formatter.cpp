@@ -156,7 +156,7 @@ namespace //anonymous
             os << "[";
             for(unsigned int i = 0; i < la.size(); ++i)
             {
-                os << la[i];
+                os << la[i] << "l";
                 if(i != la.size()-1)
                     os << ", ";
             }

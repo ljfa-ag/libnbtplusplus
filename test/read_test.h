@@ -37,7 +37,7 @@ public:
         std::string input{
             1, //tag_type::Byte
             0, //tag_type::End
-            11, //tag_type::Int_Array
+            12, //tag_type::Long_Array
 
             0x0a, 0x0b, 0x0c, 0x0d, //0x0a0b0c0d in Big Endian
 
@@ -54,7 +54,7 @@ public:
 
         TS_ASSERT_EQUALS(reader.read_type(), tag_type::Byte);
         TS_ASSERT_EQUALS(reader.read_type(true), tag_type::End);
-        TS_ASSERT_EQUALS(reader.read_type(false), tag_type::Int_Array);
+        TS_ASSERT_EQUALS(reader.read_type(false), tag_type::Long_Array);
 
         int32_t i;
         reader.read_num(i);
@@ -107,7 +107,7 @@ public:
     //Tests if comp equals an extended variant of Notch's bigtest NBT
     void verify_bigtest_structure(const tag_compound& comp)
     {
-        TS_ASSERT_EQUALS(comp.size(), 13u);
+        TS_ASSERT_EQUALS(comp.size(), 14u);
 
         TS_ASSERT(comp.at("byteTest") == tag_byte(127));
         TS_ASSERT(comp.at("shortTest") == tag_short(32767));
@@ -138,6 +138,9 @@ public:
 
         TS_ASSERT(comp.at("intArrayTest") == tag_int_array(
             {0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f}));
+
+        TS_ASSERT(comp.at("longArrayTest") == tag_long_array(
+            {0x0decafc0ffeebabe, static_cast<int64_t>(0xdeadbeefbaadf00d)}));
     }
 
     void test_read_bigtest()
@@ -216,6 +219,7 @@ public:
             "Even though unprovided for by NBT, the library should also handle "
             "the case where the file consists of something else than tag_compound"));
     }
+
     void test_read_gzip()
     {
 #ifdef NBT_HAVE_ZLIB

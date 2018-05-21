@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(libnbt++
-    VERSION 2.4.1)
+    VERSION 2.5)
 
 # supported configure options
 option(NBT_BUILD_SHARED "Build shared libraries" OFF)
