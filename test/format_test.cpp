@@ -52,6 +52,7 @@ int main()
 
         {"byte array", tag_byte_array{12, 13, 14, 15, 16}},
         {"int array", tag_int_array{0x0badc0de, -0x0dedbeef, 0x1badbabe}},
+        {"long array", tag_long_array{0x0badc0de0badc0de, -0x0dedbeef0dedbeef, 0x1badbabe1badbabe}},
 
         {"list (empty)", tag_list::of<tag_byte_array>({})},
         {"list (float)", tag_list{2.0f, 1.0f, 0.5f, 0.25f}},

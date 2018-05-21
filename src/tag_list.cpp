@@ -37,6 +37,7 @@ tag_list::tag_list(std::initializer_list<tag_byte_array> il) { init<tag_byte_arr
 tag_list::tag_list(std::initializer_list<tag_list>       il) { init<tag_list>(il); }
 tag_list::tag_list(std::initializer_list<tag_compound>   il) { init<tag_compound>(il); }
 tag_list::tag_list(std::initializer_list<tag_int_array>  il) { init<tag_int_array>(il); }
+tag_list::tag_list(std::initializer_list<tag_long_array> il) { init<tag_long_array>(il); }
 
 tag_list::tag_list(std::initializer_list<value> init)
 {

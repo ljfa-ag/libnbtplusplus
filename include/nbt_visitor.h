@@ -46,6 +46,7 @@ public:
     virtual void visit(tag_list&) {}
     virtual void visit(tag_compound&) {}
     virtual void visit(tag_int_array&) {}
+    virtual void visit(tag_long_array&) {}
 };
 
 /**
@@ -69,6 +70,7 @@ public:
     virtual void visit(const tag_list&) {}
     virtual void visit(const tag_compound&) {}
     virtual void visit(const tag_int_array&) {}
+    virtual void visit(const tag_long_array&) {}
 };
 
 inline nbt_visitor::~nbt_visitor() noexcept {}

@@ -151,6 +151,18 @@ namespace //anonymous
             os << "]";
         }
 
+        void visit(const tag_long_array& la) override
+        {
+            os << "[";
+            for(unsigned int i = 0; i < la.size(); ++i)
+            {
+                os << la[i];
+                if(i != la.size()-1)
+                    os << ", ";
+            }
+            os << "]";
+        }
+
     private:
         const std::string indent_str = "  ";
 

@@ -81,6 +81,7 @@ public:
     tag_list(std::initializer_list<tag_list> init);
     tag_list(std::initializer_list<tag_compound> init);
     tag_list(std::initializer_list<tag_int_array> init);
+    tag_list(std::initializer_list<tag_long_array> init);
 
     /**
      * @brief Constructs a list with the given contents

@@ -78,6 +78,7 @@ public:
         TS_ASSERT_EQUALS(tag_list().get_type()      , tag_type::List);
         TS_ASSERT_EQUALS(tag_compound().get_type()  , tag_type::Compound);
         TS_ASSERT_EQUALS(tag_int_array().get_type() , tag_type::Int_Array);
+        TS_ASSERT_EQUALS(tag_long_array().get_type(), tag_type::Long_Array);
     }
 
     void test_tag_primitive()
@@ -396,6 +397,7 @@ public:
         TS_ASSERT_EQUALS(arr.size(), 3u);
         TS_ASSERT((arr == tag_byte_array{1, 2, 127}));
         TS_ASSERT((arr != tag_int_array{1, 2, 127}));
+        TS_ASSERT((arr != tag_long_array{1, 2, 127}));
         TS_ASSERT((arr != tag_byte_array{1, 2, -1}));
 
         arr.clear();
@@ -431,6 +433,35 @@ public:
         TS_ASSERT(arr == tag_int_array());
     }
 
+    void test_tag_long_array()
+    {
+        std::vector<int64_t> vec{100, 200, INT64_MAX, INT64_MIN};
+        tag_long_array arr{100, 200, INT64_MAX, INT64_MIN};
+        TS_ASSERT_EQUALS(arr.size(), 4u);
+        TS_ASSERT(arr.at(0) == 100 && arr[1] == 200 && arr[2] == INT64_MAX && arr.at(3) == INT64_MIN);
+        TS_ASSERT_THROWS(arr.at(-1), std::out_of_range);
+        TS_ASSERT_THROWS(arr.at(4), std::out_of_range);
+
+        TS_ASSERT(arr.get() == vec);
+        TS_ASSERT(arr == tag_long_array(std::vector<int64_t>(vec)));
+
+        arr.push_back(42);
+        vec.push_back(42);
+
+        TS_ASSERT_EQUALS(arr.size(), 5u);
+        TS_ASSERT_EQUALS(arr.end() - arr.begin(), int(arr.size()));
+        TS_ASSERT(std::equal(arr.begin(), arr.end(), vec.begin()));
+
+        arr.pop_back();
+        arr.pop_back();
+        TS_ASSERT_EQUALS(arr.size(), 3u);
+        TS_ASSERT((arr == tag_long_array{100, 200, INT64_MAX}));
+        TS_ASSERT((arr != tag_long_array{100, -56, -1}));
+
+        arr.clear();
+        TS_ASSERT(arr == tag_long_array());
+    }
+
     void test_visitor()
     {
         struct : public nbt_visitor
@@ -448,6 +479,7 @@ public:
             void visit(tag_list& tag)       { visited = &tag; }
             void visit(tag_compound& tag)   { visited = &tag; }
             void visit(tag_int_array& tag)  { visited = &tag; }
+            void visit(tag_long_array& tag) { visited = &tag; }
         } v;
 
         tag_byte       b;   b.accept(v); TS_ASSERT_EQUALS(v.visited, &b);
@@ -461,5 +493,6 @@ public:
         tag_list       ls; ls.accept(v); TS_ASSERT_EQUALS(v.visited, &ls);
         tag_compound   c;   c.accept(v); TS_ASSERT_EQUALS(v.visited, &c);
         tag_int_array  ia; ia.accept(v); TS_ASSERT_EQUALS(v.visited, &ia);
+        tag_long_array la; la.accept(v); TS_ASSERT_EQUALS(v.visited, &la);
     }
 };

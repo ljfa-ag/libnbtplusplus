@@ -36,13 +36,14 @@ namespace detail
 
     template<> struct get_array_type<int8_t>  : public std::integral_constant<tag_type, tag_type::Byte_Array> {};
     template<> struct get_array_type<int32_t> : public std::integral_constant<tag_type, tag_type::Int_Array> {};
+    template<> struct get_array_type<int64_t> : public std::integral_constant<tag_type, tag_type::Long_Array> {};
 }
 ///@endcond
 
 /**
  * @brief Tag that contains an array of byte or int values
  *
- * Common class for tag_byte_array and tag_int_array.
+ * Common class for tag_byte_array, tag_int_array and tag_long_array.
  */
 template<class T>
 class tag_array final : public detail::crtp_tag<tag_array<T>>
@@ -123,10 +124,12 @@ template<class T> bool operator!=(const tag_array<T>& lhs, const tag_array<T>& r
 //Typedefs that should be used instead of the template tag_array.
 typedef tag_array<int8_t> tag_byte_array;
 typedef tag_array<int32_t> tag_int_array;
+typedef tag_array<int64_t> tag_long_array;
 
 //Explicit instantiations
 template class NBT_EXPORT tag_array<int8_t>;
 template class NBT_EXPORT tag_array<int32_t>;
+template class NBT_EXPORT tag_array<int64_t>;
 
 }
 

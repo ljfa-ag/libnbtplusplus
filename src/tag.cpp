@@ -56,6 +56,7 @@ std::unique_ptr<tag> tag::create(tag_type type)
     case tag_type::List:        return make_unique<tag_list>();
     case tag_type::Compound:    return make_unique<tag_compound>();
     case tag_type::Int_Array:   return make_unique<tag_int_array>();
+    case tag_type::Long_Array:  return make_unique<tag_long_array>();
 
     default: throw std::invalid_argument("Invalid tag type");
     }
@@ -89,6 +90,7 @@ std::ostream& operator<<(std::ostream& os, tag_type tt)
     case tag_type::List:        return os << "list";
     case tag_type::Compound:    return os << "compound";
     case tag_type::Int_Array:   return os << "int_array";
+    case tag_type::Long_Array:  return os << "long_array";
     case tag_type::Null:        return os << "null";
 
     default:                    return os << "invalid";

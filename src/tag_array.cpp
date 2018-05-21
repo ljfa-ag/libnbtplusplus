@@ -43,26 +43,26 @@ void tag_array<int8_t>::read_payload(io::stream_reader& reader)
         throw io::input_error("Error reading contents of tag_byte_array");
 }
 
-template<>
-void tag_array<int32_t>::read_payload(io::stream_reader& reader)
+template<typename T>
+void tag_array<T>::read_payload(io::stream_reader& reader)
 {
     int32_t length;
     reader.read_num(length);
     if(length < 0)
         reader.get_istr().setstate(std::ios::failbit);
     if(!reader.get_istr())
-        throw io::input_error("Error reading length of tag_int_array");
+        throw io::input_error("Error reading length of generic array tag");
 
     data.clear();
     data.reserve(length);
-    for(int32_t i = 0; i < length; ++i)
+    for(T i = 0; i < length; ++i)
     {
-        int32_t val;
+        T val;
         reader.read_num(val);
         data.push_back(val);
     }
     if(!reader.get_istr())
-        throw io::input_error("Error reading contents of tag_int_array");
+        throw io::input_error("Error reading contents of generic array tag");
 }
 
 //Writing
@@ -78,16 +78,16 @@ void tag_array<int8_t>::write_payload(io::stream_writer& writer) const
     writer.get_ostr().write(reinterpret_cast<const char*>(data.data()), data.size());
 }
 
-template<>
-void tag_array<int32_t>::write_payload(io::stream_writer& writer) const
+template<typename T>
+void tag_array<T>::write_payload(io::stream_writer& writer) const
 {
     if(size() > io::stream_writer::max_array_len)
     {
         writer.get_ostr().setstate(std::ios::failbit);
-        throw std::length_error("Int array is too large for NBT");
+        throw std::length_error("Generic array is too large for NBT");
     }
     writer.write_num(static_cast<int32_t>(size()));
-    for(int32_t i: data)
+    for(T i: data)
         writer.write_num(i);
 }
 

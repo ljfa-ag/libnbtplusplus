@@ -43,6 +43,7 @@ enum class tag_type : int8_t
     List = 9,
     Compound = 10,
     Int_Array = 11,
+    Long_Array = 12,
     Null = -1   ///< Used to denote empty @ref value s
 };
 
