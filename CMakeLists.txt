@@ -37,9 +37,12 @@ if(NBT_USE_ZLIB)
 endif()
 
 add_library(nbt++ ${NBT_SOURCES})
+target_include_directories(nbt++ PRIVATE
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/libnbt++>")
+
 target_include_directories(nbt++ PUBLIC
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/libnbt++>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include/libnbt++>")
+        "$<INSTALL_INTERFACE:include>")
 
 if(NBT_USE_ZLIB)
     target_link_libraries(nbt++ ${ZLIB_LIBRARY})
