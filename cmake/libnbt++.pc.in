@@ -1,0 +1,6 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+includedir=${prefix}/include
+
+Name: @PROJECT_NAME@
+Description: libnbt++ by lijfa-ag
+Version: @PROJECT_VERSION@

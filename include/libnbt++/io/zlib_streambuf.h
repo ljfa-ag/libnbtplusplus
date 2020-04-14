@@ -5,7 +5,7 @@
 #include <streambuf>
 #include <vector>
 #include <zlib.h>
-#include "nbt_export.h"
+#include <libnbt++/nbt_export.h>
 
 namespace zlib
 {
