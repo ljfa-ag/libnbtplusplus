@@ -1,3 +1,5 @@
+**This repository is not being maintained anymore, please refer to one of the active forks instead, for example [PrismLauncher/libnbtplusplus](https://github.com/PrismLauncher/libnbtplusplus).**
+
 # libnbt++ 2
 
 libnbt++ is a free C++ library for Minecraft's file format Named Binary Tag
