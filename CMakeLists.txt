@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.26)
 project(libnbt++
     VERSION 2.5)
 
@@ -31,12 +31,45 @@ set(NBT_SOURCES_Z
     src/io/izlibstream.cpp
     src/io/ozlibstream.cpp)
 
+set(NBT_HEADERS
+    include/crtp_tag.h
+    include/endian_str.h
+    include/make_unique.h
+    include/nbt_tags.h
+    include/nbt_visitor.h
+    include/primitive_detail.h
+    include/tag_array.h
+    include/tag_compound.h
+    include/tagfwd.h
+    include/tag.h
+    include/tag_list.h
+    include/tag_primitive.h
+    include/tag_string.h
+    include/value.h
+    include/value_initializer.h
+
+    include/io/stream_reader.h
+    include/io/stream_writer.h
+
+    include/text/json_formatter.h)
+
+set(NBT_HEADERS_Z
+    include/io/izlibstream.h
+    include/io/ozlibstream.h
+    include/io/zlib_streambuf.h)
+
 if(NBT_USE_ZLIB)
     find_package(ZLIB REQUIRED)
     list(APPEND NBT_SOURCES ${NBT_SOURCES_Z})
+    list(APPEND NBT_HEADERS ${NBT_HEADERS_Z})
 endif()
 
 add_library(nbt++ ${NBT_SOURCES})
+target_sources(nbt++ PUBLIC
+    FILE_SET public_headers
+    TYPE HEADERS
+    BASE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}
+    FILES ${NBT_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/nbt_export.h) # install the headers as well as the generated export header
 target_include_directories(nbt++ PUBLIC include ${CMAKE_CURRENT_BINARY_DIR})
 
 if(NBT_USE_ZLIB)
@@ -52,6 +85,9 @@ if(${BUILD_SHARED_LIBS})
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()
+
+install(TARGETS nbt++
+    FILE_SET public_headers)
 
 if(NBT_BUILD_TESTS)
     enable_testing()
