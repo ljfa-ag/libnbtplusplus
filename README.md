@@ -1,14 +1,7 @@
-**This repository is not being maintained anymore, please refer to one of the active forks instead, for example [PrismLauncher/libnbtplusplus](https://github.com/PrismLauncher/libnbtplusplus).**
+**Note: This repository is no longer actively being maintained. The library still works for reading and writing current NBT files, but you might want to refer to one of the more active forks instead, for example [PrismLauncher/libnbtplusplus](https://github.com/PrismLauncher/libnbtplusplus).**
 
-# libnbt++ 2
+# libnbt++
 
-libnbt++ is a free C++ library for Minecraft's file format Named Binary Tag
-(NBT). It can read and write compressed and uncompressed NBT files and
-provides a code interface for working with NBT data.
+libnbt++ is a C++ library for reading, writing and manipulating Minecraft's file format Named Binary Tag (NBT).
 
-----------
-
-libnbt++2 is a remake of the old libnbt++ library with the goal of making it
-more easily usable and fixing some problems. The old libnbt++ especially
-suffered from a very convoluted syntax and boilerplate code needed to work
-with NBT data.
+It also optionally includes simple iostream wrappers for zlib, to allow reading and writing GZip compressed NBT files.
