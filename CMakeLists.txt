@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.15)
 project(libnbt++
     VERSION 2.5)
 
@@ -44,7 +44,7 @@ if(NBT_USE_ZLIB)
     target_include_directories(nbt++ PUBLIC ${ZLIB_INCLUDE_DIRS})
     target_compile_definitions(nbt++ PUBLIC "-DNBT_HAVE_ZLIB")
 endif()
-target_compile_options(nbt++ PUBLIC -std=c++11)
+set_property(TARGET nbt++ PROPERTY CXX_STANDARD 11)
 generate_export_header(nbt++ BASE_NAME nbt)
 
 if(${BUILD_SHARED_LIBS})
