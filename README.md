@@ -53,10 +53,10 @@ auto [name, tag_ptr] = nbt::io::read_tag(zlib_str);
 // the tag_ptr can be wrapped inside a value object to be able to access it conveniently
 nbt::value tag{std::move(tag_ptr)};
 
-// for example, to acccess the item ID of the first item in the player's inventory, you can chain the "at" method and
-// explicitly convert the resulting nbt::value to a string:
+// for example, to acccess the item ID of the first item in the player's inventory, you can
+// chain the "at" method and explicitly convert the resulting nbt::value to a string:
 auto item_id = std::string(tag.at("Data").at("Player").at("Inventory").at(0).at("id"));
-std::cout << item_id << std::endl; //might print minecraft:lever
+std::cout << item_id << std::endl; // might print minecraft:lever
 
 // the NBT data can also be manipulated:
 tag["foo"] = "a string";
@@ -67,7 +67,8 @@ std::cout << tag << std::endl; //prints the tag in a JSON-like format
 
 // to write the NBT data into a compressed file, wrap an output stream inside a zlib stream
 std::ofstream ofile_str{"out.nbt", std::ios::binary};
-zlib::ozlibstream ozlib_str{ofile_str, -1, true}; //-1 for default compression level, true for GZip rather than zlib compression
+// -1 for default compression level, true for GZip rather than zlib compression
+zlib::ozlibstream ozlib_str{ofile_str, -1, true};
 // write the named tag
 nbt::io::write_tag(name, tag, ozlib_str);
 ```
