@@ -54,8 +54,8 @@ auto [name, tag_ptr] = nbt::io::read_tag(zlib_str);
 nbt::value tag{std::move(tag_ptr)};
 
 // for example, to acccess the item ID of the first item in the player's inventory, you can
-// chain the "at" method and explicitly convert the resulting nbt::value to a string:
-auto item_id = std::string(tag.at("Data").at("Player").at("Inventory").at(0).at("id"));
+// chain the "at" method and explicitly convert the resulting nbt::value to a string reference:
+const std::string& item_id{tag.at("Data").at("Player").at("Inventory").at(0).at("id")};
 std::cout << item_id << std::endl; // might print minecraft:lever
 
 // the NBT data can also be manipulated:
